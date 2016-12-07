@@ -26,48 +26,39 @@ public class DisplayStockActivity extends AppCompatActivity {
 
     private Toast t;
     private TextView priceView;
+    private CheckConnection c;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Context context = getApplicationContext();
         t = new Toast(context);
-        if (checkConnection()) {
+        c = new CheckConnection(context);
+        if (c.isConnected()) {
             t.makeText(context, "Connection success", Toast.LENGTH_SHORT).show();
         } else {
             t.makeText(context, "Connection error", Toast.LENGTH_SHORT).show();
         }
 
+
         priceView = (TextView) findViewById(R.id.price);
+        priceView.setText("$" + getStockPrice("AAPL"));
         setContentView(R.layout.activity_display_stock);
     }
 
-    //Checks for internet connection and returns boolean
-    private boolean checkConnection() {
-        ConnectivityManager cManager = (ConnectivityManager)
-                getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo networkInfo = cManager.getActiveNetworkInfo();
-        if (networkInfo != null && networkInfo.isConnected()) {
-            try {
-                URL url = new URL("http://www.google.com"); //Pings Google to check connection
-                HttpURLConnection http = (HttpURLConnection) url.openConnection();
-                http.disconnect();
-            } catch (MalformedURLException e) {
-                e.printStackTrace();
-            } catch (IOException e) {
-                e.printStackTrace();
+    public BigDecimal getStockPrice(String name) {
+        try {
+            if (c.isConnected()) {
+                return YahooFinance.get("INTC").getQuote().getPrice();
+            } else {
+                return new BigDecimal(-1);
             }
-            return true;
-        } else {
-            return false;
+        } catch (IOException e) {
+            return null;
         }
     }
 
-    public void getStockPrice(View view) {
-        new CollectDataTask().execute("INTC");
-    }
-
-    //Collects data on a separate thread
+   /* //Collects data on a separate thread
     private class CollectDataTask extends AsyncTask<String, Void, String> {
         Stock stock;
         BigDecimal price;
@@ -92,5 +83,5 @@ public class DisplayStockActivity extends AppCompatActivity {
             priceView.setText("$" + price);
         }
 
-    }
+    }*/
 }
