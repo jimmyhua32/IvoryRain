@@ -26,47 +26,46 @@ public class DisplayStockActivity extends AppCompatActivity {
 
     private Toast t;
     private TextView priceView;
+    private CheckConnection c;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Context context = getApplicationContext();
         t = new Toast(context);
-        if (checkConnection()) {
+        c = new CheckConnection(context);
+        if (c.isConnected()) {
             t.makeText(context, "Connection success", Toast.LENGTH_SHORT).show();
         } else {
             t.makeText(context, "Connection error", Toast.LENGTH_SHORT).show();
         }
 
+
         priceView = (TextView) findViewById(R.id.price);
+        new CollectDataTask().execute("INTC");
         setContentView(R.layout.activity_display_stock);
     }
 
-    //Checks for internet connection and returns boolean
-    private boolean checkConnection() {
-        ConnectivityManager cManager = (ConnectivityManager)
-                getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo networkInfo = cManager.getActiveNetworkInfo();
-        if (networkInfo != null && networkInfo.isConnected()) {
+
+        //Eventually add an array of stuff
+        protected String doInBackground(String... param) {
+            BigDecimal price = new BigDecimal(-1);
             try {
-                URL url = new URL("http://www.google.com"); //Pings Google to check connection
-                HttpURLConnection http = (HttpURLConnection) url.openConnection();
-                http.disconnect();
-            } catch (MalformedURLException e) {
-                e.printStackTrace();
+                if (c.isConnected()) {
+                    stock = YahooFinance.get(param[0]);
+                    price = stock.getQuote().getPrice();
+                    return "$" + price;
+                } else {
+                    return "Connection error";
+                }
             } catch (IOException e) {
-                e.printStackTrace();
+                return "Stock error";
             }
-            return true;
-        } else {
-            return false;
         }
+
+        protected void onPostExecute(String result) {
+            priceView.setText("$" + price);
+        }
+
     }
-
-    public void getStockPrice(View view) {
-        new CollectDataTask().execute("INTC");
-    }
-
-    //Collects data on a separate thread
-
 }

@@ -22,6 +22,7 @@ public class Stock {
         c = new CheckConnection(context);
     }
 
+
     public void setSymbol (String newSymbol){
         symbol = this.newSymbol;
     }
