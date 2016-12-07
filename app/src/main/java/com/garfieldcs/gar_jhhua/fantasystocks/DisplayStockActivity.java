@@ -68,29 +68,5 @@ public class DisplayStockActivity extends AppCompatActivity {
     }
 
     //Collects data on a separate thread
-    private class CollectDataTask extends AsyncTask<String, Void, String> {
-        Stock stock;
-        BigDecimal price;
 
-        //Eventually add an array of stuff
-        protected String doInBackground(String... param) {
-            price = new BigDecimal(-1);
-            try {
-                if (checkConnection()) {
-                    stock = YahooFinance.get(param[0]);
-                    price = stock.getQuote().getPrice();
-                    return "$" + price;
-                } else {
-                    return "Connection error";
-                }
-            } catch (IOException e) {
-                return "Stock error";
-            }
-        }
-
-        protected void onPostExecute(String result) {
-            priceView.setText("$" + price);
-        }
-
-    }
 }
