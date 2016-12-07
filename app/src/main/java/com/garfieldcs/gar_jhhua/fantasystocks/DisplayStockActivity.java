@@ -42,23 +42,11 @@ public class DisplayStockActivity extends AppCompatActivity {
 
 
         priceView = (TextView) findViewById(R.id.price);
-        priceView.setText("$" + getStockPrice("AAPL"));
+        new CollectDataTask().execute("INTC");
         setContentView(R.layout.activity_display_stock);
     }
 
-    public BigDecimal getStockPrice(String name) {
-        try {
-            if (c.isConnected()) {
-                return YahooFinance.get("INTC").getQuote().getPrice();
-            } else {
-                return new BigDecimal(-1);
-            }
-        } catch (IOException e) {
-            return null;
-        }
-    }
-
-   /* //Collects data on a separate thread
+    //Collects data on a separate thread
     private class CollectDataTask extends AsyncTask<String, Void, String> {
         Stock stock;
         BigDecimal price;
@@ -67,7 +55,7 @@ public class DisplayStockActivity extends AppCompatActivity {
         protected String doInBackground(String... param) {
             price = new BigDecimal(-1);
             try {
-                if (checkConnection()) {
+                if (c.isConnected()) {
                     stock = YahooFinance.get(param[0]);
                     price = stock.getQuote().getPrice();
                     return "$" + price;
@@ -83,5 +71,5 @@ public class DisplayStockActivity extends AppCompatActivity {
             priceView.setText("$" + price);
         }
 
-    }*/
+    }
 }

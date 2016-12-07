@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/IvoryRain.iml" filepath="$PROJECT_DIR$/IvoryRain.iml" />
+      <module fileurl="file://$PROJECT_DIR$/FantasyStocks.iml" filepath="$PROJECT_DIR$/FantasyStocks.iml" />
       <module fileurl="file://$PROJECT_DIR$/YahooFinanceAPI-3.5.0/YahooFinanceAPI-3.5.0.iml" filepath="$PROJECT_DIR$/YahooFinanceAPI-3.5.0/YahooFinanceAPI-3.5.0.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
     </modules>
