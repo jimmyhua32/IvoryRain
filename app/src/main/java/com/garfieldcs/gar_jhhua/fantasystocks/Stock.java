@@ -23,10 +23,6 @@ public class Stock {
     }
 
 
-    public void setSymbol (String newSymbol){
-        symbol = this.newSymbol;
-    }
-
     public String getName(){
         return name;
     }
