@@ -30,7 +30,7 @@ public class Stock {
         return symbol;
     }
 
-    private class CollectDataTask extends AsyncTask<String, Void, String> {
+   /* private class CollectDataTask extends AsyncTask<String, Void, String> {
         yahoofinance.Stock stock;
         BigDecimal price;
 
@@ -54,5 +54,5 @@ public class Stock {
             priceView.setText("$" + price);
         }
 
-    }
+    }*/
 }
