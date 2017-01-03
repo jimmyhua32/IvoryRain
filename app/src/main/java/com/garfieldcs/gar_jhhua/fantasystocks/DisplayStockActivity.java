@@ -25,7 +25,7 @@ import yahoofinance.YahooFinance;
 public class DisplayStockActivity extends AppCompatActivity {
 
     private Toast t;
-    private TextView priceView;+
+    private TextView priceView;
     private CheckConnection c;
 
     @Override
