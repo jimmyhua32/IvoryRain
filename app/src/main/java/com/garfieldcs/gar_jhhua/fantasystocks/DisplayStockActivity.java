@@ -25,7 +25,7 @@ import yahoofinance.YahooFinance;
 public class DisplayStockActivity extends AppCompatActivity {
 
     private Toast t;
-    private TextView priceView;
+    private TextView priceView;+
     private CheckConnection c;
 
     @Override
@@ -47,9 +47,10 @@ public class DisplayStockActivity extends AppCompatActivity {
     }
 
 
-        //Eventually add an array of stuff
+    private class CollectDataTask extends AsyncTask<String, Void, String> {
+        BigDecimal price = new BigDecimal(-1);
+        Stock stock;
         protected String doInBackground(String... param) {
-            BigDecimal price = new BigDecimal(-1);
             try {
                 if (c.isConnected()) {
                     stock = YahooFinance.get(param[0]);
@@ -64,7 +65,7 @@ public class DisplayStockActivity extends AppCompatActivity {
         }
 
         protected void onPostExecute(String result) {
-            priceView.setText("$" + price);
+            //priceView.setText("$" + price);
         }
 
     }
