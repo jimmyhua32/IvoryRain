@@ -1,13 +1,10 @@
 package com.garfieldcs.gar_jhhua.fantasystocks;
 
 import android.content.Context;
-import android.net.ConnectivityManager;
 import android.os.AsyncTask;
 
 import java.io.IOException;
 import java.lang.reflect.Array;
-import java.math.BigDecimal;
-
 
 import yahoofinance.YahooFinance;
 
