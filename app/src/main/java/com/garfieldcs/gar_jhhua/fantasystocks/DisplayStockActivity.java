@@ -12,7 +12,7 @@ public class DisplayStockActivity extends AppCompatActivity {
     private TextView priceView;
     private CheckConnection c;
     private String name;
-    private Float price;
+    private String price;
     private StockInfo stockInfo;
 
     @Override
@@ -27,6 +27,7 @@ public class DisplayStockActivity extends AppCompatActivity {
         }
         
         price = stockInfo.getPrice();
+        System.out.println(price);
 
         priceView = (TextView) findViewById(R.id.price);
         priceView.setText("This is the price: " + price);

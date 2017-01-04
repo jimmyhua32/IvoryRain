@@ -14,10 +14,12 @@ public class StockInfo {
     private CheckConnection c;
     private yahoofinance.Stock stock;
 
+    //"Name" is the name of the stock
     public StockInfo(String name, Context context) {
         this.name = name;
-        c = new CheckConnection(context);
+        c = new CheckConnection(context); //Checks for internet connection
         new CollectDataTask().execute(name);
+        new CollectDataTask().getSymbol();
     }
 
     public String getName(){
@@ -29,32 +31,32 @@ public class StockInfo {
         return symbol;
     }
 
-    public Float getPrice() {
-        return Array.getFloat(new CollectDataTask().getInfo(), 0);
+    public String getPrice() {
+        return symbol + Array.getFloat(new CollectDataTask().getInfo(), 0);
     }
 
-    public Float getChange() {
-        return Array.getFloat(new CollectDataTask().getInfo(), 1);
+    public String getChange() {
+        return symbol + Array.getFloat(new CollectDataTask().getInfo(), 1);
     }
 
-    public Float getChangeP() {
-        return Array.getFloat(new CollectDataTask().getInfo(), 2);
+    public String getChangeP() {
+        return symbol + Array.getFloat(new CollectDataTask().getInfo(), 2);
     }
 
-    public Float getHighY() {
-        return Array.getFloat(new CollectDataTask().getInfo(), 3);
+    public String getHighY() {
+        return symbol + Array.getFloat(new CollectDataTask().getInfo(), 3);
     }
 
-    public Float getLowY() {
-        return Array.getFloat(new CollectDataTask().getInfo(), 4);
+    public String getLowY() {
+        return symbol + Array.getFloat(new CollectDataTask().getInfo(), 4);
     }
 
-    public Float getHighD() {
-        return Array.getFloat(new CollectDataTask().getInfo(), 5);
+    public String getHighD() {
+        return symbol + Array.getFloat(new CollectDataTask().getInfo(), 5);
     }
 
-    public Float getLowD() {
-        return Array.getFloat(new CollectDataTask().getInfo(), 6);
+    public String getLowD() {
+        return symbol + Array.getFloat(new CollectDataTask().getInfo(), 6);
     }
 
     //Collects data in a separate thread
@@ -94,7 +96,7 @@ public class StockInfo {
 
         protected void onPostExecute(String result) {
             //Test and see what symbol looks like
-            System.out.println("****** " + symbol);
+            System.out.println("****** " + symbol + "*");
         }
 
         protected String getSymbol() {
