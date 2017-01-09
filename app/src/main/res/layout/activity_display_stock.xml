@@ -15,7 +15,7 @@
     <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="30dp"
+            android:textSize="30sp"
             android:text="Stock Name"
             android:textStyle="bold"
             android:layout_gravity="center_horizontal"
@@ -33,7 +33,7 @@
         android:text="Statistics"
         android:textStyle="bold"
         android:layout_gravity="center_horizontal"
-        android:textSize="30dp"
+        android:textSize="30sp"
         android:id="@+id/StockStats"/>
 
     <LinearLayout
@@ -45,13 +45,13 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Price: "
-            android:textSize="20dp"
+            android:textSize="20sp"
             android:textStyle="bold"/>
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Value"
-            android:textSize="16dp"
+            android:textSize="16sp"
             android:id="@+id/PriceValue"/>
     </LinearLayout>
 
@@ -64,13 +64,13 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Daily Open: "
-            android:textSize="20dp"
+            android:textSize="20sp"
             android:textStyle="bold"/>
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Value"
-            android:textSize="16dp"
+            android:textSize="16sp"
             android:id="@+id/DailyOpenValue"/>
     </LinearLayout>
 
@@ -83,13 +83,13 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Percent Change: "
-            android:textSize="20dp"
+            android:textSize="20sp"
             android:textStyle="bold"/>
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Value"
-            android:textSize="16dp"
+            android:textSize="16sp"
             android:id="@+id/PCValue"/>
     </LinearLayout>
 
@@ -102,13 +102,13 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Daily High: "
-            android:textSize="20dp"
+            android:textSize="20sp"
             android:textStyle="bold"/>
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Value"
-            android:textSize="16dp"
+            android:textSize="16sp"
             android:id="@+id/DailyHighValue"/>
     </LinearLayout>
 
@@ -121,13 +121,13 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Daily Low: "
-            android:textSize="20dp"
+            android:textSize="20sp"
             android:textStyle="bold"/>
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Value"
-            android:textSize="16dp"
+            android:textSize="16sp"
             android:id="@+id/DailyLowValue"/>
     </LinearLayout>
 
@@ -140,13 +140,13 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="52 Week High: "
-            android:textSize="20dp"
+            android:textSize="20sp"
             android:textStyle="bold"/>
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Value"
-            android:textSize="16dp"
+            android:textSize="16sp"
             android:id="@+id/YearHighValue"/>
     </LinearLayout>
 
@@ -159,14 +159,14 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="52 Week Low: "
-            android:textSize="20dp"
-            android:textStyle="bold"
+            android:textSize="20sp"
+            android:textStyle="bold"/>
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Value"
-            android:textSize="16dp"
-            android:id="@+id/YearLowValue"/>/>
+            android:textSize="16sp"
+            android:id="@+id/YearLowValue"/>
     </LinearLayout>
 
 </LinearLayout>
