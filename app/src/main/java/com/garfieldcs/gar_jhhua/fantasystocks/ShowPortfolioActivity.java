@@ -4,15 +4,25 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 
 import yahoofinance.YahooFinance;
 
 public class ShowPortfolioActivity extends AppCompatActivity {
 
+    private int playerID;
+    private String teamName;
+    protected ArrayList Stocks = new ArrayList();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_show_portfolio);
+        playerID = user.findUser();
+        user.getTeamName();
+    }
+
+}
 
         /*Stock.setName("Apple");
         Stock.setSymbol("APPL");
@@ -22,5 +32,3 @@ public class ShowPortfolioActivity extends AppCompatActivity {
         BigDecimal price = Stock.getName().getQuote().getPrice();
 
         Stock.getName().print();*/
-    }
-}
