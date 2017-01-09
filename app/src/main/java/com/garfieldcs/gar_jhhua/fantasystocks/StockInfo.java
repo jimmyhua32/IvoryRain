@@ -6,20 +6,21 @@ import android.os.AsyncTask;
 import java.io.IOException;
 import java.lang.reflect.Array;
 
+import yahoofinance.Stock;
 import yahoofinance.YahooFinance;
 
 public class StockInfo {
     private String name;
     private String symbol;
     private CheckConnection c;
-    private yahoofinance.Stock stock;
+    private Stock stock;
 
     //"Name" is the name of the stock
     public StockInfo(String name, Context context) {
         this.name = name;
         c = new CheckConnection(context); //Checks for internet connection
         new CollectDataTask().execute(name);
-        new CollectDataTask().getSymbol();
+        symbol = new CollectDataTask().getSymbol();
     }
 
     public String getName(){
@@ -61,15 +62,15 @@ public class StockInfo {
 
     //Collects data in a separate thread
     private class CollectDataTask extends AsyncTask<String, Void, String> {
-        yahoofinance.Stock stock;
-        String price;
+        Stock stock;
+        String price; //Current (as of the app being updated) price
         String change; //Change in price
         String changeP; //Change in price using percentages
         String highY; //Yearly high
         String lowY; //Yearly low
         String highD; //Daily high
         String lowD; //Daily low
-        String symbol;
+        String symbol; //Unit of currency
 
         //Eventually add an array of stuff
         protected String doInBackground(String... param) {
