@@ -21,20 +21,11 @@ public class CheckConnection {
     public CheckConnection(Context c) {
         cManager = (ConnectivityManager) c.getSystemService(Context.CONNECTIVITY_SERVICE);
         networkInfo = cManager.getActiveNetworkInfo();
-        t = new Toast(c);
+        //t = new Toast(c);
     }
 
     //Returns connection status each time it is called
     public boolean isConnected() {
-        if (networkInfo != null && networkInfo.isConnected()) {
-            t.makeText(c, "Connection Success", Toast.LENGTH_SHORT).show();
-            return true;
-        } else {
-            t.makeText(c, "Connection Failed", Toast.LENGTH_SHORT).show();
-            return false;
-        }
-        /* If we don't need toast then we could do
-           return networkInfo.isConnected();
-         */
+        return networkInfo.isConnected();
     }
 }
