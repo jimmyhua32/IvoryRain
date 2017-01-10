@@ -30,7 +30,7 @@ public class User {
         return id;
     }
 
-    protected int getTeamName (){
+    protected String getTeamName (){
         return teamName;
     }
 }

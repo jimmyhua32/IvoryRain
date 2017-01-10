@@ -18,8 +18,8 @@ public class ShowPortfolioActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_show_portfolio);
-        playerID = user.findUser();
-        user.getTeamName();
+        playerID = User.findUser();
+        teamName = User.getTeamName();
     }
 
 }
