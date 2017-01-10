@@ -1,3 +1,8 @@
+/* Project: Ivory Rain
+   1/9/2017
+   This activity displays the stock information.
+*/
+
 package com.garfieldcs.gar_jhhua.fantasystocks;
 
 import android.content.Context;
@@ -23,17 +28,20 @@ public class DisplayStockActivity extends AppCompatActivity {
         c = new CheckConnection(context);
         c.isConnected();
 
+        //Probably really bad logic here
         while (name == null) {
         }
         
         price = stockInfo.getPrice();
         System.out.println(price);
 
-        priceView = (TextView) findViewById(R.id.price);
-        priceView.setText("This is the price: " + price);
+        priceView = (TextView) findViewById(R.id.PriceValue);
+        priceView.setText(price);
+
         setContentView(R.layout.activity_display_stock);
     }
 
+    //Gets the stock needed to be displayed
     public void setup(String name) {
         this.name = name;
         stockInfo = new StockInfo(name, getApplicationContext());
