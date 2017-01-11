@@ -10,23 +10,29 @@ import android.content.Context;
 import android.os.AsyncTask;
 
 import java.io.IOException;
-import java.lang.reflect.Array;
 
 import yahoofinance.Stock;
 import yahoofinance.YahooFinance;
 
 public class StockInfo {
+    private boolean collectStatus;
     private String name;
     private String symbol;
+    private String price;
+    private String change;
+    private String changeP;
+    private String highY;
+    private String lowY;
+    private String highD;
+    private String lowD;
     private CheckConnection c;
-    private Stock stock;
 
     //"Name" is the name of the stock
     public StockInfo(String name, Context context) {
         this.name = name;
+        collectStatus = false;
         c = new CheckConnection(context); //Checks for internet connection
         new CollectDataTask().execute(name);
-        symbol = new CollectDataTask().getSymbol();
     }
 
     public String getName(){
@@ -34,66 +40,91 @@ public class StockInfo {
     }
 
     public String getSymbol(){
-        new CollectDataTask().getSymbol();
         return symbol;
     }
 
     //Array contains {price, change, changeP, highY, lowY, highD, lowD}
     public String getPrice() {
-        return symbol + Array.getFloat(new CollectDataTask().getInfo(), 0);
+        System.out.println(price);
+        return price;
     }
 
     public String getChange() {
-        return symbol + Array.getFloat(new CollectDataTask().getInfo(), 1);
+        return change;
     }
 
     //Change in percentages therefore doesn't use "symbol"
     public String getChangeP() {
-        return Array.getFloat(new CollectDataTask().getInfo(), 2) + "%";
+        return changeP;
     }
 
     public String getHighY() {
-        return symbol + Array.getFloat(new CollectDataTask().getInfo(), 3);
+        return highY;
     }
 
     public String getLowY() {
-        return symbol + Array.getFloat(new CollectDataTask().getInfo(), 4);
+        return lowY;
     }
 
     public String getHighD() {
-        return symbol + Array.getFloat(new CollectDataTask().getInfo(), 5);
+        return highD;
     }
 
     public String getLowD() {
-        return symbol + Array.getFloat(new CollectDataTask().getInfo(), 6);
+        return lowD;
     }
 
-    //Collects data in a separate thread; called each time you need info?
+    private void setPrice(String price) {
+        this.price = price;
+    }
+
+    private void setChange(String change) {
+        this.change = change;
+    }
+
+    private void setChangeP(String changeP) {
+        this.changeP = changeP;
+    }
+
+    private void setHighY(String highY) {
+        this.highY = highY;
+    }
+
+    private void setLowY(String lowY) {
+        this.lowY = lowY;
+    }
+
+    private void setHighD(String highD) {
+        this.highD = highD;
+    }
+
+    private void setLowD(String lowD) {
+        this.lowD = lowD;
+    }
+
+    private void setSymbol(String symbol) {
+        this.symbol = symbol;
+    }
+
+    //Collects data in a separate thread
     private class CollectDataTask extends AsyncTask<String, Void, String> {
-        Stock stock;
-        Float price; //Current (as of the app being updated) price
-        Float change; //Change in price
-        Float changeP; //Change in price using percentages
-        Float highY; //Yearly high
-        Float lowY; //Yearly low
-        Float highD; //Daily high
-        Float lowD; //Daily low
-        String symbol; //Unit of currency
+        private Stock stock;
 
         //Eventually add an array of stuff
         protected String doInBackground(String... param) {
             try {
                 if (c.isConnected()) {
                     stock = YahooFinance.get(param[0]);
-                    symbol = stock.getSymbol() + " ";
+                    setSymbol(stock.getSymbol() + " ");
                     //Numbers are originally in BigDecimal
-                    price = stock.getQuote().getPrice().floatValue();
-                    change = stock.getQuote().getChange().floatValue();
-                    changeP = stock.getQuote().getChangeInPercent().floatValue();
-                    highY = stock.getQuote().getYearHigh().floatValue();
-                    lowY = stock.getQuote().getYearLow().floatValue();
-                    highD = stock.getQuote().getDayHigh().floatValue();
-                    lowD = stock.getQuote().getDayLow().floatValue();
+                    setPrice(symbol + stock.getQuote().getPrice().floatValue());
+                    setChange(symbol + stock.getQuote().getChange().floatValue());
+                    setChangeP(stock.getQuote().getChangeInPercent().floatValue() +"%");
+                    setHighY(symbol + stock.getQuote().getYearHigh().floatValue());
+                    setLowY(symbol + stock.getQuote().getYearLow().floatValue());
+                    setHighD(symbol + stock.getQuote().getDayHigh().floatValue());
+                    setLowD(symbol + stock.getQuote().getDayLow().floatValue());
+
                     //For debugging, DELETE LATER
                     System.out.println("****** CONNECTED ******");
                     return "Connection success";
@@ -109,17 +140,7 @@ public class StockInfo {
         }
 
         protected void onPostExecute(String result) {
-            //Test and see what symbol looks like
-            System.out.println("****** " + symbol + "******");
-        }
-
-        //Returns the information gathered
-        protected String getSymbol() {
-            return symbol;
-        }
-
-        protected Float[] getInfo() {
-            return new Float[] {price, change, changeP, highY, lowY, highD, lowD};
+            collectStatus = true;
         }
     }
 }

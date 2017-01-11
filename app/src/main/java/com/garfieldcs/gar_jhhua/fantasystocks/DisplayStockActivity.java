@@ -26,18 +26,23 @@ public class DisplayStockActivity extends AppCompatActivity {
         Context context = getApplicationContext();
         t = new Toast(context);
         c = new CheckConnection(context);
-        c.isConnected();
+        if (c.isConnected()) {
+            t.makeText(context, "Connection Success!", Toast.LENGTH_SHORT);
+            name = "AAPL"; //Temporary for testing
+            stockInfo = new StockInfo(name, getApplicationContext());
 
-        name = "AAPL"; //Temporary for testing
-        stockInfo = new StockInfo(name, getApplicationContext());
-        
-        price = stockInfo.getPrice();
-        System.out.println(price);
+            price = stockInfo.getPrice();
+            System.out.println(price);
 
-        priceView = (TextView) findViewById(R.id.PriceValue);
-        priceView.setText(price);
-
-        setContentView(R.layout.activity_display_stock);
+            priceView = (TextView) findViewById(R.id.PriceValue);
+            if (priceView != null) {
+                priceView.setText(price);
+            }
+            setContentView(R.layout.activity_display_stock);
+        } else {
+            t.makeText(context, "Connection Failed!", Toast.LENGTH_SHORT);
+            setContentView(R.layout.activity_display_stock);
+        }
     }
 
     //Gets the stock needed to be displayed

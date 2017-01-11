@@ -39,7 +39,7 @@ public class User {
         return teamName;
     }
 
-    protected StockInfo[] getStocks (){
-        return StockInfo ownedStocks;
-    }
+//    protected StockInfo[] getStocks (){
+//        return StockInfo ownedStocks;
+//    }
 }
