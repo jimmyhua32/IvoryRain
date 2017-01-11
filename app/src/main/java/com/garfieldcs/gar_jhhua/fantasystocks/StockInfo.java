@@ -17,7 +17,7 @@ import yahoofinance.YahooFinance;
 public class StockInfo {
     private boolean collectStatus;
     private String name;
-    private String symbol;
+    private String currency;
     private String price;
     private String change;
     private String changeP;
@@ -39,11 +39,10 @@ public class StockInfo {
         return name;
     }
 
-    public String getSymbol(){
-        return symbol;
+    public String getCurrency(){
+        return currency;
     }
 
-    //Array contains {price, change, changeP, highY, lowY, highD, lowD}
     public String getPrice() {
         System.out.println(price);
         return price;
@@ -74,36 +73,8 @@ public class StockInfo {
         return lowD;
     }
 
-    private void setPrice(String price) {
-        this.price = price;
-    }
-
-    private void setChange(String change) {
-        this.change = change;
-    }
-
-    private void setChangeP(String changeP) {
-        this.changeP = changeP;
-    }
-
-    private void setHighY(String highY) {
-        this.highY = highY;
-    }
-
-    private void setLowY(String lowY) {
-        this.lowY = lowY;
-    }
-
-    private void setHighD(String highD) {
-        this.highD = highD;
-    }
-
-    private void setLowD(String lowD) {
-        this.lowD = lowD;
-    }
-
-    private void setSymbol(String symbol) {
-        this.symbol = symbol;
+    public boolean getStatus(){
+        return collectStatus;
     }
 
     //Collects data in a separate thread
@@ -115,22 +86,16 @@ public class StockInfo {
             try {
                 if (c.isConnected()) {
                     stock = YahooFinance.get(param[0]);
-                    setSymbol(stock.getSymbol() + " ");
-                    //Numbers are originally in BigDecimal
-                    setPrice(symbol + stock.getQuote().getPrice().floatValue());
-                    setChange(symbol + stock.getQuote().getChange().floatValue());
-                    setChangeP(stock.getQuote().getChangeInPercent().floatValue() +"%");
-                    setHighY(symbol + stock.getQuote().getYearHigh().floatValue());
-                    setLowY(symbol + stock.getQuote().getYearLow().floatValue());
-                    setHighD(symbol + stock.getQuote().getDayHigh().floatValue());
-                    setLowD(symbol + stock.getQuote().getDayLow().floatValue());
-
-                    //For debugging, DELETE LATER
-                    System.out.println("****** CONNECTED ******");
+                    currency = stock.getCurrency() + " ";
+                    price = currency + stock.getQuote().getPrice().floatValue();
+                    change = currency + stock.getQuote().getChange().floatValue();
+                    changeP = stock.getQuote().getChangeInPercent().floatValue() + "%";
+                    highY = currency + stock.getQuote().getYearHigh().floatValue();
+                    lowY = currency + stock.getQuote().getYearLow().floatValue();
+                    highD = currency + stock.getQuote().getDayHigh().floatValue();
+                    lowD = currency + stock.getQuote().getDayLow().floatValue();
                     return "Connection success";
                 } else {
-                    //For debugging, DELETE LATER
-                    System.out.println("****** CONNECTION LOST ******");
                     return "Connection error";
                 }
             } catch (IOException e) {
@@ -140,6 +105,7 @@ public class StockInfo {
         }
 
         protected void onPostExecute(String result) {
+            System.out.println(price); //Testing
             collectStatus = true;
         }
     }
