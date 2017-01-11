@@ -28,9 +28,8 @@ public class DisplayStockActivity extends AppCompatActivity {
         c = new CheckConnection(context);
         c.isConnected();
 
-        //Probably really bad logic here
-        while (name == null) {
-        }
+        name = "AAPL"; //Temporary for testing
+        stockInfo = new StockInfo(name, getApplicationContext());
         
         price = stockInfo.getPrice();
         System.out.println(price);
