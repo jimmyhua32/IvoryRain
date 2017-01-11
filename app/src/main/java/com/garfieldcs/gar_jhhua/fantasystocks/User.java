@@ -1,5 +1,9 @@
 package com.garfieldcs.gar_jhhua.fantasystocks;
 
+import java.util.ArrayList;
+
+import yahoofinance.Stock;
+
 /**
  * Created by gar_napodolske on 1/4/2017.
  */
@@ -12,6 +16,7 @@ public class User {
     protected int lastID = 000001;
     protected String teamName;
     protected int leagueID;
+    protected StockInfo ownedStocks;
 
     private void createUser (String username, String contact, String password) {
         un = username;
@@ -22,7 +27,7 @@ public class User {
 
     private int createNewIdentification (int lastID){
         int newID = lastID + 1;
-        lastID = newID;
+        this.lastID = newID;
         return newID;
     }
 
@@ -32,5 +37,9 @@ public class User {
 
     protected String getTeamName (){
         return teamName;
+    }
+
+    protected StockInfo[] getStocks (){
+        return StockInfo ownedStocks;
     }
 }
