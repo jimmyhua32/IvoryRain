@@ -1,3 +1,8 @@
+/* Project: Ivory Rain
+   1/9/2017
+   This is the main menu.
+ */
+
 package com.garfieldcs.gar_jhhua.fantasystocks;
 
 import android.content.Intent;
