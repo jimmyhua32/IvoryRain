@@ -10,6 +10,7 @@ import android.content.Context;
 import android.os.AsyncTask;
 
 import java.io.IOException;
+import java.util.concurrent.ExecutionException;
 
 import yahoofinance.Stock;
 import yahoofinance.YahooFinance;
@@ -25,6 +26,7 @@ public class StockInfo {
     private String lowY;
     private String highD;
     private String lowD;
+    private String test;
     private CheckConnection c;
 
     //"Name" is the name of the stock
@@ -32,7 +34,13 @@ public class StockInfo {
         this.name = name;
         collectStatus = false;
         c = new CheckConnection(context); //Checks for internet connection
-        new CollectDataTask().execute(name);
+        try {
+            new CollectDataTask().execute(name).get();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        }
     }
 
     public String getName(){
@@ -40,41 +48,64 @@ public class StockInfo {
     }
 
     public String getCurrency(){
-        return currency;
+        while (getStatus())
+            return currency;
+        return "Not found";
     }
 
     public String getPrice() {
         System.out.println(price);
-        return price;
+        while (getStatus())
+            return price;
+        return "Not found";
     }
 
     public String getChange() {
-        return change;
+        while (getStatus())
+            return change;
+        return "Not found";
     }
 
     //Change in percentages therefore doesn't use "symbol"
     public String getChangeP() {
-        return changeP;
+        while (getStatus())
+            return changeP;
+        return "Not found";
     }
 
     public String getHighY() {
-        return highY;
+        while (getStatus())
+            return highY;
+        return "Not found";
     }
 
     public String getLowY() {
-        return lowY;
+        while (getStatus())
+            return lowY;
+        return "Not found";
     }
 
     public String getHighD() {
-        return highD;
+        while (getStatus())
+            return highD;
+        return "Not found";
     }
 
     public String getLowD() {
-        return lowD;
+        while (getStatus())
+            return lowD;
+        return "Not found";
     }
 
-    public boolean getStatus(){
+    private boolean getStatus(){
         return collectStatus;
+    }
+
+    //Test value; Delete later
+    public String getTest() {
+        while (getStatus())
+            return test;
+        return "Not found";
     }
 
     //Collects data in a separate thread
@@ -94,6 +125,7 @@ public class StockInfo {
                     lowY = currency + stock.getQuote().getYearLow().floatValue();
                     highD = currency + stock.getQuote().getDayHigh().floatValue();
                     lowD = currency + stock.getQuote().getDayLow().floatValue();
+                    test = "" + stock.getQuote().getPrice(); //Test value
                     return "Connection success";
                 } else {
                     return "Connection error";

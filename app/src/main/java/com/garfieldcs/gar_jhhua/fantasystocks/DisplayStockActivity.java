@@ -27,11 +27,11 @@ public class DisplayStockActivity extends AppCompatActivity {
         t = new Toast(context);
         c = new CheckConnection(context);
         if (c.isConnected()) {
-            t.makeText(context, "Connection Success!", Toast.LENGTH_SHORT);
+            //t.makeText(context, "Connection Success!", Toast.LENGTH_SHORT);
             name = "AAPL"; //Temporary for testing
             stockInfo = new StockInfo(name, getApplicationContext());
 
-            price = stockInfo.getPrice();
+            price = stockInfo.getTest();
             System.out.println(price);
 
             priceView = (TextView) findViewById(R.id.PriceValue);
@@ -40,7 +40,7 @@ public class DisplayStockActivity extends AppCompatActivity {
             }
             setContentView(R.layout.activity_display_stock);
         } else {
-            t.makeText(context, "Connection Failed!", Toast.LENGTH_SHORT);
+            //t.makeText(context, "Connection Failed!", Toast.LENGTH_SHORT);
             setContentView(R.layout.activity_display_stock);
         }
     }
