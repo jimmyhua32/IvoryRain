@@ -15,8 +15,9 @@
         android:layout_height="wrap_content"
         android:id="@+id/userTeamName"
         android:layout_gravity="center_horizontal"
-        android:textSize="30sp"
-        android:text="Team Name"/>
+        android:textSize="40sp"
+        android:text="Team Name"
+        android:paddingTop="12dp"/>
 
 
 

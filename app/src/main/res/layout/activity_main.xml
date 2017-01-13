@@ -4,8 +4,84 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:weightSum="1">
 
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:textSize="50sp"
+        android:text="Fantasy Stocks"
+        android:textStyle="bold"
+        android:paddingTop="30dp" />
+
+    <ImageView
+        android:layout_width="231dp"
+        android:layout_height="144dp"
+        android:layout_gravity="center_horizontal"
+        android:src="@mipmap/logoplaceholder2" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="24sp"
+        android:paddingTop="30dp"
+        android:paddingStart="24dp"
+        android:paddingEnd="0dp"
+        android:paddingBottom="10dp"
+        android:textStyle="bold"
+        android:text="Login: "/>
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inputType="textPersonName"
+        android:text="Username"
+        android:ems="10"
+        android:paddingBottom="10dp"
+        android:paddingStart="20dp"
+        android:paddingEnd="0dp"
+        android:id="@+id/usernameEditText" />
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inputType="textPassword"
+        android:text="Password"
+        android:ems="10"
+        android:paddingStart="20dp"
+        android:paddingEnd="0dp"
+        android:id="@+id/passwordEditText" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="start"
+            android:layout_marginStart="50dp"
+            android:layout_marginEnd="80dp"
+            android:text="New User?"
+            android:id="@+id/newUserButton"/>
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Login"
+            android:id="@+id/loginButton"/>
+
+    </LinearLayout>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:text="Forgot Password?"
+        android:id="@+id/forgotPasswordButton"/>
 
     <Button
         android:layout_width="wrap_content"
