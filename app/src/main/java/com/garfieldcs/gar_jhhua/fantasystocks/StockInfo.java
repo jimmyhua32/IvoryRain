@@ -18,8 +18,8 @@ import yahoofinance.YahooFinance;
 public class StockInfo {
     private boolean collectStatus;
     private String name;
-    private String currency;
-    private String price;
+    private static String currency;
+    private static String price;
     private String change;
     private String changeP;
     private String highY;
@@ -27,6 +27,7 @@ public class StockInfo {
     private String highD;
     private String lowD;
     private String test;
+
     private CheckConnection c;
 
     //"Name" is the name of the stock
@@ -48,51 +49,50 @@ public class StockInfo {
     }
 
     public String getCurrency(){
-        while (getStatus())
+        if (getStatus())
             return currency;
         return "Not found";
     }
 
     public String getPrice() {
         System.out.println(price);
-        while (getStatus())
-            return price;
-        return "Not found";
+        return price;
+
     }
 
     public String getChange() {
-        while (getStatus())
+        if (getStatus())
             return change;
         return "Not found";
     }
 
-    //Change in percentages therefore doesn't use "symbol"
+    //Change in percentage
     public String getChangeP() {
-        while (getStatus())
+        if (getStatus())
             return changeP;
         return "Not found";
     }
 
     public String getHighY() {
-        while (getStatus())
+        if (getStatus())
             return highY;
         return "Not found";
     }
 
     public String getLowY() {
-        while (getStatus())
+        if (getStatus())
             return lowY;
         return "Not found";
     }
 
     public String getHighD() {
-        while (getStatus())
+        if (getStatus())
             return highD;
         return "Not found";
     }
 
     public String getLowD() {
-        while (getStatus())
+        if (getStatus())
             return lowD;
         return "Not found";
     }
@@ -101,19 +101,21 @@ public class StockInfo {
         return collectStatus;
     }
 
-    //Test value; Delete later
-    public String getTest() {
-        while (getStatus())
-            return test;
-        return "Not found";
-    }
 
     //Collects data in a separate thread
-    private class CollectDataTask extends AsyncTask<String, Void, String> {
+    private class CollectDataTask extends AsyncTask<String, Void, String[]> {
         private Stock stock;
+        private String currency;
+        private String price;
+        private String change;
+        private String changeP;
+        private String highY;
+        private String lowY;
+        private String highD;
+        private String lowD;
 
         //Eventually add an array of stuff
-        protected String doInBackground(String... param) {
+        protected String[] doInBackground(String... param) {
             try {
                 if (c.isConnected()) {
                     stock = YahooFinance.get(param[0]);
@@ -125,19 +127,20 @@ public class StockInfo {
                     lowY = currency + stock.getQuote().getYearLow().floatValue();
                     highD = currency + stock.getQuote().getDayHigh().floatValue();
                     lowD = currency + stock.getQuote().getDayLow().floatValue();
-                    test = "" + stock.getQuote().getPrice(); //Test value
-                    return "Connection success";
+                    return new String[] {currency, price, change, changeP, highY, lowY, highD, lowD};
                 } else {
-                    return "Connection error";
+                    return null;
                 }
             } catch (IOException e) {
                 e.printStackTrace();
-                return "Stock error";
+                return null;
             }
         }
 
-        protected void onPostExecute(String result) {
+        protected void onPostExecute(String[] result) {
             System.out.println(price); //Testing
+            StockInfo.currency = result[0];
+            StockInfo.price = result[1];
             collectStatus = true;
         }
     }

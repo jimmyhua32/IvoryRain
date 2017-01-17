@@ -23,6 +23,7 @@ public class DisplayStockActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_display_stock);
         Context context = getApplicationContext();
         t = new Toast(context);
         c = new CheckConnection(context);
@@ -31,17 +32,17 @@ public class DisplayStockActivity extends AppCompatActivity {
             name = "AAPL"; //Temporary for testing
             stockInfo = new StockInfo(name, getApplicationContext());
 
-            price = stockInfo.getTest();
+            price = stockInfo.getPrice();
             System.out.println(price);
 
             priceView = (TextView) findViewById(R.id.PriceValue);
-            if (priceView != null) {
-                priceView.setText(price);
-            }
-            setContentView(R.layout.activity_display_stock);
+
+            priceView.setText(price);
+
+
         } else {
             //t.makeText(context, "Connection Failed!", Toast.LENGTH_SHORT);
-            setContentView(R.layout.activity_display_stock);
+
         }
     }
 
