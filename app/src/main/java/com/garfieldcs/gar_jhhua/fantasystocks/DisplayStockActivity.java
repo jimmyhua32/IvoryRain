@@ -36,14 +36,9 @@ public class DisplayStockActivity extends AppCompatActivity {
             //t.makeText(context, "Connection Success!", Toast.LENGTH_SHORT);
             name = "AAPL"; //Temporary for testing
             stockInfo = new StockInfo(name, getApplicationContext());
+
+
             new loadingData().execute();
-
-            TextView nameView = (TextView) findViewById(R.id.StockName);
-            TextView priceView = (TextView) findViewById(R.id.PriceValue);
-
-            nameView.setText(stockInfo.getName());
-            priceView.setText(stockInfo.getPrice());
-
 
         } else {
             //Eventually make all the TextView fields display something like "Null" or "N/A"
@@ -76,17 +71,18 @@ public class DisplayStockActivity extends AppCompatActivity {
 
         protected Void doInBackground(Void... arg0) {
             while (!status) {
-                try {
-                    Thread.sleep(1000);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
                 status = stockInfo.getStatus();
             }
             return null;
         }
 
         protected void onPostExecute(Void result) {
+            TextView nameView = (TextView) findViewById(R.id.StockName);
+            TextView priceView = (TextView) findViewById(R.id.PriceValue);
+
+            nameView.setText(stockInfo.getName());
+            priceView.setText(stockInfo.getPrice());
+
             dialog.dismiss();
             super.onPostExecute(result);
         }
