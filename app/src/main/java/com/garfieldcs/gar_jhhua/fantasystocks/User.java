@@ -13,7 +13,7 @@ public class User {
     protected String un;
     protected String email;
     private String pw;
-    protected int lastID = 000001;
+    protected int lastID = 000000;
     protected String teamName;
     protected int leagueID;
     protected StockInfo ownedStocks;
@@ -30,6 +30,8 @@ public class User {
         this.lastID = newID;
         return newID;
     }
+
+
 
     protected int findUser (){
         return id;
