@@ -33,7 +33,6 @@ public class DisplayStockActivity extends AppCompatActivity {
         t = new Toast(context);
         c = new CheckConnection(context);
         if (c.isConnected()) {
-            //t.makeText(context, "Connection Success!", Toast.LENGTH_SHORT);
             name = "AAPL"; //Temporary for testing
             stockInfo = new StockInfo(name, getApplicationContext());
 
@@ -42,7 +41,7 @@ public class DisplayStockActivity extends AppCompatActivity {
 
         } else {
             //Eventually make all the TextView fields display something like "Null" or "N/A"
-            //t.makeText(context, "Connection Failed!", Toast.LENGTH_SHORT);
+
 
         }
     }
