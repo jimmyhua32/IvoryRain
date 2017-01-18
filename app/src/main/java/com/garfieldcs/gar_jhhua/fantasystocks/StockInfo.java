@@ -6,6 +6,7 @@
 
 package com.garfieldcs.gar_jhhua.fantasystocks;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.AsyncTask;
 
@@ -20,13 +21,12 @@ public class StockInfo {
     private String name;
     private static String currency;
     private static String price;
-    private String change;
-    private String changeP;
-    private String highY;
-    private String lowY;
-    private String highD;
-    private String lowD;
-    private String test;
+    private static String change;
+    private static String changeP;
+    private static String highY;
+    private static String lowY;
+    private static String highD;
+    private static String lowD;
 
     private CheckConnection c;
 
@@ -49,61 +49,45 @@ public class StockInfo {
     }
 
     public String getCurrency(){
-        if (getStatus())
-            return currency;
-        return "Not found";
+        return currency;
     }
 
     public String getPrice() {
-        System.out.println(price);
         return price;
-
     }
 
     public String getChange() {
-        if (getStatus())
-            return change;
-        return "Not found";
+        return change;
     }
 
     //Change in percentage
     public String getChangeP() {
-        if (getStatus())
-            return changeP;
-        return "Not found";
+        return changeP;
     }
 
     public String getHighY() {
-        if (getStatus())
-            return highY;
-        return "Not found";
+        return highY;
     }
 
     public String getLowY() {
-        if (getStatus())
-            return lowY;
-        return "Not found";
+        return lowY;
     }
 
     public String getHighD() {
-        if (getStatus())
-            return highD;
-        return "Not found";
+        return highD;
     }
 
     public String getLowD() {
-        if (getStatus())
-            return lowD;
-        return "Not found";
+        return lowD;
     }
 
-    private boolean getStatus(){
+    public boolean getStatus(){
         return collectStatus;
     }
 
 
     //Collects data in a separate thread
-    private class CollectDataTask extends AsyncTask<String, Void, String[]> {
+    private class CollectDataTask extends AsyncTask<String, Integer, String[]> {
         private Stock stock;
         private String currency;
         private String price;
@@ -113,8 +97,8 @@ public class StockInfo {
         private String lowY;
         private String highD;
         private String lowD;
+        private String symbol;
 
-        //Eventually add an array of stuff
         protected String[] doInBackground(String... param) {
             try {
                 if (c.isConnected()) {
@@ -127,7 +111,9 @@ public class StockInfo {
                     lowY = currency + stock.getQuote().getYearLow().floatValue();
                     highD = currency + stock.getQuote().getDayHigh().floatValue();
                     lowD = currency + stock.getQuote().getDayLow().floatValue();
-                    return new String[] {currency, price, change, changeP, highY, lowY, highD, lowD};
+                    symbol = stock.getQuote().getSymbol();
+                    return new String[]
+                            {currency, price, change, changeP, highY, lowY, highD, lowD, symbol};
                 } else {
                     return null;
                 }
@@ -137,10 +123,21 @@ public class StockInfo {
             }
         }
 
+        protected void onPreExecute() {
+            collectStatus = false;
+        }
+
+
         protected void onPostExecute(String[] result) {
-            System.out.println(price); //Testing
             StockInfo.currency = result[0];
             StockInfo.price = result[1];
+            StockInfo.change = result[2];
+            StockInfo.changeP = result[3];
+            StockInfo.highY = result[4];
+            StockInfo.lowY = result[5];
+            StockInfo.highD = result[6];
+            StockInfo.lowD = result[7];
+            System.out.println(result[8]); //Add symbol as a field later if it works
             collectStatus = true;
         }
     }
