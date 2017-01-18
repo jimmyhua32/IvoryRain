@@ -17,8 +17,8 @@ import yahoofinance.Stock;
 import yahoofinance.YahooFinance;
 
 public class StockInfo {
-    private boolean collectStatus;
-    private String name;
+    private static String name;
+    private static boolean collectStatus;
     private static String currency;
     private static String price;
     private static String change;
@@ -27,6 +27,7 @@ public class StockInfo {
     private static String lowY;
     private static String highD;
     private static String lowD;
+    private static String symbol;
 
     private CheckConnection c;
 
@@ -81,6 +82,10 @@ public class StockInfo {
         return lowD;
     }
 
+    public String getSymbol() {
+        return symbol;
+    }
+
     public boolean getStatus(){
         return collectStatus;
     }
@@ -88,32 +93,24 @@ public class StockInfo {
 
     //Collects data in a separate thread
     private class CollectDataTask extends AsyncTask<String, Integer, String[]> {
-        private Stock stock;
-        private String currency;
-        private String price;
-        private String change;
-        private String changeP;
-        private String highY;
-        private String lowY;
-        private String highD;
-        private String lowD;
-        private String symbol;
 
         protected String[] doInBackground(String... param) {
             try {
                 if (c.isConnected()) {
-                    stock = YahooFinance.get(param[0]);
-                    currency = stock.getCurrency() + " ";
-                    price = currency + stock.getQuote().getPrice().floatValue();
-                    change = currency + stock.getQuote().getChange().floatValue();
-                    changeP = stock.getQuote().getChangeInPercent().floatValue() + "%";
-                    highY = currency + stock.getQuote().getYearHigh().floatValue();
-                    lowY = currency + stock.getQuote().getYearLow().floatValue();
-                    highD = currency + stock.getQuote().getDayHigh().floatValue();
-                    lowD = currency + stock.getQuote().getDayLow().floatValue();
-                    symbol = stock.getQuote().getSymbol();
+                    Stock stock = YahooFinance.get(param[0]);
+                    String currency = stock.getCurrency() + " ";
+                    String price = currency + stock.getQuote().getPrice().floatValue();
+                    String change = currency + stock.getQuote().getChange().floatValue();
+                    String changeP = stock.getQuote().getChangeInPercent().floatValue() + "%";
+                    String highY = currency + stock.getQuote().getYearHigh().floatValue();
+                    String lowY = currency + stock.getQuote().getYearLow().floatValue();
+                    String highD = currency + stock.getQuote().getDayHigh().floatValue();
+                    String lowD = currency + stock.getQuote().getDayLow().floatValue();
+                    String symbol = stock.getQuote().getSymbol();
+                    String name = stock.getName();
                     return new String[]
-                            {currency, price, change, changeP, highY, lowY, highD, lowD, symbol};
+                            {currency, price, change, changeP, highY,
+                                    lowY, highD, lowD, symbol, name};
                 } else {
                     return null;
                 }
@@ -122,11 +119,6 @@ public class StockInfo {
                 return null;
             }
         }
-
-        protected void onPreExecute() {
-            collectStatus = false;
-        }
-
 
         protected void onPostExecute(String[] result) {
             StockInfo.currency = result[0];
@@ -137,7 +129,8 @@ public class StockInfo {
             StockInfo.lowY = result[5];
             StockInfo.highD = result[6];
             StockInfo.lowD = result[7];
-            System.out.println(result[8]); //Add symbol as a field later if it works
+            StockInfo.symbol = result[8];
+            StockInfo.name = result[9];
             collectStatus = true;
         }
     }
