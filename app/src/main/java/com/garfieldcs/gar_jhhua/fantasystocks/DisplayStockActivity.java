@@ -36,22 +36,13 @@ public class DisplayStockActivity extends AppCompatActivity {
             //t.makeText(context, "Connection Success!", Toast.LENGTH_SHORT);
             name = "AAPL"; //Temporary for testing
             stockInfo = new StockInfo(name, getApplicationContext());
-//            try {
-//                new loadingData().execute().get();
-//            } catch (InterruptedException e) {
-//                e.printStackTrace();
-//            } catch (ExecutionException e) {
-//                e.printStackTrace();
-//            }
-
-            price = stockInfo.getPrice();
-            System.out.println(price);
+            new loadingData().execute();
 
             TextView nameView = (TextView) findViewById(R.id.StockName);
             TextView priceView = (TextView) findViewById(R.id.PriceValue);
 
-            nameView.setText(name);
-            priceView.setText(price);
+            nameView.setText(stockInfo.getName());
+            priceView.setText(stockInfo.getPrice());
 
 
         } else {
@@ -76,15 +67,20 @@ public class DisplayStockActivity extends AppCompatActivity {
         protected void onPreExecute() {
             status = false;
 
-            dialog.setMessage("Retrieving data");
             dialog.setCancelable(false);
             dialog.setInverseBackgroundForced(false);
-            dialog.show(DisplayStockActivity.this, "Please wait", "Retrieving data...", true);
+            dialog = dialog.show(DisplayStockActivity.this,
+                    "Please wait", "Retrieving data...", true);
             super.onPreExecute();
         }
 
         protected Void doInBackground(Void... arg0) {
             while (!status) {
+                try {
+                    Thread.sleep(1000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
                 status = stockInfo.getStatus();
             }
             return null;

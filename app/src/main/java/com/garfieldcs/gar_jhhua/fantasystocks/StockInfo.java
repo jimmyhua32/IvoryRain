@@ -17,7 +17,8 @@ import yahoofinance.Stock;
 import yahoofinance.YahooFinance;
 
 public class StockInfo {
-    private static String name;
+    private String name;
+    private static String nameR;
     private static boolean collectStatus;
     private static String currency;
     private static String price;
@@ -34,7 +35,6 @@ public class StockInfo {
     //"Name" is the name of the stock
     public StockInfo(String name, Context context) {
         this.name = name;
-        collectStatus = false;
         c = new CheckConnection(context); //Checks for internet connection
         try {
             new CollectDataTask().execute(name).get();
@@ -46,7 +46,7 @@ public class StockInfo {
     }
 
     public String getName(){
-        return name;
+        return nameR;
     }
 
     public String getCurrency(){
@@ -130,8 +130,8 @@ public class StockInfo {
             StockInfo.highD = result[6];
             StockInfo.lowD = result[7];
             StockInfo.symbol = result[8];
-            StockInfo.name = result[9];
-            collectStatus = true;
+            StockInfo.nameR = result[9];
+            StockInfo.collectStatus = true;
         }
     }
 }
