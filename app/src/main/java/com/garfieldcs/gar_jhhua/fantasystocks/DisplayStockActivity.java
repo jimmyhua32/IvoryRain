@@ -36,12 +36,11 @@ public class DisplayStockActivity extends AppCompatActivity {
             name = "AAPL"; //Temporary for testing
             stockInfo = new StockInfo(name, getApplicationContext());
 
-
             new loadingData().execute();
 
         } else {
             //Eventually make all the TextView fields display something like "Null" or "N/A"
-
+            stockInfo = new StockInfo(null, getApplicationContext());
 
         }
     }
@@ -78,9 +77,20 @@ public class DisplayStockActivity extends AppCompatActivity {
         protected void onPostExecute(Void result) {
             TextView nameView = (TextView) findViewById(R.id.StockName);
             TextView priceView = (TextView) findViewById(R.id.PriceValue);
+            TextView priceChangeView = (TextView) findViewById(R.id.PCValue);
+            TextView dailyHighView = (TextView) findViewById(R.id.DailyHighValue);
+            TextView dailyLowView = (TextView) findViewById(R.id.DailyLowValue);
+            TextView yearHighView = (TextView) findViewById(R.id.YearHighValue);
+            TextView yearLowView = (TextView) findViewById(R.id.YearLowValue);
 
-            nameView.setText(stockInfo.getName());
+
+            nameView.setText(stockInfo.getName() + " (" + stockInfo.getSymbol() + ")");
             priceView.setText(stockInfo.getPrice());
+            priceChangeView.setText(stockInfo.getChangeP());
+            dailyHighView.setText(stockInfo.getHighD());
+            dailyLowView.setText(stockInfo.getLowD());
+            yearHighView.setText(stockInfo.getHighY());
+            yearLowView.setText(stockInfo.getLowY());
 
             dialog.dismiss();
             super.onPostExecute(result);

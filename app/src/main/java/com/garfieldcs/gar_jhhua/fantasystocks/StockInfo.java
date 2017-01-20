@@ -34,14 +34,18 @@ public class StockInfo {
 
     //"Name" is the name of the stock
     public StockInfo(String name, Context context) {
-        this.name = name;
-        c = new CheckConnection(context); //Checks for internet connection
-        try {
-            new CollectDataTask().execute(name).get();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        } catch (ExecutionException e) {
-            e.printStackTrace();
+        if (name != null) {
+            this.name = name;
+            c = new CheckConnection(context); //Checks for internet connection
+            try {
+                new CollectDataTask().execute(name).get();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            } catch (ExecutionException e) {
+                e.printStackTrace();
+            }
+        } else {
+            noConnection();
         }
     }
 
@@ -90,6 +94,20 @@ public class StockInfo {
         return collectStatus;
     }
 
+    private void noConnection() {
+        name = "Not found";
+        nameR = "Not found";
+        currency = "Not found";
+        price = "Not found";
+        change = "Not found";
+        changeP = "Not found";
+        highY = "Not found";
+        lowY = "Not found";
+        highD = "Not found";
+        lowD = "Not found";
+        symbol = "Not found";
+        collectStatus = true;
+    }
 
     //Collects data in a separate thread
     private class CollectDataTask extends AsyncTask<String, Integer, String[]> {
@@ -112,6 +130,7 @@ public class StockInfo {
                             {currency, price, change, changeP, highY,
                                     lowY, highD, lowD, symbol, name};
                 } else {
+                    noConnection();
                     return null;
                 }
             } catch (IOException e) {
@@ -132,6 +151,7 @@ public class StockInfo {
             StockInfo.symbol = result[8];
             StockInfo.nameR = result[9];
             StockInfo.collectStatus = true;
+            super.onPostExecute(result);
         }
     }
 }
