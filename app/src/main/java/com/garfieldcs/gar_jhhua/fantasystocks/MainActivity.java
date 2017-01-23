@@ -22,7 +22,7 @@ public class MainActivity extends AppCompatActivity {
     public void goToStock(View view) {
         Intent intent = new Intent(this, DisplayStockActivity.class);
         Bundle bundle = new Bundle();
-        bundle.putString("name", "AAPL");
+        bundle.putString("name", "AAPL"); //For testing
         intent.putExtras(bundle);
         startActivity(intent);
     }

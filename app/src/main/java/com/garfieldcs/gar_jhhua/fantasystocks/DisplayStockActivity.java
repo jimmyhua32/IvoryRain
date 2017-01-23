@@ -22,7 +22,6 @@ public class DisplayStockActivity extends AppCompatActivity {
     private Toast t;
     private CheckConnection c;
     private String name;
-    private boolean hasName;
     private StockInfo stockInfo;
 
     @Override
@@ -49,14 +48,6 @@ public class DisplayStockActivity extends AppCompatActivity {
 //
 //        }
     }
-
-    //Gets the stock needed to be displayed; ALWAYS RUN THIS FIRST
-    public void setup(String name) {
-        this.name = name;
-        hasName = true;
-        stockInfo = new StockInfo(name, getApplicationContext());
-    }
-
 
     //Checks to see if StockInfo is done
     private class loadingData extends AsyncTask<Void, Void, Void> {

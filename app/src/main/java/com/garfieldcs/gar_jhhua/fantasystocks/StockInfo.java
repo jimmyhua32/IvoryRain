@@ -11,6 +11,7 @@ import android.content.Context;
 import android.os.AsyncTask;
 
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.util.concurrent.ExecutionException;
 
 import yahoofinance.Stock;
@@ -147,7 +148,7 @@ public class StockInfo {
         }
 
         protected void onPostExecute(String[] result) {
-            if (c.isConnected()) {
+            if (result!=null) {
                 StockInfo.currency = result[0];
                 StockInfo.price = result[1];
                 StockInfo.change = result[2];
@@ -161,6 +162,11 @@ public class StockInfo {
                 StockInfo.collectStatus = true;
             }
             super.onPostExecute(result);
+        }
+
+        //Rounds the number to 2 decimal places
+        private Double toDecimal(BigDecimal value) {
+            return Math.round((value.floatValue() * 100)) / 100.0;
         }
     }
 }
