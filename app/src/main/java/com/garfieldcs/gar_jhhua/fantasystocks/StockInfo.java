@@ -117,13 +117,20 @@ public class StockInfo {
                 if (c.isConnected()) {
                     Stock stock = YahooFinance.get(param[0]);
                     String currency = stock.getCurrency() + " ";
-                    String price = currency + stock.getQuote().getPrice().floatValue();
-                    String change = currency + stock.getQuote().getChange().floatValue();
-                    String changeP = stock.getQuote().getChangeInPercent().floatValue() + "%";
-                    String highY = currency + stock.getQuote().getYearHigh().floatValue();
-                    String lowY = currency + stock.getQuote().getYearLow().floatValue();
-                    String highD = currency + stock.getQuote().getDayHigh().floatValue();
-                    String lowD = currency + stock.getQuote().getDayLow().floatValue();
+                    String price = currency +
+                            Math.round((stock.getQuote().getPrice().floatValue() * 100) / 100);
+                    String change = currency +
+                            Math.round((stock.getQuote().getChange().floatValue() * 100) / 100);
+                    String changeP = Math.round((stock.getQuote().getChangeInPercent().floatValue()
+                            * 100) / 100) + "%";
+                    String highY = currency +
+                            Math.round((stock.getQuote().getYearHigh().floatValue() * 100) / 100);
+                    String lowY = currency +
+                            Math.round((stock.getQuote().getYearLow().floatValue() * 100) / 100);
+                    String highD = currency +
+                            Math.round((stock.getQuote().getDayHigh().floatValue() * 100) / 100);
+                    String lowD = currency +
+                            Math.round((stock.getQuote().getDayLow().floatValue() * 100) / 100);
                     String symbol = stock.getQuote().getSymbol();
                     String name = stock.getName();
                     return new String[]
@@ -140,17 +147,19 @@ public class StockInfo {
         }
 
         protected void onPostExecute(String[] result) {
-            StockInfo.currency = result[0];
-            StockInfo.price = result[1];
-            StockInfo.change = result[2];
-            StockInfo.changeP = result[3];
-            StockInfo.highY = result[4];
-            StockInfo.lowY = result[5];
-            StockInfo.highD = result[6];
-            StockInfo.lowD = result[7];
-            StockInfo.symbol = result[8];
-            StockInfo.nameR = result[9];
-            StockInfo.collectStatus = true;
+            if (c.isConnected()) {
+                StockInfo.currency = result[0];
+                StockInfo.price = result[1];
+                StockInfo.change = result[2];
+                StockInfo.changeP = result[3];
+                StockInfo.highY = result[4];
+                StockInfo.lowY = result[5];
+                StockInfo.highD = result[6];
+                StockInfo.lowD = result[7];
+                StockInfo.symbol = result[8];
+                StockInfo.nameR = result[9];
+                StockInfo.collectStatus = true;
+            }
             super.onPostExecute(result);
         }
     }

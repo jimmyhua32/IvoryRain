@@ -42,6 +42,8 @@ public class DisplayStockActivity extends AppCompatActivity {
             //Eventually make all the TextView fields display something like "Null" or "N/A"
             stockInfo = new StockInfo(null, getApplicationContext());
 
+            new loadingData().execute();
+
         }
     }
 
@@ -84,13 +86,23 @@ public class DisplayStockActivity extends AppCompatActivity {
             TextView yearLowView = (TextView) findViewById(R.id.YearLowValue);
 
 
-            nameView.setText(stockInfo.getName() + " (" + stockInfo.getSymbol() + ")");
-            priceView.setText(stockInfo.getPrice());
-            priceChangeView.setText(stockInfo.getChangeP());
-            dailyHighView.setText(stockInfo.getHighD());
-            dailyLowView.setText(stockInfo.getLowD());
-            yearHighView.setText(stockInfo.getHighY());
-            yearLowView.setText(stockInfo.getLowY());
+            if (c.isConnected()) {
+                nameView.setText(stockInfo.getName() + " (" + stockInfo.getSymbol() + ")");
+                priceView.setText(stockInfo.getPrice());
+                priceChangeView.setText(stockInfo.getChangeP());
+                dailyHighView.setText(stockInfo.getHighD());
+                dailyLowView.setText(stockInfo.getLowD());
+                yearHighView.setText(stockInfo.getHighY());
+                yearLowView.setText(stockInfo.getLowY());
+            } else {
+                nameView.setText(stockInfo.getName());
+                priceView.setText(stockInfo.getPrice());
+                priceChangeView.setText(stockInfo.getChangeP());
+                dailyHighView.setText(stockInfo.getHighD());
+                dailyLowView.setText(stockInfo.getLowD());
+                yearHighView.setText(stockInfo.getHighY());
+                yearLowView.setText(stockInfo.getLowY());
+            }
 
             dialog.dismiss();
             super.onPostExecute(result);
