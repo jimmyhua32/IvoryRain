@@ -21,6 +21,9 @@ public class MainActivity extends AppCompatActivity {
 
     public void goToStock(View view) {
         Intent intent = new Intent(this, DisplayStockActivity.class);
+        Bundle bundle = new Bundle();
+        bundle.putString("name", "AAPL");
+        intent.putExtras(bundle);
         startActivity(intent);
     }
 }

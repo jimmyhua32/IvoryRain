@@ -22,7 +22,7 @@ public class DisplayStockActivity extends AppCompatActivity {
     private Toast t;
     private CheckConnection c;
     private String name;
-    private String price;
+    private boolean hasName;
     private StockInfo stockInfo;
 
     @Override
@@ -32,24 +32,28 @@ public class DisplayStockActivity extends AppCompatActivity {
         Context context = getApplicationContext();
         t = new Toast(context);
         c = new CheckConnection(context);
-        if (c.isConnected()) {
-            name = "AAPL"; //Temporary for testing
-            stockInfo = new StockInfo(name, getApplicationContext());
-
-            new loadingData().execute();
-
-        } else {
-            //Eventually make all the TextView fields display something like "Null" or "N/A"
-            stockInfo = new StockInfo(null, getApplicationContext());
-
-            new loadingData().execute();
-
-        }
+        Bundle bundle = getIntent().getExtras();
+        name = bundle.getString("name");
+//        name = "AAPL";
+//        if (c.isConnected()) {
+//            name = "AAPL"; //Temporary for testing
+//
+//            stockInfo = new StockInfo(name, getApplicationContext());
+//
+//            new loadingData().execute();
+//
+//        } else {
+//            stockInfo = new StockInfo(null, getApplicationContext());
+//
+//            new loadingData().execute();
+//
+//        }
     }
 
-    //Gets the stock needed to be displayed
+    //Gets the stock needed to be displayed; ALWAYS RUN THIS FIRST
     public void setup(String name) {
         this.name = name;
+        hasName = true;
         stockInfo = new StockInfo(name, getApplicationContext());
     }
 
@@ -70,6 +74,11 @@ public class DisplayStockActivity extends AppCompatActivity {
         }
 
         protected Void doInBackground(Void... arg0) {
+            if (c.isConnected()) {
+                stockInfo = new StockInfo(name, getApplicationContext());
+            } else {
+                stockInfo = new StockInfo(null, getApplicationContext());
+            }
             while (!status) {
                 status = stockInfo.getStatus();
             }
@@ -88,21 +97,15 @@ public class DisplayStockActivity extends AppCompatActivity {
 
             if (c.isConnected()) {
                 nameView.setText(stockInfo.getName() + " (" + stockInfo.getSymbol() + ")");
-                priceView.setText(stockInfo.getPrice());
-                priceChangeView.setText(stockInfo.getChangeP());
-                dailyHighView.setText(stockInfo.getHighD());
-                dailyLowView.setText(stockInfo.getLowD());
-                yearHighView.setText(stockInfo.getHighY());
-                yearLowView.setText(stockInfo.getLowY());
             } else {
                 nameView.setText(stockInfo.getName());
-                priceView.setText(stockInfo.getPrice());
-                priceChangeView.setText(stockInfo.getChangeP());
-                dailyHighView.setText(stockInfo.getHighD());
-                dailyLowView.setText(stockInfo.getLowD());
-                yearHighView.setText(stockInfo.getHighY());
-                yearLowView.setText(stockInfo.getLowY());
             }
+            priceView.setText(stockInfo.getPrice());
+            priceChangeView.setText(stockInfo.getChangeP());
+            dailyHighView.setText(stockInfo.getHighD());
+            dailyLowView.setText(stockInfo.getLowD());
+            yearHighView.setText(stockInfo.getHighY());
+            yearLowView.setText(stockInfo.getLowY());
 
             dialog.dismiss();
             super.onPostExecute(result);
