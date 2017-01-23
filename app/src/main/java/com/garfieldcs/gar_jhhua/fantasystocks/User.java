@@ -16,7 +16,7 @@ public class User {
     protected int lastID = 000000;
     protected String teamName;
     protected int leagueID;
-    protected StockInfo ownedStocks;
+    protected ArrayList <StockInfo> ownedStocks();
 
     private void createUser (String username, String contact, String password) {
         un = username;
@@ -31,7 +31,13 @@ public class User {
         return newID;
     }
 
+    protected void addStocks (StockInfo stockToAdd){
+        ownedStocks().add(ownedStocks().size(), stockToAdd);
+    }
 
+    protected void removeStocks (StockInfo stockToRemove){
+        ownedStocks().remove();
+    }
 
     protected int findUser (){
         return id;
