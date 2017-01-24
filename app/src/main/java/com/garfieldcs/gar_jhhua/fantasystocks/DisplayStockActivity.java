@@ -34,21 +34,18 @@ public class DisplayStockActivity extends AppCompatActivity {
         Bundle bundle = getIntent().getExtras();
         name = bundle.getString("name");
 
-        new loadingData().execute();
-//        name = "AAPL";
-//        if (c.isConnected()) {
-//            name = "AAPL"; //Temporary for testing
-//
-//            stockInfo = new StockInfo(name, getApplicationContext());
-//
-//            new loadingData().execute();
-//
-//        } else {
-//            stockInfo = new StockInfo(null, getApplicationContext());
-//
-//            new loadingData().execute();
-//
-//        }
+        if (c.isConnected()) {
+
+            stockInfo = new StockInfo(name, getApplicationContext());
+
+            new loadingData().execute();
+
+        } else {
+            stockInfo = new StockInfo(null, getApplicationContext());
+
+            new loadingData().execute();
+
+        }
     }
 
     //Checks to see if StockInfo is done
@@ -69,12 +66,6 @@ public class DisplayStockActivity extends AppCompatActivity {
 
         //Checks to see if data finished collecting
         protected Void doInBackground(Void... arg0) {
-            //Check for internet connection
-            if (c.isConnected()) {
-                stockInfo = new StockInfo(name, getApplicationContext());
-            } else {
-                stockInfo = new StockInfo(null, getApplicationContext());
-            }
             while (!status) {
                 status = stockInfo.getStatus();
             }

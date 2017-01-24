@@ -120,19 +120,19 @@ public class StockInfo {
                     String currency = stock.getCurrency() + " ";
                     //Eventually add toDecimal()
                     String price = currency +
-                            Math.round((stock.getQuote().getPrice().floatValue() * 100) / 100);
+                            Math.round((stock.getQuote().getPrice().floatValue() * 100)) / 100.0;
                     String change = currency +
-                            Math.round((stock.getQuote().getChange().floatValue() * 100) / 100);
+                            Math.round((stock.getQuote().getChange().floatValue() * 100)) / 100.0;
                     String changeP = Math.round((stock.getQuote().getChangeInPercent().floatValue()
-                            * 100) / 100) + "%";
+                            * 100)) / 100.0 + "%";
                     String highY = currency +
-                            Math.round((stock.getQuote().getYearHigh().floatValue() * 100) / 100);
+                            Math.round((stock.getQuote().getYearHigh().floatValue() * 100)) / 100.0;
                     String lowY = currency +
-                            Math.round((stock.getQuote().getYearLow().floatValue() * 100) / 100);
+                            Math.round((stock.getQuote().getYearLow().floatValue() * 100)) / 100.0;
                     String highD = currency +
-                            Math.round((stock.getQuote().getDayHigh().floatValue() * 100) / 100);
+                            Math.round((stock.getQuote().getDayHigh().floatValue() * 100)) / 100.0;
                     String lowD = currency +
-                            Math.round((stock.getQuote().getDayLow().floatValue() * 100) / 100);
+                            Math.round((stock.getQuote().getDayLow().floatValue() * 100)) / 100.0;
                     String symbol = stock.getQuote().getSymbol();
                     String name = stock.getName();
                     return new String[]
@@ -160,8 +160,8 @@ public class StockInfo {
                 StockInfo.lowD = result[7];
                 StockInfo.symbol = result[8];
                 StockInfo.nameR = result[9];
-                StockInfo.collectStatus = true;
             }
+            StockInfo.collectStatus = true;
             super.onPostExecute(result);
         }
 
