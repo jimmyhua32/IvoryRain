@@ -33,6 +33,8 @@ public class DisplayStockActivity extends AppCompatActivity {
         c = new CheckConnection(context);
         Bundle bundle = getIntent().getExtras();
         name = bundle.getString("name");
+
+        new loadingData().execute();
 //        name = "AAPL";
 //        if (c.isConnected()) {
 //            name = "AAPL"; //Temporary for testing
@@ -54,6 +56,7 @@ public class DisplayStockActivity extends AppCompatActivity {
         ProgressDialog dialog = new ProgressDialog(DisplayStockActivity.this);
         boolean status;
 
+        //Sets up progress dialog
         protected void onPreExecute() {
             status = false;
 
@@ -64,7 +67,9 @@ public class DisplayStockActivity extends AppCompatActivity {
             super.onPreExecute();
         }
 
+        //Checks to see if data finished collecting
         protected Void doInBackground(Void... arg0) {
+            //Check for internet connection
             if (c.isConnected()) {
                 stockInfo = new StockInfo(name, getApplicationContext());
             } else {
@@ -76,6 +81,7 @@ public class DisplayStockActivity extends AppCompatActivity {
             return null;
         }
 
+        //Changes the views and dismisses the progress dialog
         protected void onPostExecute(Void result) {
             TextView nameView = (TextView) findViewById(R.id.StockName);
             TextView priceView = (TextView) findViewById(R.id.PriceValue);

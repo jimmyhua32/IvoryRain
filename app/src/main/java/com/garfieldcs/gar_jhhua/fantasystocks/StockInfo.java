@@ -118,6 +118,7 @@ public class StockInfo {
                 if (c.isConnected()) {
                     Stock stock = YahooFinance.get(param[0]);
                     String currency = stock.getCurrency() + " ";
+                    //Eventually add toDecimal()
                     String price = currency +
                             Math.round((stock.getQuote().getPrice().floatValue() * 100) / 100);
                     String change = currency +
