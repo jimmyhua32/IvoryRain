@@ -120,19 +120,18 @@ public class StockInfo {
                     String currency = stock.getCurrency() + " ";
                     //Eventually add toDecimal()
                     String price = currency +
-                            Math.round((stock.getQuote().getPrice().floatValue() * 100)) / 100.0;
+                            toDecimal(stock.getQuote().getPrice());
                     String change = currency +
-                            Math.round((stock.getQuote().getChange().floatValue() * 100)) / 100.0;
-                    String changeP = Math.round((stock.getQuote().getChangeInPercent().floatValue()
-                            * 100)) / 100.0 + "%";
+                            toDecimal(stock.getQuote().getChange());
+                    String changeP = toDecimal(stock.getQuote().getChangeInPercent()) + "%";
                     String highY = currency +
-                            Math.round((stock.getQuote().getYearHigh().floatValue() * 100)) / 100.0;
+                            toDecimal(stock.getQuote().getYearHigh());
                     String lowY = currency +
-                            Math.round((stock.getQuote().getYearLow().floatValue() * 100)) / 100.0;
+                            toDecimal(stock.getQuote().getYearLow());
                     String highD = currency +
-                            Math.round((stock.getQuote().getDayHigh().floatValue() * 100)) / 100.0;
+                            toDecimal(stock.getQuote().getDayHigh());
                     String lowD = currency +
-                            Math.round((stock.getQuote().getDayLow().floatValue() * 100)) / 100.0;
+                            toDecimal(stock.getQuote().getDayLow());
                     String symbol = stock.getQuote().getSymbol();
                     String name = stock.getName();
                     return new String[]
