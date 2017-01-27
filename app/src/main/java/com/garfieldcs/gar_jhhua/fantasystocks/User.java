@@ -4,11 +4,9 @@ import java.util.ArrayList;
 
 import yahoofinance.Stock;
 
-/**
- * Created by gar_napodolske on 1/4/2017.
- */
 public class User {
 
+    //Be sure to edit variable names
     protected int id;
     protected String un;
     protected String email;
@@ -16,13 +14,16 @@ public class User {
     protected int lastID = 000000;
     protected String teamName;
     protected int leagueID;
-    //protected ArrayList <StockInfo> ownedStocks();
+    protected ArrayList<String> ownedStocks;
+    protected ArrayList<Integer> orderValues;
 
-    private void createUser (String username, String contact, String password) {
+    public void createUser (String username, String contact, String password) {
         un = username;
         email = contact;
         pw = password;
         id = createNewIdentification(lastID);
+        ownedStocks = new ArrayList<String>();
+        orderValues = new ArrayList<Integer>();
     }
 
     private int createNewIdentification (int lastID){
@@ -31,23 +32,25 @@ public class User {
         return newID;
     }
 
-//    protected void addStocks (StockInfo stockToAdd){
-//        ownedStocks().add(ownedStocks().size(), stockToAdd);
-//    }
-//
-//    protected void removeStocks (StockInfo stockToRemove){
-//        ownedStocks().remove();
-//    }
+    //Adds a stock; value is the order in which the user buys the stock
+    public void addStocks (String stockName, int value){
+        ownedStocks.add(stockName);
+        orderValues.add(value);
+    }
 
-    protected int findUser (){
+    public void removeStocks (String stockName){
+        ownedStocks.remove(stockName);
+    }
+
+    public int getUserID (){
         return id;
     }
 
-    protected String getTeamName (){
+    public String getTeamName (){
         return teamName;
     }
 
-//    protected StockInfo[] getStocks (){
-//        return StockInfo ownedStocks;
-//    }
+    public String toString() {
+        return "User = " + un;
+    }
 }
