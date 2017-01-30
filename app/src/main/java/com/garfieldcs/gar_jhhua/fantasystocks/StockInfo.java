@@ -119,19 +119,13 @@ public class StockInfo {
                     Stock stock = YahooFinance.get(param[0]);
                     String currency = stock.getCurrency() + " ";
                     //Eventually add toDecimal()
-                    String price = currency +
-                            toDecimal(stock.getQuote().getPrice());
-                    String change = currency +
-                            toDecimal(stock.getQuote().getChange());
+                    String price = currency + toDecimal(stock.getQuote().getPrice());
+                    String change = currency + toDecimal(stock.getQuote().getChange());
                     String changeP = toDecimal(stock.getQuote().getChangeInPercent()) + "%";
-                    String highY = currency +
-                            toDecimal(stock.getQuote().getYearHigh());
-                    String lowY = currency +
-                            toDecimal(stock.getQuote().getYearLow());
-                    String highD = currency +
-                            toDecimal(stock.getQuote().getDayHigh());
-                    String lowD = currency +
-                            toDecimal(stock.getQuote().getDayLow());
+                    String highY = currency + toDecimal(stock.getQuote().getYearHigh());
+                    String lowY = currency + toDecimal(stock.getQuote().getYearLow());
+                    String highD = currency + toDecimal(stock.getQuote().getDayHigh());
+                    String lowD = currency + toDecimal(stock.getQuote().getDayLow());
                     String symbol = stock.getQuote().getSymbol();
                     String name = stock.getName();
                     return new String[]

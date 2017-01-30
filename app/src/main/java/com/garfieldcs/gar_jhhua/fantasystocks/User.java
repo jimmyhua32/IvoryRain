@@ -6,13 +6,12 @@ import yahoofinance.Stock;
 
 public class User {
 
-    //Be sure to edit variable names
-    protected int id;
-    protected String un;
+    protected int id; //Eventually create a random id per user
+    protected String un; //Username
     protected String email;
-    private String pw;
-    protected int lastID = 000000;
-    protected String teamName;
+    private String pw; //Password
+    private boolean encryptStatus;
+    protected String displayName;
     protected int leagueID;
     protected ArrayList<String> ownedStocks;
     protected ArrayList<Integer> orderValues;
@@ -21,36 +20,73 @@ public class User {
         un = username;
         email = contact;
         pw = password;
-        id = createNewIdentification(lastID);
+        encryptPW();
         ownedStocks = new ArrayList<String>();
         orderValues = new ArrayList<Integer>();
     }
 
-    private int createNewIdentification (int lastID){
-        int newID = lastID + 1;
-        this.lastID = newID;
-        return newID;
-    }
-
     //Adds a stock; value is the order in which the user buys the stock
     public void addStocks (String stockName, int value){
-        ownedStocks.add(stockName);
+        ownedStocks.add(stockName); //Indexes should correspond
         orderValues.add(value);
     }
 
-    public void removeStocks (String stockName){
-        ownedStocks.remove(stockName);
+    public void removeStocks (int value){
+        ownedStocks.remove(value);
+        orderValues.remove(value);
     }
 
-    public int getUserID (){
-        return id;
+    //Only one league for now
+    public void addToLeague(int leagueID) {
+        this.leagueID = leagueID;
     }
 
-    public String getTeamName (){
-        return teamName;
+    //Username and display name are different; the name others see
+    public void createName(String displayName) {
+        this.displayName = displayName;
     }
 
-    public String toString() {
-        return "User = " + un;
+    public String getDisplayName (){
+        return displayName;
+    }
+
+    public String getUserName() {
+        //Add some checks
+        return un;
+    }
+
+    //Used during login
+    public boolean isUser(String username, String password) {
+        if (encryptStatus) {
+            decryptPW();
+        }
+        if (username == un && password == pw) {
+            return true;
+        } else if (username != un) {
+            System.out.println("Wrong user"); //testing purposes
+            return false;
+        } else if (password != pw) {
+            System.out.println("Wrong password"); //again, for testing
+            return false;
+        }
+        System.out.println("No conditions met (Username and password incorrect");
+        encryptPW();
+        return false; //All conditions false
+    }
+
+    //Secures the password
+    private void encryptPW() {
+        String newPass = "";
+
+        this.pw = newPass;
+        encryptStatus = true;
+    }
+
+    //Decrypts the password for usage
+    private void decryptPW() {
+        String oldPass = "";
+
+        this.pw = oldPass;
+        encryptStatus = false;
     }
 }

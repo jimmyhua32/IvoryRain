@@ -19,18 +19,6 @@ public class ShowPortfolioActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_show_portfolio);
 
-        //playerID = User.findUser();
-        //teamName = User.getTeamName();
-
     }
 
 }
-
-        /*Stock.setName("Apple");
-        Stock.setSymbol("APPL");
-
-        yahoofinance.Stock = YahooFinance.get(Stock.getSymbol);
-
-        BigDecimal price = Stock.getName().getQuote().getPrice();
-
-        Stock.getName().print();*/
