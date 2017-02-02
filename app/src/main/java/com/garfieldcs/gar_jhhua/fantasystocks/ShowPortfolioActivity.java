@@ -10,7 +10,6 @@ import yahoofinance.YahooFinance;
 
 public class ShowPortfolioActivity extends AppCompatActivity {
 
-    private int playerID;
     private String teamName;
     protected ArrayList Stocks = new ArrayList();
 
@@ -18,6 +17,7 @@ public class ShowPortfolioActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_show_portfolio);
+
 
     }
 

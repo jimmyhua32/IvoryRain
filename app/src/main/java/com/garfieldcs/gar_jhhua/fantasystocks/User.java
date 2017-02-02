@@ -8,7 +8,8 @@ public class User {
 
     protected int id; //Eventually create a random id per user
     protected String un; //Username
-    protected String email;
+    //Add email functionality later; not MVP
+    //protected String email;
     private String pw; //Password
     private boolean encryptStatus;
     protected String displayName;
@@ -16,9 +17,8 @@ public class User {
     protected ArrayList<String> ownedStocks;
     protected ArrayList<Integer> orderValues;
 
-    public void createUser (String username, String contact, String password) {
+    public User(String username, String password) {
         un = username;
-        email = contact;
         pw = password;
         encryptPW();
         ownedStocks = new ArrayList<String>();
@@ -31,9 +31,14 @@ public class User {
         orderValues.add(value);
     }
 
-    public void removeStocks (int value){
-        ownedStocks.remove(value);
-        orderValues.remove(value);
+    public void removeStocks (int index){
+        ownedStocks.remove(index);
+        orderValues.remove(index);
+    }
+
+    //Returns the stock at an index
+    public String getStock(int index) {
+        return ownedStocks.get(index) + " " + orderValues.get(index);
     }
 
     //Only one league for now
