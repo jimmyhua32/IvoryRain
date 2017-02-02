@@ -60,24 +60,6 @@
             android:id="@+id/PriceValue"/>
     </LinearLayout>
 
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:paddingTop="8dp">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Daily Open: "
-            android:textSize="20sp"
-            android:textStyle="bold"/>
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Value"
-            android:textSize="16sp"
-            android:id="@+id/DailyOpenValue"/>
-    </LinearLayout>
 
     <LinearLayout
         android:layout_width="wrap_content"
@@ -172,6 +154,30 @@
             android:text="Value"
             android:textSize="16sp"
             android:id="@+id/YearLowValue"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="20sp"
+            android:text="Buy"
+            android:background="@android:color/holo_green_light"
+            android:layout_marginStart="55dp"
+            android:layout_marginEnd="36dp"/>
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="20sp"
+            android:text="Sell"
+            android:background="@android:color/holo_red_light"
+            android:layout_marginStart="36dp"
+            android:layout_marginEnd="55dp"/>
+
     </LinearLayout>
 
 </LinearLayout>
