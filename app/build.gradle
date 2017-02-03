@@ -25,3 +25,5 @@ dependencies {
     compile 'com.android.support:appcompat-v7:25.0.1'
     compile project(':YahooFinanceAPI-3.5.0')
 }
+
+apply plugin: 'com.google.gms.google-services'

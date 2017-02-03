@@ -10,7 +10,6 @@ import yahoofinance.YahooFinance;
 
 public class ShowPortfolioActivity extends AppCompatActivity {
 
-    private int playerID;
     private String teamName;
     protected ArrayList Stocks = new ArrayList();
 
@@ -18,17 +17,8 @@ public class ShowPortfolioActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_show_portfolio);
-//        playerID = User.findUser();
-//        teamName = User.getTeamName();
+
+
     }
 
 }
-
-        /*Stock.setName("Apple");
-        Stock.setSymbol("APPL");
-
-        yahoofinance.Stock = YahooFinance.get(Stock.getSymbol);
-
-        BigDecimal price = Stock.getName().getQuote().getPrice();
-
-        Stock.getName().print();*/

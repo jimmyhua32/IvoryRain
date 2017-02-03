@@ -4,42 +4,94 @@ import java.util.ArrayList;
 
 import yahoofinance.Stock;
 
-/**
- * Created by gar_napodolske on 1/4/2017.
- */
 public class User {
 
-    protected int id;
-    protected String un;
-    protected String email;
-    private String pw;
-    protected int lastID = 000001;
-    protected String teamName;
+    protected int id; //Eventually create a random id per user
+    protected String un; //Username
+    //Add email functionality later; not MVP
+    //protected String email;
+    private String pw; //Password
+    private boolean encryptStatus;
+    protected String displayName;
     protected int leagueID;
-    protected StockInfo ownedStocks;
+    protected ArrayList<String> ownedStocks;
+    protected ArrayList<Integer> orderValues;
 
-    private void createUser (String username, String contact, String password) {
+    public User(String username, String password) {
         un = username;
-        email = contact;
         pw = password;
-        id = createNewIdentification(lastID);
+        encryptPW();
+        ownedStocks = new ArrayList<String>();
+        orderValues = new ArrayList<Integer>();
     }
 
-    private int createNewIdentification (int lastID){
-        int newID = lastID + 1;
-        this.lastID = newID;
-        return newID;
+    //Adds a stock; value is the order in which the user buys the stock
+    public void addStocks (String stockName, int value){
+        ownedStocks.add(stockName); //Indexes should correspond
+        orderValues.add(value);
     }
 
-    protected int findUser (){
-        return id;
+    public void removeStocks (int index){
+        ownedStocks.remove(index);
+        orderValues.remove(index);
     }
 
-    protected String getTeamName (){
-        return teamName;
+    //Returns the stock at an index
+    public String getStock(int index) {
+        return ownedStocks.get(index) + " " + orderValues.get(index);
     }
 
-//    protected StockInfo[] getStocks (){
-//        return StockInfo ownedStocks;
-//    }
+    //Only one league for now
+    public void addToLeague(int leagueID) {
+        this.leagueID = leagueID;
+    }
+
+    //Username and display name are different; the name others see
+    public void createName(String displayName) {
+        this.displayName = displayName;
+    }
+
+    public String getDisplayName (){
+        return displayName;
+    }
+
+    public String getUserName() {
+        //Add some checks
+        return un;
+    }
+
+    //Used during login
+    public boolean isUser(String username, String password) {
+        if (encryptStatus) {
+            decryptPW();
+        }
+        if (username == un && password == pw) {
+            return true;
+        } else if (username != un) {
+            System.out.println("Wrong user"); //testing purposes
+            return false;
+        } else if (password != pw) {
+            System.out.println("Wrong password"); //again, for testing
+            return false;
+        }
+        System.out.println("No conditions met (Username and password incorrect");
+        encryptPW();
+        return false; //All conditions false
+    }
+
+    //Secures the password
+    private void encryptPW() {
+        String newPass = "";
+
+        this.pw = newPass;
+        encryptStatus = true;
+    }
+
+    //Decrypts the password for usage
+    private void decryptPW() {
+        String oldPass = "";
+
+        this.pw = oldPass;
+        encryptStatus = false;
+    }
 }

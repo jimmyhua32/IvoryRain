@@ -26,6 +26,11 @@ public class CheckConnection {
 
     //Returns connection status each time it is called
     public boolean isConnected() {
-        return networkInfo.isConnected();
+        if (networkInfo.isConnected()) {
+            return networkInfo.isConnected();
+        } else {
+            //Add toast
+            return false;
+        }
     }
 }

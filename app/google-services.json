@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "366550154358",
+    "firebase_url": "https://fantasy-stocks.firebaseio.com",
+    "project_id": "fantasy-stocks",
+    "storage_bucket": "fantasy-stocks.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:366550154358:android:c448c83330a839d1",
+        "android_client_info": {
+          "package_name": "com.garfieldcs.gar_jhhua.fantasystocks"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "366550154358-mbit73h2st2ko10ncf2ddbv2vc4d97dm.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDYa7UjIvnkUCm0qhXG9tmpI_P8ZS0-F9U"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -6,37 +6,52 @@
 
 package com.garfieldcs.gar_jhhua.fantasystocks;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.AsyncTask;
 
 import java.io.IOException;
+import java.math.BigDecimal;
+import java.util.concurrent.ExecutionException;
 
 import yahoofinance.Stock;
 import yahoofinance.YahooFinance;
 
 public class StockInfo {
-    private boolean collectStatus;
     private String name;
-    private String currency;
-    private String price;
-    private String change;
-    private String changeP;
-    private String highY;
-    private String lowY;
-    private String highD;
-    private String lowD;
+    private static String nameR;
+    private static boolean collectStatus;
+    private static String currency;
+    private static String price;
+    private static String change;
+    private static String changeP;
+    private static String highY;
+    private static String lowY;
+    private static String highD;
+    private static String lowD;
+    private static String symbol;
+
     private CheckConnection c;
 
     //"Name" is the name of the stock
     public StockInfo(String name, Context context) {
-        this.name = name;
-        collectStatus = false;
-        c = new CheckConnection(context); //Checks for internet connection
-        new CollectDataTask().execute(name);
+        if (name != null) {
+            this.name = name;
+            c = new CheckConnection(context); //Checks for internet connection
+            try {
+                new CollectDataTask().execute(name).get();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            } catch (ExecutionException e) {
+                e.printStackTrace();
+            }
+        } else {
+            noConnection();
+        }
     }
 
     public String getName(){
-        return name;
+        return nameR;
     }
 
     public String getCurrency(){
@@ -44,7 +59,6 @@ public class StockInfo {
     }
 
     public String getPrice() {
-        System.out.println(price);
         return price;
     }
 
@@ -52,7 +66,7 @@ public class StockInfo {
         return change;
     }
 
-    //Change in percentages therefore doesn't use "symbol"
+    //Change in percentage
     public String getChangeP() {
         return changeP;
     }
@@ -73,40 +87,80 @@ public class StockInfo {
         return lowD;
     }
 
+    public String getSymbol() {
+        return symbol;
+    }
+
     public boolean getStatus(){
         return collectStatus;
     }
 
-    //Collects data in a separate thread
-    private class CollectDataTask extends AsyncTask<String, Void, String> {
-        private Stock stock;
+    private void noConnection() {
+        name = "Not found";
+        nameR = "Not found";
+        currency = "Not found";
+        price = "Not found";
+        change = "Not found";
+        changeP = "Not found";
+        highY = "Not found";
+        lowY = "Not found";
+        highD = "Not found";
+        lowD = "Not found";
+        symbol = "Not found";
+        collectStatus = true;
+    }
 
-        //Eventually add an array of stuff
-        protected String doInBackground(String... param) {
+    //Collects data in a separate thread
+    private class CollectDataTask extends AsyncTask<String, Integer, String[]> {
+
+        protected String[] doInBackground(String... param) {
             try {
                 if (c.isConnected()) {
-                    stock = YahooFinance.get(param[0]);
-                    currency = stock.getCurrency() + " ";
-                    price = currency + stock.getQuote().getPrice().floatValue();
-                    change = currency + stock.getQuote().getChange().floatValue();
-                    changeP = stock.getQuote().getChangeInPercent().floatValue() + "%";
-                    highY = currency + stock.getQuote().getYearHigh().floatValue();
-                    lowY = currency + stock.getQuote().getYearLow().floatValue();
-                    highD = currency + stock.getQuote().getDayHigh().floatValue();
-                    lowD = currency + stock.getQuote().getDayLow().floatValue();
-                    return "Connection success";
+                    Stock stock = YahooFinance.get(param[0]);
+                    String currency = stock.getCurrency() + " ";
+                    //Eventually add toDecimal()
+                    String price = currency + toDecimal(stock.getQuote().getPrice());
+                    String change = currency + toDecimal(stock.getQuote().getChange());
+                    String changeP = toDecimal(stock.getQuote().getChangeInPercent()) + "%";
+                    String highY = currency + toDecimal(stock.getQuote().getYearHigh());
+                    String lowY = currency + toDecimal(stock.getQuote().getYearLow());
+                    String highD = currency + toDecimal(stock.getQuote().getDayHigh());
+                    String lowD = currency + toDecimal(stock.getQuote().getDayLow());
+                    String symbol = stock.getQuote().getSymbol();
+                    String name = stock.getName();
+                    return new String[]
+                            {currency, price, change, changeP, highY,
+                                    lowY, highD, lowD, symbol, name};
                 } else {
-                    return "Connection error";
+                    noConnection();
+                    return null;
                 }
             } catch (IOException e) {
                 e.printStackTrace();
-                return "Stock error";
+                return null;
             }
         }
 
-        protected void onPostExecute(String result) {
-            System.out.println(price); //Testing
-            collectStatus = true;
+        protected void onPostExecute(String[] result) {
+            if (result!=null) {
+                StockInfo.currency = result[0];
+                StockInfo.price = result[1];
+                StockInfo.change = result[2];
+                StockInfo.changeP = result[3];
+                StockInfo.highY = result[4];
+                StockInfo.lowY = result[5];
+                StockInfo.highD = result[6];
+                StockInfo.lowD = result[7];
+                StockInfo.symbol = result[8];
+                StockInfo.nameR = result[9];
+            }
+            StockInfo.collectStatus = true;
+            super.onPostExecute(result);
+        }
+
+        //Rounds the number to 2 decimal places
+        private Double toDecimal(BigDecimal value) {
+            return Math.round((value.floatValue() * 100)) / 100.0;
         }
     }
 }

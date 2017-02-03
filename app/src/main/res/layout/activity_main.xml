@@ -39,21 +39,23 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:inputType="textPersonName"
-        android:text="Username"
+        android:text=""
         android:ems="10"
         android:paddingBottom="10dp"
         android:paddingStart="20dp"
         android:paddingEnd="0dp"
+        android:hint="Username"
         android:id="@+id/usernameEditText" />
 
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:inputType="textPassword"
-        android:text="Password"
+        android:text=""
         android:ems="10"
         android:paddingStart="20dp"
         android:paddingEnd="0dp"
+        android:hint="Password"
         android:id="@+id/passwordEditText" />
 
     <LinearLayout
@@ -73,7 +75,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Login"
-            android:id="@+id/loginButton"/>
+            android:id="@+id/loginButton"
+            android:onClick="goToPortfolio"/>
 
     </LinearLayout>
 
