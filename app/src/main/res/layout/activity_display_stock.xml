@@ -28,7 +28,7 @@
             android:layout_height="wrap_content"
             android:paddingTop="20dp"
             android:id="@+id/StockGraph"
-            android:paddingBottom="12dp"
+            android:paddingBottom="6dp"
             android:contentDescription="GraphPlaceHolder"
             android:src="@mipmap/graphplaceholder"/>
 
@@ -147,7 +147,8 @@
             android:layout_height="wrap_content"
             android:text="52 Week Low: "
             android:textSize="20sp"
-            android:textStyle="bold"/>
+            android:textStyle="bold"
+            android:layout_marginBottom="8dp"/>
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
