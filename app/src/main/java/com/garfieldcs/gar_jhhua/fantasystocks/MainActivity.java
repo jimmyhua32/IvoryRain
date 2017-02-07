@@ -27,7 +27,6 @@ public class MainActivity extends AppCompatActivity {
     Toast toast;
     CheckConnection c;
     Scanner fileIO;
-    PrintWriter out;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,14 +39,9 @@ public class MainActivity extends AppCompatActivity {
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
-        try (FileWriter fw = new FileWriter("users.txt", true)) {
-            BufferedWriter bw = new BufferedWriter(fw);
-            out = new PrintWriter(bw);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
     }
 
+    //Goes to display stock screen; currently only for testing purposes
     public void goToStock(View view) {
         Intent intent = new Intent(this, DisplayStockActivity.class);
         Bundle bundle = new Bundle();
@@ -80,19 +74,7 @@ public class MainActivity extends AppCompatActivity {
 
     //Creates a new user
     public void newUser(View view) {
-        if (c.isConnected()) {
-            EditText username = (EditText) findViewById(R.id.usernameEditText);
-            EditText password = (EditText) findViewById(R.id.passwordEditText);
-            String un = username.getText().toString();
-            String pw = password.getText().toString();
-            //Add checks to see if user exists and add them to database
-            if (!filterUsers(un, pw)) {
-                out.println(un + " " + pw);
-                user = new User(un, pw);
-            }
-        } else {
-            toast.makeText(getApplicationContext(), "No connection", Toast.LENGTH_SHORT);
-        }
+        //Go to registration screen
     }
 
     //Checks all of the users to see if this specific user exists

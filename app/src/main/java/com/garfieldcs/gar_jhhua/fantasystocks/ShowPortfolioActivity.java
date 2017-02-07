@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import yahoofinance.YahooFinance;
 
 public class ShowPortfolioActivity extends AppCompatActivity {
+    User user;
 
     private String teamName;
     protected ArrayList Stocks = new ArrayList();
@@ -17,7 +18,9 @@ public class ShowPortfolioActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_show_portfolio);
-
+        Bundle bundle = getIntent().getExtras();
+        String username = bundle.getString("Username");
+        //Add some way to get current user data
 
     }
 

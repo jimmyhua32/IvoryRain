@@ -14,31 +14,23 @@ public class User {
     private boolean encryptStatus;
     protected String displayName;
     protected int leagueID;
-    protected ArrayList<String> ownedStocks;
-    protected ArrayList<Integer> orderValues;
 
     public User(String username, String password) {
         un = username;
         pw = password;
         encryptPW();
-        ownedStocks = new ArrayList<String>();
-        orderValues = new ArrayList<Integer>();
+
     }
 
     //Adds a stock; value is the order in which the user buys the stock
     public void addStocks (String stockName, int value){
-        ownedStocks.add(stockName); //Indexes should correspond
-        orderValues.add(value);
+
     }
 
-    public void removeStocks (int index){
-        ownedStocks.remove(index);
-        orderValues.remove(index);
-    }
 
     //Returns the stock at an index
     public String getStock(int index) {
-        return ownedStocks.get(index) + " " + orderValues.get(index);
+        return null;
     }
 
     //Only one league for now
