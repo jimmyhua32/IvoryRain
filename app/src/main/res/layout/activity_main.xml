@@ -21,7 +21,8 @@
         android:layout_width="231dp"
         android:layout_height="144dp"
         android:layout_gravity="center_horizontal"
-        android:src="@mipmap/logoplaceholder2" />
+        android:src="@mipmap/logoplaceholder2"
+        android:contentDescription="place holder for the logo"/>
 
     <TextView
         android:layout_width="wrap_content"
@@ -89,8 +90,8 @@
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Connect to Database"
-        android:id="@+id/stock_button"
+        android:text="Skip Login"
+        android:id="@+id/skipLoginButton"
         android:layout_gravity="center_horizontal"
         android:onClick="goToStock" />
 </LinearLayout>
