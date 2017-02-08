@@ -12,14 +12,14 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 public class OwnedStocks {
-    int id; //Name of text file
-    BufferedWriter writeTo;
-    BufferedReader readFrom;
+    private int id; //Name of text file
+    private BufferedWriter writeTo;
+    private BufferedReader readFrom;
 
-    ArrayList<String> info; //Whole string which includes name, price, quantity
-    ArrayList<String> name;
-    ArrayList<Double> price;
-    ArrayList<Integer> quantity;
+    private ArrayList<String> info; //Whole string which includes name, price, quantity
+    private ArrayList<String> name;
+    private ArrayList<Double> price;
+    private ArrayList<Integer> quantity;
 
     public OwnedStocks(int id) {
         this.id = id;

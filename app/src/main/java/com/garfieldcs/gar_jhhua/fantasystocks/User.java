@@ -1,5 +1,10 @@
 package com.garfieldcs.gar_jhhua.fantasystocks;
 
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.ArrayList;
 
 import yahoofinance.Stock;
@@ -13,29 +18,27 @@ public class User {
     private String pw; //Password
     private boolean encryptStatus;
     protected String displayName;
-    protected int leagueID;
+    private BufferedReader reader;
+    private BufferedWriter writer;
 
-    public User(String username, String password) {
-        un = username;
-        pw = password;
-        encryptPW();
-
-    }
-
-    //Adds a stock; value is the order in which the user buys the stock
-    public void addStocks (String stockName, int value){
-
-    }
-
-
-    //Returns the stock at an index
-    public String getStock(int index) {
-        return null;
-    }
-
-    //Only one league for now
-    public void addToLeague(int leagueID) {
-        this.leagueID = leagueID;
+    public User(boolean isNewUser) {
+        File folder = new File("path"); //Add actual path later for testing
+        File[] allFiles = folder.listFiles();
+        if (isNewUser) {
+            id = generateID();
+        } else {
+            try {
+                for (int i = 0; i < allFiles.length; i++) {
+                    if (allFiles[i].isFile()) {
+                        reader = new BufferedReader(new FileReader(allFiles[i]));
+                        String currentLine;
+                        
+                    }
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     //Username and display name are different; the name others see
@@ -52,8 +55,13 @@ public class User {
         return un;
     }
 
-    //Used during login
-    public boolean isUser(String username, String password) {
+    //Generates an id
+    private int generateID() {
+
+    }
+
+
+/*    public boolean isUser(String username, String password) {
         if (encryptStatus) {
             decryptPW();
         }
@@ -69,7 +77,14 @@ public class User {
         System.out.println("No conditions met (Username and password incorrect");
         encryptPW();
         return false; //All conditions false
-    }
+    }*/
+
+
+
+
+    /* CAN IGNORE EVERYTHING BELOW FOR NOW
+       CONTAINS "ENCRYPTION" WHICH REALLY DOESN'T DO ANYTHING YET
+     */
 
     //Secures the password
     private void encryptPW() {
