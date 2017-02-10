@@ -57,10 +57,11 @@ public class MainActivity extends AppCompatActivity {
             EditText password = (EditText) findViewById(R.id.passwordEditText);
             String un = username.getText().toString();
             String pw = password.getText().toString();
-            if (filterUsers(un, pw)) {
+            user = new User(un, pw, false);
+            if (user.doesExist()) {
                 Intent intent = new Intent(this, ShowPortfolioActivity.class);
                 Bundle bundle = new Bundle();
-                bundle.putString("Username", un);
+                bundle.putString("Username", user.getUserName());
                 intent.putExtras(bundle);
                 startActivity(intent);
             } else {
@@ -75,20 +76,5 @@ public class MainActivity extends AppCompatActivity {
     //Creates a new user
     public void newUser(View view) {
         //Go to registration screen
-    }
-
-    //Checks all of the users to see if this specific user exists
-    private boolean filterUsers(String un, String pw) {
-        while (fileIO.hasNextLine()) {
-            String username = fileIO.next();
-            System.out.println(username); //For testing
-            String password = fileIO.next();
-            System.out.println(password); //For testing
-            fileIO.nextLine();
-            if (un == username && pw == password) {
-                return true;
-            }
-        }
-        return false;
     }
 }

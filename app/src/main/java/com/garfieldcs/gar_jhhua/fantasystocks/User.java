@@ -24,7 +24,7 @@ public class User {
     private ArrayList<String> passwords;
     private ArrayList<Integer> ids;
 
-    public User(String username, String password) {
+    public User(String username, String password, boolean createUser) {
         File folder = new File("path"); //Add actual path later for testing
         File[] allFiles = folder.listFiles();
         doesExist = false;
@@ -52,7 +52,7 @@ public class User {
                 doesExist = true;
             }
         }
-        if (!doesExist) {
+        if (!doesExist && createUser) {
             boolean generatedID = false;
             while (!generatedID) {
                 id = generateID();
