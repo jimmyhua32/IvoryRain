@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import yahoofinance.YahooFinance;
 
 public class ShowPortfolioActivity extends AppCompatActivity {
+    User user;
 
     private String teamName;
     protected ArrayList<String> Stocks = new ArrayList<String>();
@@ -28,6 +29,10 @@ public class ShowPortfolioActivity extends AppCompatActivity {
         Stocks.add("Starbucks");
         Stocks.add("Microsoft");
         Stocks.add("Amazon");
+
+        Bundle bundle = getIntent().getExtras();
+        String username = bundle.getString("Username");
+
 
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1,Stocks);
 
