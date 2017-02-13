@@ -1,5 +1,7 @@
 package com.garfieldcs.gar_jhhua.fantasystocks;
 
+import android.content.Context;
+
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
@@ -24,10 +26,14 @@ public class User {
     private ArrayList<String> passwords;
     private ArrayList<Integer> ids;
 
-    public User(String username, String password, boolean createUser) {
-        File folder = new File("path"); //Add actual path later for testing
+    public User(String username, String password, boolean createUser, Context context) {
+        File folder = new File(context.getFilesDir(), "placeholder");
         File[] allFiles = folder.listFiles();
         doesExist = false;
+        usernames = new ArrayList<String>();
+        passwords = new ArrayList<String>();
+        ids = new ArrayList<Integer>();
+
         try {
             for (int i = 0; i < allFiles.length; i++) {
                 if (allFiles[i].isFile()) {
@@ -68,7 +74,8 @@ public class User {
                 this.password = password;
                 try {
                     //Path should be id + .txt
-                    writer = new BufferedWriter(new FileWriter(new File("path")));
+                    writer = new BufferedWriter(new FileWriter
+                            (new File(context.getFilesDir(), id + ".txt")));
                     writer.write(id + " " + username + " " + password);
                 } catch (IOException e) {
                     e.printStackTrace();
@@ -76,6 +83,7 @@ public class User {
                 doesExist = true;
             } else {
                 //If username already exists
+                throw new IllegalArgumentException("Username already exists");
             }
         }
     }
@@ -90,9 +98,25 @@ public class User {
         return username;
     }
 
+    //For testing only, will delete later
+    protected String getPassword() {
+        return password;
+    }
+
     //Generates an id
     private int generateID() {
-        return 0;
+        boolean validID = false;
+        int tempID = -1;
+        while (!validID) {
+            tempID = (int) (Math.random() * 1000);
+            for (int i : ids) {
+                if (tempID == i) {
+                    break;
+                }
+            }
+
+        }
+        return tempID;
     }
 
 

@@ -1,5 +1,7 @@
 package com.garfieldcs.gar_jhhua.fantasystocks;
 
+import android.content.Context;
+
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
@@ -15,18 +17,25 @@ public class OwnedStocks {
     private int id; //Name of text file
     private BufferedWriter writeTo;
     private BufferedReader readFrom;
+    private Context context;
 
     private ArrayList<String> info; //Whole string which includes name, price, quantity
     private ArrayList<String> name;
     private ArrayList<Double> price;
     private ArrayList<Integer> quantity;
 
-    public OwnedStocks(int id) {
+    public OwnedStocks(int id, Context context) {
         this.id = id;
+        this.context = context;
+        name = new ArrayList<String>();
+        price = new ArrayList<Double>();
+        quantity = new ArrayList<Integer>();
+
         try {
-            FileOutputStream fos = new FileOutputStream(new File(id + ".txt"));
+            FileOutputStream fos = new FileOutputStream
+                    (new File(context.getFilesDir(), id + ".txt"));
             writeTo = new BufferedWriter(new OutputStreamWriter(fos));
-            FileReader reader = new FileReader(id + ".txt");
+            FileReader reader = new FileReader(new File(context.getFilesDir(), id + ".txt"));
             readFrom = new BufferedReader(reader);
             fillArrays();
         } catch (IOException e) {
@@ -62,9 +71,9 @@ public class OwnedStocks {
     //Currently sells all quantities of a purchase of stock (for now)
     public void removeStock(StockInfo stock, int quantityPurchased) throws IOException {
         String removeLine = stock.getName() + " " + stock.getPrice() + " " + quantityPurchased;
-        File oldFile = new File(id + ".txt");
+        File oldFile = new File(context.getFilesDir(), id + ".txt");
         File oldFileName = oldFile;
-        File newFile = new File(id + "b.txt");
+        File newFile = new File(context.getFilesDir(), id + "b.txt");
         BufferedReader reader = new BufferedReader(new FileReader(oldFile));
         BufferedWriter writer = new BufferedWriter((new FileWriter(newFile)));
         String currentLine;

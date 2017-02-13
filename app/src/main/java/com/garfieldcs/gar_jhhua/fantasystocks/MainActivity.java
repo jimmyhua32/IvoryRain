@@ -57,7 +57,7 @@ public class MainActivity extends AppCompatActivity {
             EditText password = (EditText) findViewById(R.id.passwordEditText);
             String un = username.getText().toString();
             String pw = password.getText().toString();
-            user = new User(un, pw, false);
+            user = new User(un, pw, false, getApplicationContext());
             if (user.doesExist()) {
                 Intent intent = new Intent(this, ShowPortfolioActivity.class);
                 Bundle bundle = new Bundle();
