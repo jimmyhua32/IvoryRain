@@ -11,33 +11,28 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-import yahoofinance.Stock;
 
 public class User {
 
     protected int id;
     protected String username;
     private String password;
-    private BufferedReader reader;
-    private BufferedWriter writer;
     private boolean doesExist;
 
-    private ArrayList<String> usernames;
-    private ArrayList<String> passwords;
     private ArrayList<Integer> ids;
 
     public User(String username, String password, boolean createUser, Context context) {
         File folder = new File(context.getFilesDir(), "placeholder");
         File[] allFiles = folder.listFiles();
         doesExist = false;
-        usernames = new ArrayList<String>();
-        passwords = new ArrayList<String>();
+        ArrayList<String> usernames = new ArrayList<String>();
+        ArrayList<String> passwords = new ArrayList<String>();
         ids = new ArrayList<Integer>();
 
         try {
             for (int i = 0; i < allFiles.length; i++) {
                 if (allFiles[i].isFile()) {
-                    reader = new BufferedReader(new FileReader(allFiles[i]));
+                    BufferedReader reader = new BufferedReader(new FileReader(allFiles[i]));
                     String currentLine;
                     while((currentLine = reader.readLine()) != null) {
                         Scanner s = new Scanner(currentLine);
@@ -74,7 +69,7 @@ public class User {
                 this.password = password;
                 try {
                     //Path should be id + .txt
-                    writer = new BufferedWriter(new FileWriter
+                    BufferedWriter writer = new BufferedWriter(new FileWriter
                             (new File(context.getFilesDir(), id + ".txt")));
                     writer.write(id + " " + username + " " + password);
                 } catch (IOException e) {
@@ -88,9 +83,9 @@ public class User {
         }
     }
 
+    //Returns and sees if the user exists
     public boolean doesExist() {
-
-        return false;
+        return doesExist;
     }
 
     public String getUserName() {
@@ -101,6 +96,10 @@ public class User {
     //For testing only, will delete later
     protected String getPassword() {
         return password;
+    }
+
+    public int getID() {
+        return id;
     }
 
     //Generates an id
@@ -114,7 +113,6 @@ public class User {
                     break;
                 }
             }
-
         }
         return tempID;
     }

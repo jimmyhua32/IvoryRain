@@ -27,6 +27,7 @@ public class OwnedStocks {
     public OwnedStocks(int id, Context context) {
         this.id = id;
         this.context = context;
+        info = new ArrayList<String>();
         name = new ArrayList<String>();
         price = new ArrayList<Double>();
         quantity = new ArrayList<Integer>();
@@ -59,6 +60,22 @@ public class OwnedStocks {
             quantity.add(temp.nextInt());
         }
         readFrom.close();
+    }
+
+    public String getAsset(int index) {
+        return info.get(index);
+    }
+
+    public String getAssetName(int index) {
+        return name.get(index);
+    }
+
+    public Double getAssetPrice(int index) {
+        return price.get(index);
+    }
+
+    public Integer getAssetQuantity(int index) {
+        return quantity.get(index);
     }
 
     //Adds a stock and its info to a file

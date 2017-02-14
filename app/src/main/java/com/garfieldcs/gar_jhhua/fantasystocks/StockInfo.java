@@ -6,7 +6,6 @@
 
 package com.garfieldcs.gar_jhhua.fantasystocks;
 
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.AsyncTask;
 
@@ -113,12 +112,12 @@ public class StockInfo {
     //Collects data in a separate thread
     private class CollectDataTask extends AsyncTask<String, Integer, String[]> {
 
+        //Add a way to do this w/o the currency
         protected String[] doInBackground(String... param) {
             try {
                 if (c.isConnected()) {
                     Stock stock = YahooFinance.get(param[0]);
                     String currency = stock.getCurrency() + " ";
-                    //Eventually add toDecimal()
                     String price = currency + toDecimal(stock.getQuote().getPrice());
                     String change = currency + toDecimal(stock.getQuote().getChange());
                     String changeP = toDecimal(stock.getQuote().getChangeInPercent()) + "%";
