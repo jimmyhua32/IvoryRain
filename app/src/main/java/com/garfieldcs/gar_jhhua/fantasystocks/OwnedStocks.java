@@ -80,7 +80,7 @@ public class OwnedStocks {
 
     //Adds a stock and its info to a file
     public void addStock(StockInfo stock, int quantityPurchased) throws IOException {
-        writeTo.write(stock.getName() + " " + stock.getPrice() + " " + quantityPurchased);
+        writeTo.write(stock.getName() + " " + stock.getRawPrice() + " " + quantityPurchased);
         writeTo.newLine();
         fillArrays();
     }

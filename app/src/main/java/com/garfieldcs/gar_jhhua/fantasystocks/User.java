@@ -22,7 +22,7 @@ public class User {
     private ArrayList<Integer> ids;
 
     public User(String username, String password, boolean createUser, Context context) {
-        File folder = new File(context.getFilesDir(), "placeholder");
+        File folder = new File(context.getFilesDir().getAbsolutePath());
         File[] allFiles = folder.listFiles();
         doesExist = false;
         ArrayList<String> usernames = new ArrayList<String>();
@@ -78,8 +78,10 @@ public class User {
                 doesExist = true;
             } else {
                 //If username already exists
-                throw new IllegalArgumentException("Username already exists");
+                throw new IllegalArgumentException("User already exists");
             }
+        } else if (doesExist && createUser) {
+            throw new IllegalArgumentException("User already exists");
         }
     }
 
@@ -106,7 +108,7 @@ public class User {
     private int generateID() {
         boolean validID = false;
         int tempID = -1;
-        while (!validID) {
+        while (!validID) { //Work on this
             tempID = (int) (Math.random() * 1000);
             for (int i : ids) {
                 if (tempID == i) {

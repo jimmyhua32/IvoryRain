@@ -30,6 +30,14 @@ public class StockInfo {
     private static String lowD;
     private static String symbol;
 
+    private static Double rPrice;
+    private static Double rChange;
+    private static Double rChangeP;
+    private static Double rHighY;
+    private static Double rLowY;
+    private static Double rHighD;
+    private static Double rLowD;
+
     private CheckConnection c;
 
     //"Name" is the name of the stock
@@ -90,6 +98,34 @@ public class StockInfo {
         return symbol;
     }
 
+    public Double getRawPrice() {
+        return rPrice;
+    }
+
+    public Double getRawChange() {
+        return rChange;
+    }
+
+    public Double getRawChangeP() {
+        return rChangeP;
+    }
+
+    public Double getRawHighY() {
+        return rHighY;
+    }
+
+    public Double getRawLowY() {
+        return rLowY;
+    }
+
+    public Double getRawHighD() {
+        return rHighD;
+    }
+
+    public Double getRawLowD() {
+        return rLowD;
+    }
+
     public boolean getStatus(){
         return collectStatus;
     }
@@ -111,25 +147,35 @@ public class StockInfo {
 
     //Collects data in a separate thread
     private class CollectDataTask extends AsyncTask<String, Integer, String[]> {
+        private int[] rawData;
+        private Double price;
+        private Double change;
+        private Double changeP;
+        private Double highY;
+        private Double lowY;
+        private Double highD;
+        private Double lowD;
 
-        //Add a way to do this w/o the currency
         protected String[] doInBackground(String... param) {
             try {
                 if (c.isConnected()) {
                     Stock stock = YahooFinance.get(param[0]);
                     String currency = stock.getCurrency() + " ";
-                    String price = currency + toDecimal(stock.getQuote().getPrice());
-                    String change = currency + toDecimal(stock.getQuote().getChange());
-                    String changeP = toDecimal(stock.getQuote().getChangeInPercent()) + "%";
-                    String highY = currency + toDecimal(stock.getQuote().getYearHigh());
-                    String lowY = currency + toDecimal(stock.getQuote().getYearLow());
-                    String highD = currency + toDecimal(stock.getQuote().getDayHigh());
-                    String lowD = currency + toDecimal(stock.getQuote().getDayLow());
+                    price = toDecimal(stock.getQuote().getPrice());
+                    change = toDecimal(stock.getQuote().getChange());
+                    changeP = toDecimal(stock.getQuote().getChangeInPercent());
+                    highY = toDecimal(stock.getQuote().getYearHigh());
+                    lowY = toDecimal(stock.getQuote().getYearLow());
+                    highD = toDecimal(stock.getQuote().getDayHigh());
+                    lowD = toDecimal(stock.getQuote().getDayLow());
                     String symbol = stock.getQuote().getSymbol();
                     String name = stock.getName();
+
+                    rawData = new int[] {};
                     return new String[]
-                            {currency, price, change, changeP, highY,
-                                    lowY, highD, lowD, symbol, name};
+                            {currency, currency + price, currency + change, changeP + "%",
+                                    currency + highY, currency + lowY, currency + highD,
+                                    currency + lowD, symbol, name};
                 } else {
                     noConnection();
                     return null;
@@ -152,6 +198,13 @@ public class StockInfo {
                 StockInfo.lowD = result[7];
                 StockInfo.symbol = result[8];
                 StockInfo.nameR = result[9];
+                StockInfo.rPrice = price;
+                StockInfo.rChange = change;
+                StockInfo.rChangeP = changeP;
+                StockInfo.rHighY = highY;
+                StockInfo.rLowY = lowY;
+                StockInfo.rHighD = highD;
+                StockInfo.rLowD = lowD;
             }
             StockInfo.collectStatus = true;
             super.onPostExecute(result);
