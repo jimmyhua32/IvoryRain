@@ -69,6 +69,20 @@ public class MainActivity extends AppCompatActivity {
 
     //Creates a new user
     public void newUser(View view) {
-        //Go to registration screen
+        if (c.isConnected()) {
+            //Temporary; will be a new screen later
+            EditText username = (EditText) findViewById(R.id.usernameEditText);
+            EditText password = (EditText) findViewById(R.id.passwordEditText);
+            String un = username.getText().toString();
+            String pw = password.getText().toString();
+            user = new User(un, pw, true, getApplicationContext());
+            if (user.doesExist()) {
+                Intent intent = new Intent(this, ShowPortfolioActivity.class);
+                Bundle bundle = new Bundle();
+                bundle.putString("Username", user.getUserName());
+                intent.putExtras(bundle);
+                startActivity(intent);
+            }
+        }
     }
 }
