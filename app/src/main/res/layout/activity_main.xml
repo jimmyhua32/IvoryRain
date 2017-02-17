@@ -70,7 +70,8 @@
             android:layout_marginStart="50dp"
             android:layout_marginEnd="80dp"
             android:text="New User?"
-            android:id="@+id/newUserButton"/>
+            android:id="@+id/newUserButton"
+            android:onClick="newUser"/>
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

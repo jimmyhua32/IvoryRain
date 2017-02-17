@@ -58,8 +58,13 @@ public class OwnedStocks {
             name.add(temp.next());
             price.add(temp.nextDouble());
             quantity.add(temp.nextInt());
+            temp.nextLine();
         }
         readFrom.close();
+    }
+
+    public int getSize() {
+        return info.size();
     }
 
     public String getAsset(int index) {
@@ -104,7 +109,7 @@ public class OwnedStocks {
         writer.close();
         oldFile.delete();
         newFile.renameTo(oldFileName);
-        refresh();
+        fillArrays();
     }
 
     //Clears all the ArrayLists so they can be refilled
