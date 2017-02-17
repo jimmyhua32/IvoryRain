@@ -147,35 +147,27 @@ public class StockInfo {
 
     //Collects data in a separate thread
     private class CollectDataTask extends AsyncTask<String, Integer, String[]> {
-        private int[] rawData;
-        private Double price;
-        private Double change;
-        private Double changeP;
-        private Double highY;
-        private Double lowY;
-        private Double highD;
-        private Double lowD;
 
         protected String[] doInBackground(String... param) {
             try {
                 if (c.isConnected()) {
                     Stock stock = YahooFinance.get(param[0]);
                     String currency = stock.getCurrency() + " ";
-                    price = toDecimal(stock.getQuote().getPrice());
-                    change = toDecimal(stock.getQuote().getChange());
-                    changeP = toDecimal(stock.getQuote().getChangeInPercent());
-                    highY = toDecimal(stock.getQuote().getYearHigh());
-                    lowY = toDecimal(stock.getQuote().getYearLow());
-                    highD = toDecimal(stock.getQuote().getDayHigh());
-                    lowD = toDecimal(stock.getQuote().getDayLow());
-                    String symbol = stock.getQuote().getSymbol();
+                    String price = toDecimal(stock.getQuote().getPrice()) + "";
+                    String change = toDecimal(stock.getQuote().getChange()) + "";
+                    String changeP = toDecimal(stock.getQuote().getChangeInPercent()) + "";
+                    String highY = toDecimal(stock.getQuote().getYearHigh()) + "";
+                    String lowY = toDecimal(stock.getQuote().getYearLow()) + "";
+                    String highD = toDecimal(stock.getQuote().getDayHigh()) + "";
+                    String lowD = toDecimal(stock.getQuote().getDayLow()) + "";
+                    String symbol = stock.getQuote().getSymbol() + "";
                     String name = stock.getName();
 
-                    rawData = new int[] {};
                     return new String[]
                             {currency, currency + price, currency + change, changeP + "%",
                                     currency + highY, currency + lowY, currency + highD,
-                                    currency + lowD, symbol, name};
+                                    currency + lowD, symbol, name, price, change, changeP, highY,
+                                    lowY, highD, lowD};
                 } else {
                     noConnection();
                     return null;
@@ -198,13 +190,13 @@ public class StockInfo {
                 StockInfo.lowD = result[7];
                 StockInfo.symbol = result[8];
                 StockInfo.nameR = result[9];
-                StockInfo.rPrice = price;
-                StockInfo.rChange = change;
-                StockInfo.rChangeP = changeP;
-                StockInfo.rHighY = highY;
-                StockInfo.rLowY = lowY;
-                StockInfo.rHighD = highD;
-                StockInfo.rLowD = lowD;
+                StockInfo.rPrice = Double.parseDouble(result[10]);
+                StockInfo.rChange = Double.parseDouble(result[11]);
+                StockInfo.rChangeP = Double.parseDouble(result[12]);
+                StockInfo.rHighY = Double.parseDouble(result[13]);
+                StockInfo.rLowY = Double.parseDouble(result[14]);
+                StockInfo.rHighD = Double.parseDouble(result[15]);
+                StockInfo.rLowD = Double.parseDouble(result[16]);
             }
             StockInfo.collectStatus = true;
             super.onPostExecute(result);

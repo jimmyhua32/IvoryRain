@@ -56,6 +56,7 @@ public class MainActivity extends AppCompatActivity {
                 Intent intent = new Intent(this, ShowPortfolioActivity.class);
                 Bundle bundle = new Bundle();
                 bundle.putString("Username", user.getUserName());
+                bundle.putString("Password", user.getPassword());
                 intent.putExtras(bundle);
                 startActivity(intent);
             } else {

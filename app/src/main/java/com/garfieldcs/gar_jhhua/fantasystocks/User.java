@@ -108,12 +108,14 @@ public class User {
     private int generateID() {
         boolean validID = false;
         int tempID = -1;
-        while (!validID) { //Work on this
+        while (!validID) {
             tempID = (int) (Math.random() * 1000);
             for (int i : ids) {
                 if (tempID == i) {
+                    validID = false;
                     break;
                 }
+                validID = true;
             }
         }
         return tempID;

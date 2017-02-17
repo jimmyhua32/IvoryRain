@@ -10,7 +10,6 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -59,7 +58,6 @@ public class OwnedStocks {
             name.add(temp.next());
             price.add(temp.nextDouble());
             quantity.add(temp.nextInt());
-            temp.nextLine();
         }
         readFrom.close();
     }
