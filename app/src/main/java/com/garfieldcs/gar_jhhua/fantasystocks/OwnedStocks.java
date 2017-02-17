@@ -10,6 +10,7 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -71,16 +72,32 @@ public class OwnedStocks {
         return info.get(index);
     }
 
+    public ArrayList<String> getAsset() {
+        return info;
+    }
+
     public String getAssetName(int index) {
         return name.get(index);
+    }
+
+    public ArrayList<String> getAssetName() {
+        return name;
     }
 
     public Double getAssetPrice(int index) {
         return price.get(index);
     }
 
+    public ArrayList<Double> getAssetPrice() {
+        return price;
+    }
+
     public Integer getAssetQuantity(int index) {
         return quantity.get(index);
+    }
+
+    public ArrayList<Integer> getAssetQuantity() {
+        return quantity;
     }
 
     //Adds a stock and its info to a file
