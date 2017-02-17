@@ -19,6 +19,9 @@ public class ShowPortfolioActivity extends AppCompatActivity {
     User user;
 
     private String teamName;
+    private double investedAssets;
+    private double totalAssets;
+    private double bankAssets;
     protected ArrayList<String> Stocks = new ArrayList<String>();
     protected ListView list = (ListView) findViewById(R.id.userAssetsList);
 
@@ -26,21 +29,21 @@ public class ShowPortfolioActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_show_portfolio);
+        investedAssets = 0;
+        bankAssets = 0;
+        totalAssets = bankAssets + investedAssets;
 
-        HashMap<String, Integer> nameQuantity = new HashMap<>();
 
-        nameQuantity.put("Apple", 3);
-        nameQuantity.put("Google", 4);
-        nameQuantity.put("Costco", 2);
-        nameQuantity.put("Yahoo", 1);
-        nameQuantity.put("Starbucks", 5);
-        nameQuantity.put("Microsoft", 6);
-        nameQuantity.put("Amazon", 6);
-
-        ArrayList<HashMap<String, Integer>> dataList = new ArrayList<>();
 
         Bundle bundle = getIntent().getExtras();
         String username = bundle.getString("Username");
+        String password = bundle.getString("Password");
+        User user = new User(username, password, false, getApplicationContext());
+        OwnedStocks ownedStocks = new OwnedStocks(user.getID(), getApplicationContext());
+
+        for (int i = 0; i < ownedStocks.getSize(); i++) {
+            investedAssets += (ownedStocks.getAssetPrice(i) * ownedStocks.getAssetQuantity(i));
+        }
 
         TextView teamName = (TextView) findViewById(R.id.userTeamName);
         TextView totalValue = (TextView) findViewById(R.id.TotalAssetValue);
@@ -53,19 +56,8 @@ public class ShowPortfolioActivity extends AppCompatActivity {
         bankValue.setText("$10000");
         investedValue.setText("$0");
 
-        SimpleAdapter adapter = new SimpleAdapter(this, dataList, R.layout.list_portfolio_stocks,
-                new String[] {"First Line", "Second Line"},
-                new int[] {R.id.list_main_text, R.id.list_quantity});
-
-        Iterator it = nameQuantity.entrySet().iterator();
-
-        while (it.hasNext()) {
-            HashMap<String, Integer> resultsMap = new HashMap<>();
-            Map.Entry pair = (Map.Entry) it.next();
-            resultsMap.put("First Line", pair.getValue().hashCode());
-            resultsMap.put("Second Line", pair.getValue().hashCode());
-            dataList.add(resultsMap);
-        }
+        Stocks = ownedStocks.getAsset();
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, Stocks);
         list.setAdapter(adapter);
     }
 
