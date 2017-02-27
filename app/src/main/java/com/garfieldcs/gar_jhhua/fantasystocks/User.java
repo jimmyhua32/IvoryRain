@@ -50,6 +50,7 @@ public class User {
                 this.username = usernames.get(i);
                 this.password = passwords.get(i);
                 this.id = ids.get(i);
+                System.out.println("USER EXISTS");
                 doesExist = true;
             }
         }
@@ -75,6 +76,7 @@ public class User {
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
+                System.out.println("USER CREATED");
                 doesExist = true;
             } else {
                 //If username already exists

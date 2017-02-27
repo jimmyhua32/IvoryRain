@@ -33,8 +33,7 @@ public class OwnedStocks {
         quantity = new ArrayList<Integer>();
 
         try {
-            FileOutputStream fos = new FileOutputStream
-                    (new File(context.getFilesDir(), id + ".txt"));
+            FileOutputStream fos = context.openFileOutput(id + ".txt", 0);
             writeTo = new BufferedWriter(new OutputStreamWriter(fos));
             FileReader reader = new FileReader(new File(context.getFilesDir(), id + ".txt"));
             readFrom = new BufferedReader(reader);
