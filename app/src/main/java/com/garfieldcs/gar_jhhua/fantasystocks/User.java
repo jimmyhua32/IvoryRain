@@ -5,19 +5,22 @@ import android.content.Context;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.OutputStreamWriter;
 import java.util.ArrayList;
 import java.util.Scanner;
 
 
 public class User {
 
-    protected int id;
-    protected String username;
+    private int id;
+    private String username;
     private String password;
     private boolean doesExist;
+    private boolean doesNameExist;
 
     private ArrayList<Integer> ids;
 
@@ -25,6 +28,7 @@ public class User {
         File folder = new File(context.getFilesDir().getAbsolutePath());
         File[] allFiles = folder.listFiles();
         doesExist = false;
+        doesNameExist = false;
         ArrayList<String> usernames = new ArrayList<String>();
         ArrayList<String> passwords = new ArrayList<String>();
         ids = new ArrayList<Integer>();
@@ -45,8 +49,12 @@ public class User {
         } catch (IOException e) {
             e.printStackTrace();
         }
+        System.out.println(ids.toString());
         for (int i = 0; i < usernames.size(); i++) {
             if (usernames.get(i).equals(username) && passwords.get(i).equals(password)) {
+                if (usernames.get(i).equals(username)) {
+                    doesNameExist = true;
+                }
                 this.username = usernames.get(i);
                 this.password = passwords.get(i);
                 this.id = ids.get(i);
@@ -57,21 +65,25 @@ public class User {
         if (!doesExist && createUser) {
             boolean generatedID = false;
             while (!generatedID) {
-                id = generateID();
+                id = (int) (Math.random() * 1000);
+                if (ids.size() == 0) {
+                    generatedID = true;
+                    break;
+                }
                 for (int i : ids) {
                     if (id == i) {
-                        break;
+                        continue;
                     }
+                    generatedID = true;
                 }
-                generatedID = true;
             }
-            if (!this.username.equals(username)) {
+            if (!doesNameExist) {
                 this.username = username;
                 this.password = password;
                 try {
                     //Path should be id + .txt
-                    BufferedWriter writer = new BufferedWriter(new FileWriter
-                            (new File(context.getFilesDir(), id + ".txt")));
+                    FileOutputStream fos = context.openFileOutput(id + ".txt", 0);
+                    BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(fos));
                     writer.write(id + " " + username + " " + password);
                 } catch (IOException e) {
                     e.printStackTrace();
@@ -105,24 +117,6 @@ public class User {
     public int getID() {
         return id;
     }
-
-    //Generates an id
-    private int generateID() {
-        boolean validID = false;
-        int tempID = -1;
-        while (!validID) {
-            tempID = (int) (Math.random() * 1000);
-            for (int i : ids) {
-                if (tempID == i) {
-                    validID = false;
-                    break;
-                }
-                validID = true;
-            }
-        }
-        return tempID;
-    }
-
 
 /*    public boolean isUser(String username, String password) {
         if (encryptStatus) {
