@@ -17,7 +17,6 @@ import yahoofinance.YahooFinance;
 
 public class ShowPortfolioActivity extends AppCompatActivity {
     User user;
-
     private String teamName;
     private double investedAssets;
     private double totalAssets;
@@ -32,8 +31,6 @@ public class ShowPortfolioActivity extends AppCompatActivity {
         investedAssets = 0;
         bankAssets = 0;
         totalAssets = bankAssets + investedAssets;
-
-
 
         Bundle bundle = getIntent().getExtras();
         String username = bundle.getString("Username");
@@ -50,15 +47,18 @@ public class ShowPortfolioActivity extends AppCompatActivity {
         TextView bankValue = (TextView) findViewById(R.id.BankAccountValue);
         TextView investedValue = (TextView) findViewById(R.id.InvestedAssetsValue);
 
+        String totalString = "$" + totalAssets;
+        String bankString = "$" + bankAssets;
+        String investedString = "$" + investedAssets;
+
         //replace these with variables adding up assets
         teamName.setText(username);
-        totalValue.setText("$10000");
-        bankValue.setText("$10000");
-        investedValue.setText("$0");
+        totalValue.setText(totalString);
+        bankValue.setText(bankString);
+        investedValue.setText(investedString);
 
         Stocks = ownedStocks.getAsset();
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, Stocks);
         list.setAdapter(adapter);
     }
-
 }
