@@ -94,5 +94,5 @@
         android:text="Skip Login"
         android:id="@+id/skipLoginButton"
         android:layout_gravity="center_horizontal"
-        android:onClick="goToStock" />
+        android:onClick="byPassLogin" />
 </LinearLayout>
