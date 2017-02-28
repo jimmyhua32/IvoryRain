@@ -34,7 +34,6 @@ public class ShowPortfolioActivity extends AppCompatActivity {
         totalAssets = bankAssets + investedAssets;
 
 
-
         Bundle bundle = getIntent().getExtras();
         String username = bundle.getString("Username");
         String password = bundle.getString("Password");
@@ -52,9 +51,9 @@ public class ShowPortfolioActivity extends AppCompatActivity {
 
         //replace these with variables adding up assets
         teamName.setText(username);
-        totalValue.setText("$10000");
-        bankValue.setText("$10000");
-        investedValue.setText("$0");
+        totalValue.setText("$" + totalAssets);
+        bankValue.setText("$" + bankAssets);
+        investedValue.setText("$" + investedAssets);
 
         Stocks = ownedStocks.getAsset();
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, Stocks);
