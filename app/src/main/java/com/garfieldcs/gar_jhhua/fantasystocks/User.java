@@ -1,34 +1,70 @@
 package com.garfieldcs.gar_jhhua.fantasystocks;
 
 import android.content.Context;
+import android.content.res.AssetManager;
+import android.widget.Toast;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.FileReader;
-import java.io.FileWriter;
 import java.io.IOException;
+import java.io.OutputStreamWriter;
 import java.util.ArrayList;
 import java.util.Scanner;
 
 
 public class User {
 
-    protected int id;
-    protected String username;
+    private int id;
+    private String username;
     private String password;
+    private String tempUser;
+    private String tempPass;
+    private String[] assetNames;
+
     private boolean doesExist;
+    private boolean doesNameExist;
+
+    private Context context;
+    private Toast t;
 
     private ArrayList<Integer> ids;
 
     public User(String username, String password, boolean createUser, Context context) {
-        File folder = new File(context.getFilesDir().getAbsolutePath());
-        File[] allFiles = folder.listFiles();
+        AssetManager am = context.getAssets();
+        this.context = context;
+        tempUser = username;
+        tempPass = password;
+
+        try {
+            assetNames = am.list("users");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        //File folder = new File(context.getFilesDir().getAbsolutePath());
+        //File[] allFiles = folder.listFiles();
+        File[] allFiles = new File[assetNames.length];
+        for (int i = 0; i < assetNames.length; i++) {
+            System.out.println(assetNames[i]);
+            allFiles[i] = new File(assetNames[i]);
+        }
         doesExist = false;
+        doesNameExist = false;
+        t = new Toast(context);
+
+        checkExist(allFiles);
+        makeUser(createUser);
+        am.close();
+    }
+
+    //Checks to see if the user already exists
+    private void checkExist(File[] allFiles) {
         ArrayList<String> usernames = new ArrayList<String>();
         ArrayList<String> passwords = new ArrayList<String>();
         ids = new ArrayList<Integer>();
-
         try {
             for (int i = 0; i < allFiles.length; i++) {
                 if (allFiles[i].isFile()) {
@@ -45,8 +81,12 @@ public class User {
         } catch (IOException e) {
             e.printStackTrace();
         }
+        System.out.println(ids.toString());
         for (int i = 0; i < usernames.size(); i++) {
             if (usernames.get(i).equals(username) && passwords.get(i).equals(password)) {
+                if (usernames.get(i).equals(username)) {
+                    doesNameExist = true;
+                }
                 this.username = usernames.get(i);
                 this.password = passwords.get(i);
                 this.id = ids.get(i);
@@ -54,35 +94,43 @@ public class User {
                 doesExist = true;
             }
         }
+    }
+
+    //Creates the user if it is called for by MainActivity
+    private void makeUser(boolean createUser) {
         if (!doesExist && createUser) {
             boolean generatedID = false;
             while (!generatedID) {
-                id = generateID();
+                id = (int) (Math.random() * 1000);
+                if (ids.size() == 0) {
+                    generatedID = true;
+                    break;
+                }
                 for (int i : ids) {
                     if (id == i) {
-                        break;
+                        continue;
                     }
+                    generatedID = true;
                 }
-                generatedID = true;
             }
-            if (!this.username.equals(username)) {
-                this.username = username;
-                this.password = password;
+            if (!doesNameExist) {
+                this.username = tempUser;
+                this.password = tempPass;
                 try {
-                    //Path should be id + .txt
-                    BufferedWriter writer = new BufferedWriter(new FileWriter
-                            (new File(context.getFilesDir(), id + ".txt")));
+                    FileOutputStream fos = new FileOutputStream(new File("users/" + id + ".txt"));
+                    BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(fos));
                     writer.write(id + " " + username + " " + password);
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-                System.out.println("USER CREATED");
+                t = t.makeText(context, "User created. Welcome!", Toast.LENGTH_SHORT);
                 doesExist = true;
             } else {
-                //If username already exists
+                t = t.makeText(context, "Username already exists", Toast.LENGTH_SHORT);
                 throw new IllegalArgumentException("User already exists");
             }
         } else if (doesExist && createUser) {
+            t = t.makeText(context, "User already exists", Toast.LENGTH_SHORT);
             throw new IllegalArgumentException("User already exists");
         }
     }
@@ -106,63 +154,4 @@ public class User {
         return id;
     }
 
-    //Generates an id
-    private int generateID() {
-        boolean validID = false;
-        int tempID = -1;
-        while (!validID) {
-            tempID = (int) (Math.random() * 1000);
-            for (int i : ids) {
-                if (tempID == i) {
-                    validID = false;
-                    break;
-                }
-                validID = true;
-            }
-        }
-        return tempID;
-    }
-
-
-/*    public boolean isUser(String username, String password) {
-        if (encryptStatus) {
-            decryptPW();
-        }
-        if (username == this.username && password == this.password) {
-            return true;
-        } else if (username != this.username) {
-            System.out.println("Wrong user"); //testing purposes
-            return false;
-        } else if (password != this.password) {
-            System.out.println("Wrong password"); //again, for testing
-            return false;
-        }
-        System.out.println("No conditions met (Username and password incorrect");
-        encryptPW();
-        return false; //All conditions false
-    }*/
-
-
-
-
-    /* CAN IGNORE EVERYTHING BELOW FOR NOW
-       CONTAINS "ENCRYPTION" WHICH REALLY DOESN'T DO ANYTHING YET
-
-
-    //Secures the password
-    private void encryptPW() {
-        String newPass = "";
-
-        this.password = newPass;
-        encryptStatus = true;
-    }
-
-    //Decrypts the password for usage
-    private void decryptPW() {
-        String oldPass = "";
-
-        this.password = oldPass;
-        encryptStatus = false;
-    }
-    */
 }
