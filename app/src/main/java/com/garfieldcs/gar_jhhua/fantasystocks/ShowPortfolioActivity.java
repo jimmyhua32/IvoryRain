@@ -22,12 +22,13 @@ public class ShowPortfolioActivity extends AppCompatActivity {
     private double totalAssets;
     private double bankAssets;
     protected ArrayList<String> Stocks = new ArrayList<String>();
-    protected ListView list = (ListView) findViewById(R.id.userAssetsList);
+    protected ListView list;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_show_portfolio);
+        list  = (ListView) findViewById(R.id.userAssetsList);
         investedAssets = 0;
         bankAssets = 0;
         totalAssets = bankAssets + investedAssets;

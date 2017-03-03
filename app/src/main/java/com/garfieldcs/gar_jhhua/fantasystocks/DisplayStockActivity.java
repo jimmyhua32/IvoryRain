@@ -10,6 +10,7 @@ import android.content.Context;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.widget.TabHost;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -28,6 +29,29 @@ public class DisplayStockActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_display_stock);
+
+        //sets up tabHost
+        TabHost host = (TabHost)findViewById(R.id.tabHost);
+        host.setup();
+
+        //Tab 1
+        TabHost.TabSpec spec = host.newTabSpec("Tab One");
+        spec.setContent(R.id.summaryTab);
+        spec.setIndicator("Summary");
+        host.addTab(spec);
+
+        //Tab 2
+        spec = host.newTabSpec("Tab Two");
+        spec.setContent(R.id.statsTab);
+        spec.setIndicator("Stats");
+        host.addTab(spec);
+
+        //Tab 3
+        spec = host.newTabSpec("Tab Three");
+        spec.setContent(R.id.newsTab);
+        spec.setIndicator("News");
+        host.addTab(spec);
+
         Context context = getApplicationContext();
         t = new Toast(context);
         c = new CheckConnection(context);
@@ -81,12 +105,15 @@ public class DisplayStockActivity extends AppCompatActivity {
             TextView dailyLowView = (TextView) findViewById(R.id.DailyLowValue);
             TextView yearHighView = (TextView) findViewById(R.id.YearHighValue);
             TextView yearLowView = (TextView) findViewById(R.id.YearLowValue);
+            TextView buyName = (TextView) findViewById(R.id.buyStockName);
 
 
             if (c.isConnected()) {
                 nameView.setText(stockInfo.getName() + " (" + stockInfo.getSymbol() + ")");
+                buyName.setText(stockInfo.getName() + " (" + stockInfo.getSymbol() + ")");
             } else {
                 nameView.setText(stockInfo.getName());
+                buyName.setText(stockInfo.getName());
             }
             priceView.setText(stockInfo.getPrice());
             priceChangeView.setText(stockInfo.getChangeP());
