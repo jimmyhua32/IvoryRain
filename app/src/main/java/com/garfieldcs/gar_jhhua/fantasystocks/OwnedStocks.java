@@ -10,12 +10,13 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Scanner;
 
 public class OwnedStocks {
     private int id; //Name of text file
-    private BufferedWriter writeTo;
+    private PrintWriter writeTo;
     private BufferedReader readFrom;
     private Context context;
 
@@ -33,8 +34,7 @@ public class OwnedStocks {
         quantity = new ArrayList<Integer>();
 
         try {
-            FileOutputStream fos = context.openFileOutput(id + ".txt", 0);
-            writeTo = new BufferedWriter(new OutputStreamWriter(fos));
+            writeTo = new PrintWriter(new File(context.getFilesDir(), id + ".txt"));
             FileReader reader = new FileReader(new File(context.getFilesDir(), id + ".txt"));
             readFrom = new BufferedReader(reader);
             fillArrays();
@@ -99,8 +99,7 @@ public class OwnedStocks {
 
     //Adds a stock and its info to a file
     public void addStock(StockInfo stock, int quantityPurchased) throws IOException {
-        writeTo.write(stock.getName() + " " + stock.getRawPrice() + " " + quantityPurchased);
-        writeTo.newLine();
+        writeTo.println(stock.getName() + " " + stock.getRawPrice() + " " + quantityPurchased);
         fillArrays();
     }
 

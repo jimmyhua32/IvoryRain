@@ -10,11 +10,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
     User user;
-    Toast toast;
     CheckConnection c;
 
     @Override
@@ -26,7 +24,6 @@ public class MainActivity extends AppCompatActivity {
 
     //Goes to a specific screen for testing purposes
     public void bypassLogin(View view) {
-        //Intent intent = new Intent(this, DisplayStockActivity.class);
         Intent intent = new Intent(this, ShowPortfolioActivity.class);
         Bundle bundle = new Bundle();
         bundle.putString("name", "AAPL"); //For testing
@@ -53,11 +50,7 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
             } else {
                 System.out.println("No user found");
-                toast.makeText(getApplicationContext(),
-                        "Incorrect login! Want to register an account?", Toast.LENGTH_SHORT);
             }
-        } else {
-            toast.makeText(getApplicationContext(), "No connection", Toast.LENGTH_SHORT);
         }
     }
 

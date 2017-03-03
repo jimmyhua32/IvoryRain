@@ -1,16 +1,13 @@
 package com.garfieldcs.gar_jhhua.fantasystocks;
 
 import android.content.Context;
-import android.content.res.AssetManager;
-import android.widget.Toast;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
-import java.io.OutputStreamWriter;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -22,42 +19,25 @@ public class User {
     private String password;
     private String tempUser;
     private String tempPass;
-    private String[] assetNames;
-
     private boolean doesExist;
     private boolean doesNameExist;
 
     private Context context;
-    private Toast t;
 
     private ArrayList<Integer> ids;
 
     public User(String username, String password, boolean createUser, Context context) {
-        AssetManager am = context.getAssets();
         this.context = context;
         tempUser = username;
         tempPass = password;
 
-        try {
-            assetNames = am.list("users");
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        //File folder = new File(context.getFilesDir().getAbsolutePath());
-        //File[] allFiles = folder.listFiles();
-        File[] allFiles = new File[assetNames.length];
-        for (int i = 0; i < assetNames.length; i++) {
-            System.out.println(assetNames[i]);
-            allFiles[i] = new File(assetNames[i]);
-        }
+        File folder = new File(context.getFilesDir().getAbsolutePath());
+        File[] allFiles = folder.listFiles();
         doesExist = false;
         doesNameExist = false;
-        t = new Toast(context);
 
         checkExist(allFiles);
         makeUser(createUser);
-        am.close();
     }
 
     //Checks to see if the user already exists
@@ -65,17 +45,25 @@ public class User {
         ArrayList<String> usernames = new ArrayList<String>();
         ArrayList<String> passwords = new ArrayList<String>();
         ids = new ArrayList<Integer>();
+        System.out.println(allFiles.length);
         try {
             for (int i = 0; i < allFiles.length; i++) {
                 if (allFiles[i].isFile()) {
+                    System.out.println(1);
                     BufferedReader reader = new BufferedReader(new FileReader(allFiles[i]));
-                    String currentLine;
+                    String currentLine = reader.readLine();
+                    System.out.println(currentLine);
                     while((currentLine = reader.readLine()) != null) {
+                        System.out.println(2);
                         Scanner s = new Scanner(currentLine);
                         usernames.add(s.next());
+                        System.out.println(usernames.get(i));
                         passwords.add(s.next());
+                        System.out.println(passwords.get(i));
                         ids.add(s.nextInt());
+                        System.out.println(ids.get(i));
                     }
+                    System.out.println(3);
                 }
             }
         } catch (IOException e) {
@@ -83,10 +71,10 @@ public class User {
         }
         System.out.println(ids.toString());
         for (int i = 0; i < usernames.size(); i++) {
+            if (usernames.get(i).equals(username)) {
+                doesNameExist = true;
+            }
             if (usernames.get(i).equals(username) && passwords.get(i).equals(password)) {
-                if (usernames.get(i).equals(username)) {
-                    doesNameExist = true;
-                }
                 this.username = usernames.get(i);
                 this.password = passwords.get(i);
                 this.id = ids.get(i);
@@ -104,7 +92,6 @@ public class User {
                 id = (int) (Math.random() * 1000);
                 if (ids.size() == 0) {
                     generatedID = true;
-                    break;
                 }
                 for (int i : ids) {
                     if (id == i) {
@@ -113,24 +100,28 @@ public class User {
                     generatedID = true;
                 }
             }
+            System.out.println("ID GENERATED");
             if (!doesNameExist) {
                 this.username = tempUser;
                 this.password = tempPass;
                 try {
-                    FileOutputStream fos = new FileOutputStream(new File("users/" + id + ".txt"));
-                    BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(fos));
-                    writer.write(id + " " + username + " " + password);
+                    PrintWriter writer = new PrintWriter(
+                            new File(context.getFilesDir(), id + ".txt"));
+
+                    /*FileOutputStream fos = context.openFileOutput(id + ".txt", context.MODE_PRIVATE);
+                    BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(fos));*/
+                    System.out.println(id + " " + username + " " + password);
+                    writer.println(id + " " + username + " " + password);
+                    writer.println("end");
+                    System.out.println("User created");
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-                t = t.makeText(context, "User created. Welcome!", Toast.LENGTH_SHORT);
                 doesExist = true;
             } else {
-                t = t.makeText(context, "Username already exists", Toast.LENGTH_SHORT);
                 throw new IllegalArgumentException("User already exists");
             }
         } else if (doesExist && createUser) {
-            t = t.makeText(context, "User already exists", Toast.LENGTH_SHORT);
             throw new IllegalArgumentException("User already exists");
         }
     }
