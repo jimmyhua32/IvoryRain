@@ -3,14 +3,12 @@ package com.garfieldcs.gar_jhhua.fantasystocks;
 import android.content.Context;
 
 import java.io.BufferedReader;
-import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Scanner;
-
 
 public class User {
 
@@ -46,22 +44,20 @@ public class User {
         ArrayList<String> passwords = new ArrayList<String>();
         ids = new ArrayList<Integer>();
         System.out.println(allFiles.length);
+        BufferedReader reader = null;
         try {
             for (int i = 0; i < allFiles.length; i++) {
                 if (allFiles[i].isFile()) {
                     System.out.println(1);
-                    BufferedReader reader = new BufferedReader(new FileReader(allFiles[i]));
-                    String currentLine = reader.readLine();
-                    System.out.println(currentLine);
+                    String currentLine; //Order: id + user + password
+                    reader = new BufferedReader(new FileReader(allFiles[i]));
                     while((currentLine = reader.readLine()) != null) {
                         System.out.println(2);
+                        System.out.println(currentLine);
                         Scanner s = new Scanner(currentLine);
-                        usernames.add(s.next());
-                        System.out.println(usernames.get(i));
-                        passwords.add(s.next());
-                        System.out.println(passwords.get(i));
                         ids.add(s.nextInt());
-                        System.out.println(ids.get(i));
+                        usernames.add(s.next());
+                        passwords.add(s.next());
                     }
                     System.out.println(3);
                 }
@@ -89,7 +85,7 @@ public class User {
         if (!doesExist && createUser) {
             boolean generatedID = false;
             while (!generatedID) {
-                id = (int) (Math.random() * 1000);
+                id = (int) (Math.random() * 10000);
                 if (ids.size() == 0) {
                     generatedID = true;
                 }
@@ -104,8 +100,9 @@ public class User {
             if (!doesNameExist) {
                 this.username = tempUser;
                 this.password = tempPass;
+                PrintWriter writer = null;
                 try {
-                    PrintWriter writer = new PrintWriter(
+                    writer = new PrintWriter(
                             new File(context.getFilesDir(), id + ".txt"));
 
                     /*FileOutputStream fos = context.openFileOutput(id + ".txt", context.MODE_PRIVATE);
@@ -116,6 +113,8 @@ public class User {
                     System.out.println("User created");
                 } catch (IOException e) {
                     e.printStackTrace();
+                } finally {
+                    writer.close();
                 }
                 doesExist = true;
             } else {

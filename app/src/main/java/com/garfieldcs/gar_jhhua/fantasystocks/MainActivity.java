@@ -37,9 +37,7 @@ public class MainActivity extends AppCompatActivity {
             EditText username = (EditText) findViewById(R.id.usernameEditText);
             EditText password = (EditText) findViewById(R.id.passwordEditText);
             String un = username.getText().toString();
-            System.out.println(un);
             String pw = password.getText().toString();
-            System.out.println(pw);
             user = new User(un, pw, false, getApplicationContext());
             if (user.doesExist()) {
                 Intent intent = new Intent(this, ShowPortfolioActivity.class);
@@ -61,9 +59,7 @@ public class MainActivity extends AppCompatActivity {
             EditText username = (EditText) findViewById(R.id.usernameEditText);
             EditText password = (EditText) findViewById(R.id.passwordEditText);
             String un = username.getText().toString();
-            System.out.println(un);
             String pw = password.getText().toString();
-            System.out.println(pw);
             user = new User(un, pw, true, getApplicationContext());
         }
     }
