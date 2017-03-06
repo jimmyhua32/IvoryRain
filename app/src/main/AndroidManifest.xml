@@ -21,7 +21,8 @@
             </intent-filter>
         </activity>
         <activity android:name=".DisplayStockActivity" />
-        <activity android:name=".ShowPortfolioActivity"></activity>
+        <activity android:name=".ShowPortfolioActivity" />
+        <activity android:name=".BuyStockActivity"></activity>
     </application>
 
 </manifest>

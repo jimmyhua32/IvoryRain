@@ -1,8 +1,3 @@
-/* Project: Ivory Rain
-   1/9/2017
-   This activity displays the stock information.
-*/
-
 package com.garfieldcs.gar_jhhua.fantasystocks;
 
 import android.app.ProgressDialog;
@@ -14,11 +9,7 @@ import android.widget.TabHost;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import org.w3c.dom.Text;
-
-import java.util.concurrent.ExecutionException;
-
-public class DisplayStockActivity extends AppCompatActivity {
+public class BuyStockActivity extends AppCompatActivity {
 
     private Toast t;
     private CheckConnection c;
@@ -28,7 +19,29 @@ public class DisplayStockActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_display_stock);
+        setContentView(R.layout.activity_buy_stock);
+
+        //sets up tabHost
+        TabHost host = (TabHost)findViewById(R.id.tabHost);
+        host.setup();
+
+        //Tab 1
+        TabHost.TabSpec spec = host.newTabSpec("Tab One");
+        spec.setContent(R.id.summaryTab);
+        spec.setIndicator("Summary");
+        host.addTab(spec);
+
+        //Tab 2
+        spec = host.newTabSpec("Tab Two");
+        spec.setContent(R.id.statsTab);
+        spec.setIndicator("Stats");
+        host.addTab(spec);
+
+        //Tab 3
+        spec = host.newTabSpec("Tab Three");
+        spec.setContent(R.id.newsTab);
+        spec.setIndicator("News");
+        host.addTab(spec);
 
         Context context = getApplicationContext();
         t = new Toast(context);
@@ -52,7 +65,7 @@ public class DisplayStockActivity extends AppCompatActivity {
 
     //Checks to see if StockInfo is done
     private class loadingData extends AsyncTask<Void, Void, Void> {
-        ProgressDialog dialog = new ProgressDialog(DisplayStockActivity.this);
+        ProgressDialog dialog = new ProgressDialog(BuyStockActivity.this);
         boolean status;
 
         //Sets up progress dialog
@@ -61,7 +74,7 @@ public class DisplayStockActivity extends AppCompatActivity {
 
             dialog.setCancelable(false);
             dialog.setInverseBackgroundForced(false);
-            dialog = dialog.show(DisplayStockActivity.this,
+            dialog = dialog.show(BuyStockActivity.this,
                     "Please wait", "Retrieving data...", true);
             super.onPreExecute();
         }
@@ -76,27 +89,28 @@ public class DisplayStockActivity extends AppCompatActivity {
 
         //Changes the views and dismisses the progress dialog
         protected void onPostExecute(Void result) {
-            TextView nameView = (TextView) findViewById(R.id.StockName);
-            TextView priceView = (TextView) findViewById(R.id.PriceValue);
-            TextView priceChangeView = (TextView) findViewById(R.id.PCValue);
-            TextView dailyHighView = (TextView) findViewById(R.id.DailyHighValue);
-            TextView dailyLowView = (TextView) findViewById(R.id.DailyLowValue);
-            TextView yearHighView = (TextView) findViewById(R.id.YearHighValue);
-            TextView yearLowView = (TextView) findViewById(R.id.YearLowValue);
+
+            TextView buyNameView = (TextView) findViewById(R.id.buyStockName);
+            TextView buyPriceView = (TextView) findViewById(R.id.buyStockPrice);
+            TextView buyPCView = (TextView) findViewById(R.id.buyPCValue);
+            TextView buyDHighView = (TextView) findViewById(R.id.buyDHValue);
+            TextView buyDLowView = (TextView) findViewById(R.id.buyDLValue);
+            TextView buyYHighView = (TextView) findViewById(R.id.buyYHValue);
+            TextView buyYLowView = (TextView) findViewById(R.id.buyYLValue);
 
 
             if (c.isConnected()) {
-                nameView.setText(stockInfo.getName() + " (" + stockInfo.getSymbol() + ")");
+                buyNameView.setText(stockInfo.getName() + " (" + stockInfo.getSymbol() + ")");
             } else {
-                nameView.setText(stockInfo.getName());
+                buyNameView.setText(stockInfo.getName());
             }
 
-            priceView.setText(stockInfo.getPrice());
-            priceChangeView.setText(stockInfo.getChangeP());
-            dailyHighView.setText(stockInfo.getHighD());
-            dailyLowView.setText(stockInfo.getLowD());
-            yearHighView.setText(stockInfo.getHighY());
-            yearLowView.setText(stockInfo.getLowY());
+            buyPriceView.setText(stockInfo.getPrice());
+            buyPCView.setText(stockInfo.getChangeP());
+            buyDHighView.setText(stockInfo.getHighD());
+            buyDLowView.setText(stockInfo.getLowD());
+            buyYHighView.setText(stockInfo.getHighY());
+            buyYLowView.setText(stockInfo.getLowY());
 
             dialog.dismiss();
             super.onPostExecute(result);
