@@ -55,7 +55,7 @@ public class User {
                         System.out.println(2);
                         System.out.println(currentLine);
                         Scanner s = new Scanner(currentLine);
-                        ids.add(s.nextInt());
+                        ids.add(Integer.parseInt(s.next()));
                         usernames.add(s.next());
                         passwords.add(s.next());
                     }
@@ -71,9 +71,9 @@ public class User {
                 doesNameExist = true;
             }
             if (usernames.get(i).equals(username) && passwords.get(i).equals(password)) {
-                this.username = usernames.get(i);
-                this.password = passwords.get(i);
-                this.id = ids.get(i);
+                username = usernames.get(i);
+                password = passwords.get(i);
+                id = ids.get(i);
                 System.out.println("USER EXISTS");
                 doesExist = true;
             }
@@ -104,9 +104,6 @@ public class User {
                 try {
                     writer = new PrintWriter(
                             new File(context.getFilesDir(), id + ".txt"));
-
-                    /*FileOutputStream fos = context.openFileOutput(id + ".txt", context.MODE_PRIVATE);
-                    BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(fos));*/
                     System.out.println(id + " " + username + " " + password);
                     writer.println(id + " " + username + " " + password);
                     writer.println("end");

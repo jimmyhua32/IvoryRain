@@ -24,7 +24,7 @@ public class MainActivity extends AppCompatActivity {
 
     //Goes to a specific screen for testing purposes
     public void bypassLogin(View view) {
-        Intent intent = new Intent(this, ShowPortfolioActivity.class);
+        Intent intent = new Intent(this, BuyStockActivity.class);
         Bundle bundle = new Bundle();
         bundle.putString("name", "AAPL"); //For testing
         intent.putExtras(bundle);
