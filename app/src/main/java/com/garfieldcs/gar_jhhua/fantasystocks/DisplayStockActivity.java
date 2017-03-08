@@ -7,9 +7,11 @@ package com.garfieldcs.gar_jhhua.fantasystocks;
 
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.TabHost;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -24,6 +26,9 @@ public class DisplayStockActivity extends AppCompatActivity {
     private CheckConnection c;
     private String name;
     private StockInfo stockInfo;
+    private double investedAssets;
+    private double totalAssets;
+    private double bankAssets;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,6 +40,9 @@ public class DisplayStockActivity extends AppCompatActivity {
         c = new CheckConnection(context);
         Bundle bundle = getIntent().getExtras();
         name = bundle.getString("name");
+        investedAssets = bundle.getDouble("investedAssets");
+        bankAssets = bundle.getDouble("bankAssets");
+        totalAssets = bundle.getDouble("totalAssets");
 
         if (c.isConnected()) {
 
@@ -50,6 +58,15 @@ public class DisplayStockActivity extends AppCompatActivity {
         }
     }
 
+    public void goToBuyScreen (View view) {
+        Intent intent = new Intent(this, BuyStockActivity.class);
+        Bundle bundle = new Bundle();
+        bundle.putDouble("investedAssets", investedAssets);
+        bundle.putDouble("bankAssets", bankAssets);
+        bundle.putDouble("totalAssets", totalAssets);
+        intent.putExtras(bundle);
+        startActivity(intent);
+    }
     //Checks to see if StockInfo is done
     private class loadingData extends AsyncTask<Void, Void, Void> {
         ProgressDialog dialog = new ProgressDialog(DisplayStockActivity.this);
