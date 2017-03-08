@@ -18,6 +18,7 @@ public class OwnedStocks {
     private BufferedReader readFrom;
     private Context context;
 
+    private Double bankAssets;
     private ArrayList<String> info; //Whole string which includes name, price, quantity
     private ArrayList<String> name;
     private ArrayList<Double> price;
@@ -59,6 +60,10 @@ public class OwnedStocks {
         }
     }
 
+    public Double getBankAssets() {
+        return bankAssets;
+    }
+
     public int getSize() {
         return info.size();
     }
@@ -97,6 +102,7 @@ public class OwnedStocks {
 
     //Adds a stock and its info to a file
     public void addStock(StockInfo stock, int quantityPurchased) throws IOException {
+        bankAssets = bankAssets - stock.getRawPrice() * quantityPurchased;
         writeTo.println(stock.getName() + " " + stock.getRawPrice() + " " + quantityPurchased);
         fillArrays();
     }

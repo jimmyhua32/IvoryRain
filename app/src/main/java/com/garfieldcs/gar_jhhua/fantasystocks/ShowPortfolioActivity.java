@@ -33,7 +33,7 @@ public class ShowPortfolioActivity extends AppCompatActivity {
         setContentView(R.layout.activity_show_portfolio);
         list  = (ListView) findViewById(R.id.userAssetsList);
         investedAssets = 0;
-        bankAssets = 0;
+        bankAssets = 20000; //Placeholder for testing
         totalAssets = 0;
 
         Bundle bundle = getIntent().getExtras();
@@ -42,20 +42,6 @@ public class ShowPortfolioActivity extends AppCompatActivity {
         user = new User(username, password, false, getApplicationContext());
         ownedStocks = new OwnedStocks(user.getID(), getApplicationContext());
 
-        for (int i = 0; i < ownedStocks.getSize(); i++) {
-            investedAssets += (ownedStocks.getAssetPrice(i) * ownedStocks.getAssetQuantity(i));
-        }
-
-        TextView teamName = (TextView) findViewById(R.id.userTeamName);
-        TextView totalValue = (TextView) findViewById(R.id.TotalAssetValue);
-        TextView bankValue = (TextView) findViewById(R.id.BankAccountValue);
-        TextView investedValue = (TextView) findViewById(R.id.InvestedAssetsValue);
-
-        String totalString = "$" + totalAssets;
-        String bankString = "$" + bankAssets;
-        String investedString = "$" + investedAssets;
-
-        Stocks = ownedStocks.getAsset();
         ArrayAdapter<String> adapter = new ArrayAdapter<String>
                 (this, android.R.layout.simple_list_item_1, Stocks);
         list.setAdapter(adapter);
@@ -79,13 +65,24 @@ public class ShowPortfolioActivity extends AppCompatActivity {
 
         //Collect and analyze data
         protected Void doInBackground(Void... arg0 ) {
-
+            for (int i = 0; i < ownedStocks.getSize(); i++) {
+                investedAssets += (ownedStocks.getAssetPrice(i) * ownedStocks.getAssetQuantity(i));
+            }
+            Stocks = ownedStocks.getAsset();
             return null;
         }
 
         //Display the information onto the screen
-        protected void onPostExecute() {
+        protected void onPostExecute(Void result) {
+            TextView teamName = (TextView) findViewById(R.id.userTeamName);
+            TextView totalValue = (TextView) findViewById(R.id.TotalAssetValue);
+            TextView bankValue = (TextView) findViewById(R.id.BankAccountValue);
+            TextView investedValue = (TextView) findViewById(R.id.InvestedAssetsValue);
 
+            teamName.setText(user.getUserName().toUpperCase());
+            totalValue.setText("$" + totalAssets);
+            bankValue.setText("$" + bankAssets);
+            investedValue.setText("$" + investedAssets);
         }
     }
 }
