@@ -49,7 +49,7 @@ public class MainActivity extends AppCompatActivity {
                 bundle.putString("Password", user.getPassword());
                 intent.putExtras(bundle);
                 //For testing
-                /*StockInfo intel = new StockInfo("INTC", getApplicationContext());
+                StockInfo intel = new StockInfo("INTC", getApplicationContext());
                 StockInfo apple = new StockInfo("AAPL", getApplicationContext());
                 StockInfo google = new StockInfo("GOOG", getApplicationContext());
                 OwnedStocks stocks = new OwnedStocks(user.getID(), getApplicationContext());
@@ -59,7 +59,7 @@ public class MainActivity extends AppCompatActivity {
                     stocks.addStock(google, 5);
                 } catch (IOException e) {
                     e.printStackTrace();
-                }*/
+                }
                 startActivity(intent);
             } else {
                 System.out.println("No user found");

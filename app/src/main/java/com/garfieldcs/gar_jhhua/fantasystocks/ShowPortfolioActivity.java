@@ -6,35 +6,19 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
-import android.widget.SimpleAdapter;
 import android.widget.TextView;
 
-import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
+import java.util.List;
 
-import yahoofinance.YahooFinance;
 
 public class ShowPortfolioActivity extends AppCompatActivity {
     private User user;
     private OwnedStocks ownedStocks;
-    private String teamName;
-    private double investedAssets;
-    private double totalAssets;
-    private double bankAssets;
-    protected ArrayList<String> Stocks = new ArrayList<String>();
-    protected ListView list;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_show_portfolio);
-        list  = (ListView) findViewById(R.id.userAssetsList);
-        investedAssets = 0;
-        bankAssets = 20000; //Placeholder for testing
-        totalAssets = 0;
 
         Bundle bundle = getIntent().getExtras();
         String username = bundle.getString("Username");
@@ -42,15 +26,18 @@ public class ShowPortfolioActivity extends AppCompatActivity {
         user = new User(username, password, false, getApplicationContext());
         ownedStocks = new OwnedStocks(user.getID(), getApplicationContext());
 
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>
-                (this, android.R.layout.simple_list_item_1, Stocks);
-        list.setAdapter(adapter);
+        new LoadingData().execute();
+
     }
 
     //Loads the information on a separate thread
-    private class loadingData extends AsyncTask<Void, Void, Void> {
+    private class LoadingData extends AsyncTask<Void, Void, Double[]> {
         ProgressDialog dialog = new ProgressDialog(ShowPortfolioActivity.this);
         boolean status;
+        Double investedAssets;
+        Double bankAssets;
+        Double totalAssets;
+        List<String> stocks;
 
         //Loading circle bar... thing
         protected void onPreExecute() {
@@ -64,25 +51,38 @@ public class ShowPortfolioActivity extends AppCompatActivity {
         }
 
         //Collect and analyze data
-        protected Void doInBackground(Void... arg0 ) {
+        protected Double[] doInBackground(Void... arg0 ) {
+            bankAssets = 20000.0; //temporary for testing
             for (int i = 0; i < ownedStocks.getSize(); i++) {
-                investedAssets += (ownedStocks.getAssetPrice(i) * ownedStocks.getAssetQuantity(i));
+                investedAssets = investedAssets +
+                        (ownedStocks.getAssetPrice(i) * ownedStocks.getAssetQuantity(i));
             }
-            Stocks = ownedStocks.getAsset();
-            return null;
+            stocks = ownedStocks.getAsset();
+            return new Double[] {bankAssets, investedAssets, totalAssets}; //result
         }
 
         //Display the information onto the screen
-        protected void onPostExecute(Void result) {
+        protected void onPostExecute(Double[] result) {
+            //{bankAssets, investedAssets, totalAssets}
+
+            setContentView(R.layout.activity_show_portfolio);
+            ListView list = (ListView) findViewById(R.id.userAssetsList);
             TextView teamName = (TextView) findViewById(R.id.userTeamName);
             TextView totalValue = (TextView) findViewById(R.id.TotalAssetValue);
             TextView bankValue = (TextView) findViewById(R.id.BankAccountValue);
             TextView investedValue = (TextView) findViewById(R.id.InvestedAssetsValue);
 
             teamName.setText(user.getUserName().toUpperCase());
-            totalValue.setText("$" + totalAssets);
-            bankValue.setText("$" + bankAssets);
-            investedValue.setText("$" + investedAssets);
+            bankValue.setText("$" + result[0]);
+            investedValue.setText("$" + result[1]);
+            totalValue.setText("$" + result[2]);
+
+            ArrayAdapter<String> adapter = new ArrayAdapter<String>
+                    (getApplicationContext(), android.R.layout.simple_list_item_1, stocks);
+            list.setAdapter(adapter);
+
+            dialog.dismiss();
+            super.onPostExecute(result);
         }
     }
 }
