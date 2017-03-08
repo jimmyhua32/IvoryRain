@@ -168,7 +168,8 @@
             android:text="Buy"
             android:background="@android:color/holo_green_light"
             android:layout_marginStart="55dp"
-            android:layout_marginEnd="36dp"/>
+            android:layout_marginEnd="36dp"
+            android:onClick="goToBuyScreen"/>
 
         <Button
             android:layout_width="wrap_content"

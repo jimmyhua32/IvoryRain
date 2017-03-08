@@ -5,9 +5,13 @@ import android.content.Context;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.EditText;
 import android.widget.TabHost;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import java.io.IOException;
 
 public class BuyStockActivity extends AppCompatActivity {
 
@@ -15,11 +19,26 @@ public class BuyStockActivity extends AppCompatActivity {
     private CheckConnection c;
     private String name;
     private StockInfo stockInfo;
+    private OwnedStocks ownedStocks;
+    private User user;
+    private double investedAssets;
+    private double totalAssets;
+    private double bankAssets;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_buy_stock);
+
+        Bundle bundle = getIntent().getExtras();
+        String username = bundle.getString("Username");
+        String password = bundle.getString("Password");
+        investedAssets = bundle.getDouble("investedAssets");
+        totalAssets = bundle.getDouble("totalAssets");
+        bankAssets = bundle.getDouble("bankAssets");
+
+        user = new User(username, password, false, getApplicationContext());
+        ownedStocks = new OwnedStocks(user.getID(), getApplicationContext());
 
         //sets up tabHost
         TabHost host = (TabHost)findViewById(R.id.tabHost);
@@ -46,7 +65,6 @@ public class BuyStockActivity extends AppCompatActivity {
         Context context = getApplicationContext();
         t = new Toast(context);
         c = new CheckConnection(context);
-        Bundle bundle = getIntent().getExtras();
         name = bundle.getString("name");
 
         if (c.isConnected()) {
@@ -61,6 +79,42 @@ public class BuyStockActivity extends AppCompatActivity {
             new loadingData().execute();
 
         }
+    }
+
+    public void purchaseStock (View view) {
+        EditText sharesTemp = (EditText) findViewById(R.id.sharesWanted);
+        int shares = Integer.parseInt(sharesTemp.toString());
+        Context context = getApplicationContext();
+        CharSequence nullOrNegative = "Input has to be a positive integer!";
+        CharSequence positiveShares = "Transaction processing...";
+        CharSequence notEnoughMoney = "Not enough money in bank!";
+        CharSequence tranComplete = "Transaction complete!";
+        int duration = Toast.LENGTH_SHORT;
+        if (shares <= 0) {
+            Toast nonToast = Toast.makeText(context, nullOrNegative, duration);
+            nonToast.show();
+        }
+        else {
+            Toast tranProcess = Toast.makeText(context, positiveShares, duration);
+            tranProcess.show();
+            if ((shares * stockInfo.getRawPrice()) > bankAssets) {
+                Toast noMoney = Toast.makeText(context, notEnoughMoney, duration);
+                noMoney.show();
+            }
+            else {
+                investedAssets += (shares * stockInfo.getRawPrice());
+                bankAssets -= (shares *stockInfo.getRawPrice());
+                StockInfo google = new StockInfo("GOOG", getApplicationContext());
+                try {
+                    ownedStocks.addStock(google, shares);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                Toast complete = Toast.makeText(context, tranComplete, duration);
+                complete.show();
+            }
+        }
+
     }
 
     //Checks to see if StockInfo is done
