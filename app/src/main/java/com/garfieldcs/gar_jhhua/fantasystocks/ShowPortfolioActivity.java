@@ -78,7 +78,7 @@ public class ShowPortfolioActivity extends AppCompatActivity {
             totalValue.setText("$" + result[2]);
 
             ArrayAdapter<String> adapter = new ArrayAdapter<String>
-                    (getApplicationContext(), android.R.layout.simple_list_item_1, stocks);
+                    (ShowPortfolioActivity.this, android.R.layout.simple_list_item_1, stocks);
             list.setAdapter(adapter);
 
             dialog.dismiss();

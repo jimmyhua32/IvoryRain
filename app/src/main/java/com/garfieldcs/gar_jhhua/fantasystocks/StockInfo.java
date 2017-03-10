@@ -44,6 +44,7 @@ public class StockInfo {
     public StockInfo(String name, Context context) {
         if (name != null) {
             this.name = name;
+            System.out.println(this.name);
             c = new CheckConnection(context); //Checks for internet connection
             try {
                 new CollectDataTask().execute(name).get();
@@ -198,6 +199,7 @@ public class StockInfo {
                 StockInfo.rHighD = Double.parseDouble(result[15]);
                 StockInfo.rLowD = Double.parseDouble(result[16]);
             }
+            System.out.println(nameR);
             StockInfo.collectStatus = true;
             super.onPostExecute(result);
         }
