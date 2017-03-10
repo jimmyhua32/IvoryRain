@@ -64,6 +64,7 @@ public class DisplayStockActivity extends AppCompatActivity {
         bundle.putDouble("investedAssets", investedAssets);
         bundle.putDouble("bankAssets", bankAssets);
         bundle.putDouble("totalAssets", totalAssets);
+        bundle.putString("name", name);
         intent.putExtras(bundle);
         startActivity(intent);
     }

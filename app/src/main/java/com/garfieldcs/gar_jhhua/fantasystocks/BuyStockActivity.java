@@ -36,6 +36,7 @@ public class BuyStockActivity extends AppCompatActivity {
         investedAssets = bundle.getDouble("investedAssets");
         totalAssets = bundle.getDouble("totalAssets");
         bankAssets = bundle.getDouble("bankAssets");
+        name = bundle.getString("name");
 
         user = new User(username, password, false, getApplicationContext());
         ownedStocks = new OwnedStocks(user.getID(), getApplicationContext());
@@ -65,7 +66,7 @@ public class BuyStockActivity extends AppCompatActivity {
         Context context = getApplicationContext();
         t = new Toast(context);
         c = new CheckConnection(context);
-        name = bundle.getString("name");
+
 
         if (c.isConnected()) {
 
@@ -154,10 +155,10 @@ public class BuyStockActivity extends AppCompatActivity {
 
 
             if (c.isConnected()) {
-                String fullname = stockInfo.getName() + " (" + stockInfo.getSymbol() + ")";
+                String fullname = name + " (" + stockInfo.getSymbol() + ")";
                 buyNameView.setText(fullname);
             } else {
-                buyNameView.setText(stockInfo.getName());
+                buyNameView.setText(name);
             }
 
             buyPriceView.setText(stockInfo.getPrice());
