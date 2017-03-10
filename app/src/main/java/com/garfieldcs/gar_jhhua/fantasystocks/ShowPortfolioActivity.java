@@ -8,6 +8,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -47,6 +48,9 @@ public class ShowPortfolioActivity extends AppCompatActivity {
             dialog.setInverseBackgroundForced(false);
             dialog = dialog.show(ShowPortfolioActivity.this,
                     "Please wait", "Retrieving data...", true);
+            stocks.add(0, "Apple 28");
+            stocks.add(0, "Google 21");
+            stocks.add(0, "Yahoo 14");
             super.onPreExecute();
         }
 
@@ -57,7 +61,6 @@ public class ShowPortfolioActivity extends AppCompatActivity {
                 investedAssets = investedAssets +
                         (ownedStocks.getAssetPrice(i) * ownedStocks.getAssetQuantity(i));
             }
-            stocks = ownedStocks.getAsset();
             return new Double[] {bankAssets, investedAssets, totalAssets}; //result
         }
 
