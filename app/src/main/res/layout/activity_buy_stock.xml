@@ -218,6 +218,7 @@
             android:inputType="number"
             android:id="@+id/sharesWanted"
             android:maxLength="4"
+            android:ems="3"
             android:paddingStart="0dp"
             android:paddingEnd="20dp"/>
 
@@ -233,7 +234,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@android:color/holo_green_light"
-            android:text="Purchase"/>
+            android:text="Purchase"
+            android:onClick="purchaseStock"/>
 
     </LinearLayout>
 
