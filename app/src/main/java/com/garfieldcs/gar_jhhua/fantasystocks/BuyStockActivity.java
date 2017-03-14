@@ -2,6 +2,7 @@ package com.garfieldcs.gar_jhhua.fantasystocks;
 
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -104,7 +105,7 @@ public class BuyStockActivity extends AppCompatActivity {
             }
             else {
                 investedAssets += (shares * stockInfo.getRawPrice());
-                bankAssets -= (shares *stockInfo.getRawPrice());
+                bankAssets -= (shares * stockInfo.getRawPrice());
                 StockInfo google = new StockInfo("GOOG", getApplicationContext());
                 try {
                     ownedStocks.addStock(google, shares);
@@ -116,6 +117,17 @@ public class BuyStockActivity extends AppCompatActivity {
             }
         }
 
+    }
+
+    public void cancelToDisplay (View view) {
+        Intent intent = new Intent(this, DisplayStockActivity.class);
+        Bundle bundle = new Bundle();
+        bundle.putDouble("investedAssets", investedAssets);
+        bundle.putDouble("bankAssets", bankAssets);
+        bundle.putDouble("totalAssets", totalAssets);
+        bundle.putString("name", name);
+        intent.putExtras(bundle);
+        startActivity(intent);
     }
 
     //Checks to see if StockInfo is done
