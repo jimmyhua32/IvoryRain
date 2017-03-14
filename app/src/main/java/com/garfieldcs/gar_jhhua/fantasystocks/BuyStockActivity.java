@@ -155,7 +155,7 @@ public class BuyStockActivity extends AppCompatActivity {
 
 
             if (c.isConnected()) {
-                String fullname = name + " (" + stockInfo.getSymbol() + ")";
+                String fullname = stockInfo.getName() + " (" + stockInfo.getSymbol() + ")";
                 buyNameView.setText(fullname);
             } else {
                 buyNameView.setText(name);

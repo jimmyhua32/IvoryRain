@@ -43,6 +43,8 @@ public class ShowPortfolioActivity extends AppCompatActivity {
         //Loading circle bar... thing
         protected void onPreExecute() {
             status = false;
+            stocks = new ArrayList<String>();
+            stocks = ownedStocks.getAsset();
 
             dialog.setCancelable(false);
             dialog.setInverseBackgroundForced(false);
@@ -59,7 +61,8 @@ public class ShowPortfolioActivity extends AppCompatActivity {
             bankAssets = 20000.0; //temporary for testing
             for (int i = 0; i < ownedStocks.getSize(); i++) {
                 investedAssets = investedAssets +
-                        (ownedStocks.getAssetPrice(i) * ownedStocks.getAssetQuantity(i));
+                         (ownedStocks.getAssetPrice(i) * ownedStocks.getAssetQuantity(i));
+                System.out.println(investedAssets);
             }
             return new Double[] {bankAssets, investedAssets, totalAssets}; //result
         }

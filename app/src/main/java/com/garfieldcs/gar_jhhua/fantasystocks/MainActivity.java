@@ -6,6 +6,7 @@
 package com.garfieldcs.gar_jhhua.fantasystocks;
 
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -22,6 +23,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         c = new CheckConnection(getApplicationContext());
+
     }
 
     //Goes to a specific screen for testing purposes
@@ -49,17 +51,6 @@ public class MainActivity extends AppCompatActivity {
                 bundle.putString("Password", user.getPassword());
                 intent.putExtras(bundle);
                 //For testing
-                StockInfo intel = new StockInfo("INTC", getApplicationContext());
-                StockInfo apple = new StockInfo("AAPL", getApplicationContext());
-                StockInfo google = new StockInfo("GOOG", getApplicationContext());
-                OwnedStocks stocks = new OwnedStocks(user.getID(), getApplicationContext());
-                try {
-                    stocks.addStock(intel, 100);
-                    stocks.addStock(apple, 55);
-                    stocks.addStock(google, 5);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
                 startActivity(intent);
             } else {
                 System.out.println("No user found");
@@ -76,6 +67,36 @@ public class MainActivity extends AppCompatActivity {
             String un = username.getText().toString();
             String pw = password.getText().toString();
             user = new User(un, pw, true, getApplicationContext());
+        }
+    }
+
+    //For testing only
+    private class LoadTestData extends AsyncTask<Void, Void, StockInfo[]> {
+        StockInfo[] stocks;
+
+        protected void onPreExecute() {
+            stocks = new StockInfo[3];
+        }
+
+        protected StockInfo[] doInBackground(Void... result) {
+            StockInfo intel = new StockInfo("INTC", getApplicationContext());
+            StockInfo apple = new StockInfo("AAPL", getApplicationContext());
+            StockInfo google = new StockInfo("GOOG", getApplicationContext());
+            stocks[0] = intel;
+            stocks[1] = apple;
+            stocks[2] = google;
+            return stocks;
+        }
+
+        protected void onPostExecute(StockInfo[] result) {
+            OwnedStocks ownedStocks = new OwnedStocks(user.getID(), getApplicationContext());
+            try {
+                ownedStocks.addStock(result[0], 100);
+                ownedStocks.addStock(result[1], 55);
+                ownedStocks.addStock(result[2], 5);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
     }
 }

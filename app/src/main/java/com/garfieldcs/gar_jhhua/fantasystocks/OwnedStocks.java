@@ -85,6 +85,7 @@ public class OwnedStocks {
     }
 
     public Double getAssetPrice(int index) {
+        System.out.println(price.get(index));
         return price.get(index);
     }
 
@@ -103,7 +104,9 @@ public class OwnedStocks {
     //Adds a stock and its info to a file
     public void addStock(StockInfo stock, int quantityPurchased) throws IOException {
         //bankAssets = bankAssets - stock.getRawPrice() * quantityPurchased;
-        writeTo.println(stock.getName() + " " + stock.getRawPrice() + " " + quantityPurchased);
+        System.out.println(stock.getSymbol() + " " + stock.getRawPrice() + " " + quantityPurchased);
+        writeTo.println(stock.getSymbol() + " " +
+                stock.getRawPrice().doubleValue() + " " + quantityPurchased);
         fillArrays();
     }
 

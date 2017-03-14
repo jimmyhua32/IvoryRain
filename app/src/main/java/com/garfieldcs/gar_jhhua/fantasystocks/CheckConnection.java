@@ -16,12 +16,10 @@ public class CheckConnection {
     private ConnectivityManager cManager;
     private Context c;
     private NetworkInfo networkInfo;
-    private Toast t;
 
     public CheckConnection(Context c) {
         cManager = (ConnectivityManager) c.getSystemService(Context.CONNECTIVITY_SERVICE);
         networkInfo = cManager.getActiveNetworkInfo();
-        t = new Toast(c);
     }
 
     //Returns connection status each time it is called
@@ -29,7 +27,6 @@ public class CheckConnection {
         if (networkInfo.isConnected()) {
             return networkInfo.isConnected();
         } else {
-            t = t.makeText(c, "Connection failed!", Toast.LENGTH_SHORT);
             return false;
         }
     }
