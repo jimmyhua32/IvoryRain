@@ -26,9 +26,8 @@ public class BuyStockActivity extends AppCompatActivity {
     private double totalAssets;
     private double bankAssets;
     private String username;
-    private String password
+    private String password;
 
-    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_buy_stock);
@@ -108,8 +107,9 @@ public class BuyStockActivity extends AppCompatActivity {
             else {
                 investedAssets += (shares * stockInfo.getRawPrice());
                 bankAssets -= (shares * stockInfo.getRawPrice());
+                StockInfo stock = new StockInfo("GOOG", context);
                 try {
-                    ownedStocks.addStock("GOOG", shares);
+                    ownedStocks.addStock("GOOG", stock.getPrice(), shares);
                 } catch (IOException e) {
                     e.printStackTrace();
                 }

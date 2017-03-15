@@ -51,13 +51,17 @@ public class MainActivity extends AppCompatActivity {
                 intent.putExtras(bundle);
 
                 //For testing purposes
+                StockInfo intel = new StockInfo("INTC", getApplicationContext());
+                StockInfo apple = new StockInfo("AAPL", getApplicationContext());
+                StockInfo google = new StockInfo("GOOG", getApplicationContext());
+                System.out.println(intel.getPrice());
                 OwnedStocks ownedStocks = new OwnedStocks(user.getID(), getApplicationContext());
                 try {
                     Toast toast = Toast.makeText(this, "Now loading...", Toast.LENGTH_SHORT);
                     toast.show();
-                    ownedStocks.addStock("INTC", 100);
-                    ownedStocks.addStock("AAPL", 55);
-                    ownedStocks.addStock("GOOG", 5);
+                    ownedStocks.addStock("INTC", intel.getPrice(), 100);
+                    ownedStocks.addStock("AAPL", apple.getPrice(), 55);
+                    ownedStocks.addStock("GOOG", google.getPrice(), 5);
                 } catch (IOException e) {
                     e.printStackTrace();
                 }

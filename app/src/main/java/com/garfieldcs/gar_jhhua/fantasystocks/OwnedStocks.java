@@ -1,6 +1,7 @@
 package com.garfieldcs.gar_jhhua.fantasystocks;
 
 import android.content.Context;
+import android.os.AsyncTask;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -103,13 +104,9 @@ public class OwnedStocks {
     }
 
     //Adds a stock and its info to a file
-    public void addStock(String stockName, int quantityPurchased) throws IOException {
-        StockInfo stock = new StockInfo(stockName, context);
-        while (!stock.getStatus()) {
-            continue;
-        }
-        System.out.println(stock.getSymbol() + " " + stock.getRawPrice() + " " + quantityPurchased);
-        writeTo.println(stock.getSymbol() + " " + stock.getRawPrice() + " " + quantityPurchased);
+    public void addStock(String symbol, String price, int quantityPurchased) throws IOException {
+        System.out.println(symbol + " " + price + " " + quantityPurchased);
+        writeTo.println(symbol + " " + price + " " + quantityPurchased);
         fillArrays();
     }
 
@@ -146,4 +143,5 @@ public class OwnedStocks {
     public int getID() {
         return id;
     }
+
 }
