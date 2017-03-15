@@ -105,8 +105,7 @@ public class OwnedStocks {
     public void addStock(StockInfo stock, int quantityPurchased) throws IOException {
         //bankAssets = bankAssets - stock.getRawPrice() * quantityPurchased;
         System.out.println(stock.getSymbol() + " " + stock.getRawPrice() + " " + quantityPurchased);
-        writeTo.println(stock.getSymbol() + " " +
-                stock.getRawPrice().doubleValue() + " " + quantityPurchased);
+        writeTo.println(stock.getSymbol() + " " + stock.getRawPrice() + " " + quantityPurchased);
         fillArrays();
     }
 

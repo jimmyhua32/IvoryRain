@@ -50,15 +50,15 @@ public class ShowPortfolioActivity extends AppCompatActivity {
             dialog.setInverseBackgroundForced(false);
             dialog = dialog.show(ShowPortfolioActivity.this,
                     "Please wait", "Retrieving data...", true);
-            stocks.add(0, "Apple 28");
-            stocks.add(0, "Google 21");
-            stocks.add(0, "Yahoo 14");
+
+            investedAssets = 0.0;
             super.onPreExecute();
         }
 
         //Collect and analyze data
         protected Double[] doInBackground(Void... arg0 ) {
             bankAssets = 20000.0; //temporary for testing
+            System.out.println(1);
             for (int i = 0; i < ownedStocks.getSize(); i++) {
                 investedAssets = investedAssets +
                          (ownedStocks.getAssetPrice(i) * ownedStocks.getAssetQuantity(i));

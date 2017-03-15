@@ -20,6 +20,8 @@ public class User {
     private String tempPass;
     private boolean doesExist;
     private boolean doesNameExist;
+    private boolean created;
+    private boolean isPassCorrect;
 
     private Context context;
 
@@ -34,6 +36,9 @@ public class User {
         File[] allFiles = folder.listFiles();
         doesExist = false;
         doesNameExist = false;
+        created = false;
+        isPassCorrect = true;
+
 
         checkExist(allFiles);
         makeUser(createUser);
@@ -44,7 +49,6 @@ public class User {
         ArrayList<String> usernames = new ArrayList<String>();
         ArrayList<String> passwords = new ArrayList<String>();
         ids = new ArrayList<Integer>();
-        System.out.println(allFiles.length);
         BufferedReader reader = null;
         try {
             for (int i = 0; i < allFiles.length; i++) {
@@ -52,7 +56,6 @@ public class User {
                     String currentLine; //Order: id + user + password
                     reader = new BufferedReader(new FileReader(allFiles[i]));
                     while((currentLine = reader.readLine()) != null) {
-                        System.out.println(currentLine);
                         Scanner s = new Scanner(currentLine);
                         ids.add(Integer.parseInt(s.next()));
                         usernames.add(s.next().trim());
@@ -64,16 +67,14 @@ public class User {
             e.printStackTrace();
         }
         for (int i = 0; i < usernames.size(); i++) {
-            if (usernames.get(i).equals(tempUser)) {
-                doesNameExist = true;
-                System.out.println(doesNameExist);
-            }
             if (usernames.get(i).equals(tempUser) && passwords.get(i).equals(tempPass)) {
                 username = usernames.get(i);
                 password = passwords.get(i);
                 id = ids.get(i);
-                System.out.println("USER EXISTS");
                 doesExist = true;
+            } else if (usernames.get(i).equals(tempUser)) {
+                doesNameExist = true;
+                isPassCorrect = false;
             }
         }
     }
@@ -94,7 +95,6 @@ public class User {
                     generatedID = true;
                 }
             }
-            System.out.println("ID GENERATED");
             if (!doesNameExist) {
                 this.username = tempUser;
                 this.password = tempPass;
@@ -104,25 +104,27 @@ public class User {
                             new File(context.getFilesDir(), id + ".txt"));
                     System.out.println(id + " " + username + " " + password);
                     writer.println(id + " " + username + " " + password);
-                    System.out.println("User created");
                 } catch (IOException e) {
                     e.printStackTrace();
                 } finally {
                     writer.close();
                 }
                 doesExist = true;
-            } else {
-                throw new IllegalArgumentException("User already exists");
+                created = true;
             }
-        } else if (doesExist && createUser) {
-            throw new IllegalArgumentException("User already exists");
         }
     }
 
-    //Returns and sees if the user exists
+    //Returns to see if the user exists
     public boolean doesExist() {
         return doesExist;
     }
+
+    //Returns to see if user was created
+    public boolean userCreated() { return created; }
+
+    //Returns to see if the password was correct
+    public boolean isPassCorrect() { return isPassCorrect; }
 
     public String getUserName() {
         //Add some checks

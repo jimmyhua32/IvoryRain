@@ -11,6 +11,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import java.io.IOException;
 
@@ -51,9 +52,14 @@ public class MainActivity extends AppCompatActivity {
                 bundle.putString("Password", user.getPassword());
                 intent.putExtras(bundle);
                 //For testing
+                //new LoadTestData().execute();
                 startActivity(intent);
+            } else if (!user.isPassCorrect()) {
+                Toast toast = Toast.makeText(this, "Wrong password!", Toast.LENGTH_SHORT);
+                toast.show();
             } else {
-                System.out.println("No user found");
+                Toast toast = Toast.makeText(this, "No user found!", Toast.LENGTH_SHORT);
+                toast.show();
             }
         }
     }
@@ -67,6 +73,13 @@ public class MainActivity extends AppCompatActivity {
             String un = username.getText().toString();
             String pw = password.getText().toString();
             user = new User(un, pw, true, getApplicationContext());
+            if (user.userCreated()) {
+                Toast toast = Toast.makeText(this, "User created!", Toast.LENGTH_SHORT);
+                toast.show();
+            } else {
+                Toast toast = Toast.makeText(this, "User already exists!", Toast.LENGTH_SHORT);
+                toast.show();
+            }
         }
     }
 
