@@ -22,7 +22,8 @@
         </activity>
         <activity android:name=".DisplayStockActivity" />
         <activity android:name=".ShowPortfolioActivity" />
-        <activity android:name=".BuyStockActivity"></activity>
+        <activity android:name=".BuyStockActivity" />
+        <activity android:name=".SellStockActivity"></activity>
     </application>
 
 </manifest>

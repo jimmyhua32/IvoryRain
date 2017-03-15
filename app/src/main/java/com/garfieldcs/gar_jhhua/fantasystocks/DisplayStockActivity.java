@@ -29,6 +29,8 @@ public class DisplayStockActivity extends AppCompatActivity {
     private double investedAssets;
     private double totalAssets;
     private double bankAssets;
+    private String username;
+    private String password;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,6 +45,8 @@ public class DisplayStockActivity extends AppCompatActivity {
         investedAssets = bundle.getDouble("investedAssets");
         bankAssets = bundle.getDouble("bankAssets");
         totalAssets = bundle.getDouble("totalAssets");
+        username = bundle.getString("Username");
+        password = bundle.getString("Password");
 
         if (c.isConnected()) {
 
@@ -65,9 +69,25 @@ public class DisplayStockActivity extends AppCompatActivity {
         bundle.putDouble("bankAssets", bankAssets);
         bundle.putDouble("totalAssets", totalAssets);
         bundle.putString("name", name);
+        bundle.putString("Username", username);
+        bundle.putString("Password", password);
         intent.putExtras(bundle);
         startActivity(intent);
     }
+
+    public void goToSellScreen (View view) {
+        Intent intent = new Intent(this, BuyStockActivity.class);
+        Bundle bundle = new Bundle();
+        bundle.putDouble("investedAssets", investedAssets);
+        bundle.putDouble("bankAssets", bankAssets);
+        bundle.putDouble("totalAssets", totalAssets);
+        bundle.putString("name", name);
+        bundle.putString("Username", username);
+        bundle.putString("Password", password);
+        intent.putExtras(bundle);
+        startActivity(intent);
+    }
+
     //Checks to see if StockInfo is done
     private class loadingData extends AsyncTask<Void, Void, Void> {
         ProgressDialog dialog = new ProgressDialog(DisplayStockActivity.this);
