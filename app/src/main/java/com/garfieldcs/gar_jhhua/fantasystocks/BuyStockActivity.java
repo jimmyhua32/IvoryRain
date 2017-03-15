@@ -117,6 +117,8 @@ public class BuyStockActivity extends AppCompatActivity {
                 complete.show();
                 Intent intent = new Intent(this, ShowPortfolioActivity.class);
                 Bundle bundle = new Bundle();
+                bundle.putString("Username", username);
+                bundle.putString("Password", password);
                 bundle.putDouble("investedAssets", investedAssets);
                 bundle.putDouble("bankAssets", bankAssets);
                 bundle.putDouble("totalAssets", totalAssets);
@@ -131,6 +133,8 @@ public class BuyStockActivity extends AppCompatActivity {
     public void cancelToDisplay (View view) {
         Intent intent = new Intent(this, DisplayStockActivity.class);
         Bundle bundle = new Bundle();
+        bundle.putString("Username", username);
+        bundle.putString("Password", password);
         bundle.putDouble("investedAssets", investedAssets);
         bundle.putDouble("bankAssets", bankAssets);
         bundle.putDouble("totalAssets", totalAssets);
