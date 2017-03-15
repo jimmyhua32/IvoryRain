@@ -58,12 +58,12 @@ public class ShowPortfolioActivity extends AppCompatActivity {
         //Collect and analyze data
         protected Double[] doInBackground(Void... arg0 ) {
             bankAssets = 20000.0; //temporary for testing
-            System.out.println(1);
             for (int i = 0; i < ownedStocks.getSize(); i++) {
                 investedAssets = investedAssets +
                          (ownedStocks.getAssetPrice(i) * ownedStocks.getAssetQuantity(i));
                 System.out.println(investedAssets);
             }
+            totalAssets = investedAssets + bankAssets;
             return new Double[] {bankAssets, investedAssets, totalAssets}; //result
         }
 
@@ -88,7 +88,6 @@ public class ShowPortfolioActivity extends AppCompatActivity {
             list.setAdapter(adapter);
 
             dialog.dismiss();
-            super.onPostExecute(result);
         }
     }
 }

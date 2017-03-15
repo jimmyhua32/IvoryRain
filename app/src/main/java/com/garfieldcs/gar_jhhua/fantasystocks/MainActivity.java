@@ -24,7 +24,6 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         c = new CheckConnection(getApplicationContext());
-
     }
 
     //Goes to a specific screen for testing purposes
@@ -42,7 +41,6 @@ public class MainActivity extends AppCompatActivity {
             EditText username = (EditText) findViewById(R.id.usernameEditText);
             EditText password = (EditText) findViewById(R.id.passwordEditText);
             String un = username.getText().toString();
-            System.out.println(un);
             String pw = password.getText().toString();
             user = new User(un, pw, false, getApplicationContext());
             if (user.doesExist()) {
@@ -51,8 +49,19 @@ public class MainActivity extends AppCompatActivity {
                 bundle.putString("Username", user.getUserName());
                 bundle.putString("Password", user.getPassword());
                 intent.putExtras(bundle);
-                //For testing
-                //new LoadTestData().execute();
+
+                //For testing purposes
+                OwnedStocks ownedStocks = new OwnedStocks(user.getID(), getApplicationContext());
+                try {
+                    Toast toast = Toast.makeText(this, "Now loading...", Toast.LENGTH_SHORT);
+                    toast.show();
+                    ownedStocks.addStock("INTC", 100);
+                    ownedStocks.addStock("AAPL", 55);
+                    ownedStocks.addStock("GOOG", 5);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
                 startActivity(intent);
             } else if (!user.isPassCorrect()) {
                 Toast toast = Toast.makeText(this, "Wrong password!", Toast.LENGTH_SHORT);
@@ -61,6 +70,9 @@ public class MainActivity extends AppCompatActivity {
                 Toast toast = Toast.makeText(this, "No user found!", Toast.LENGTH_SHORT);
                 toast.show();
             }
+        } else {
+            Toast toast = Toast.makeText(this, "Connection error", Toast.LENGTH_SHORT);
+            toast.show();
         }
     }
 
@@ -79,36 +91,6 @@ public class MainActivity extends AppCompatActivity {
             } else {
                 Toast toast = Toast.makeText(this, "User already exists!", Toast.LENGTH_SHORT);
                 toast.show();
-            }
-        }
-    }
-
-    //For testing only
-    private class LoadTestData extends AsyncTask<Void, Void, StockInfo[]> {
-        StockInfo[] stocks;
-
-        protected void onPreExecute() {
-            stocks = new StockInfo[3];
-        }
-
-        protected StockInfo[] doInBackground(Void... result) {
-            StockInfo intel = new StockInfo("INTC", getApplicationContext());
-            StockInfo apple = new StockInfo("AAPL", getApplicationContext());
-            StockInfo google = new StockInfo("GOOG", getApplicationContext());
-            stocks[0] = intel;
-            stocks[1] = apple;
-            stocks[2] = google;
-            return stocks;
-        }
-
-        protected void onPostExecute(StockInfo[] result) {
-            OwnedStocks ownedStocks = new OwnedStocks(user.getID(), getApplicationContext());
-            try {
-                ownedStocks.addStock(result[0], 100);
-                ownedStocks.addStock(result[1], 55);
-                ownedStocks.addStock(result[2], 5);
-            } catch (IOException e) {
-                e.printStackTrace();
             }
         }
     }
