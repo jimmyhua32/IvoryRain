@@ -108,9 +108,8 @@ public class BuyStockActivity extends AppCompatActivity {
             else {
                 investedAssets += (shares * stockInfo.getRawPrice());
                 bankAssets -= (shares * stockInfo.getRawPrice());
-                StockInfo google = new StockInfo("GOOG", getApplicationContext());
                 try {
-                    ownedStocks.addStock(google, shares);
+                    ownedStocks.addStock("GOOG", shares);
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -177,7 +176,7 @@ public class BuyStockActivity extends AppCompatActivity {
 
 
             if (c.isConnected()) {
-                String fullname = name + " (" + stockInfo.getSymbol() + ")";
+                String fullname = stockInfo.getName() + " (" + stockInfo.getSymbol() + ")";
                 buyNameView.setText(fullname);
             } else {
                 buyNameView.setText(name);

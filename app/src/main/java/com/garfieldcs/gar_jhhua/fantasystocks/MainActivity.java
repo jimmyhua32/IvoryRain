@@ -6,10 +6,12 @@
 package com.garfieldcs.gar_jhhua.fantasystocks;
 
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import java.io.IOException;
 
@@ -26,7 +28,7 @@ public class MainActivity extends AppCompatActivity {
 
     //Goes to a specific screen for testing purposes
     public void bypassLogin(View view) {
-        Intent intent = new Intent(this, BuyStockActivity.class);
+        Intent intent = new Intent(this, DisplayStockActivity.class);
         Bundle bundle = new Bundle();
         bundle.putString("name", "AAPL"); //For testing
         intent.putExtras(bundle);
@@ -39,7 +41,6 @@ public class MainActivity extends AppCompatActivity {
             EditText username = (EditText) findViewById(R.id.usernameEditText);
             EditText password = (EditText) findViewById(R.id.passwordEditText);
             String un = username.getText().toString();
-            System.out.println(un);
             String pw = password.getText().toString();
             user = new User(un, pw, false, getApplicationContext());
             if (user.doesExist()) {
@@ -48,22 +49,30 @@ public class MainActivity extends AppCompatActivity {
                 bundle.putString("Username", user.getUserName());
                 bundle.putString("Password", user.getPassword());
                 intent.putExtras(bundle);
-                //For testing
-                StockInfo intel = new StockInfo("INTC", getApplicationContext());
-                StockInfo apple = new StockInfo("AAPL", getApplicationContext());
-                StockInfo google = new StockInfo("GOOG", getApplicationContext());
-                OwnedStocks stocks = new OwnedStocks(user.getID(), getApplicationContext());
+
+                //For testing purposes
+                OwnedStocks ownedStocks = new OwnedStocks(user.getID(), getApplicationContext());
                 try {
-                    stocks.addStock(intel, 100);
-                    stocks.addStock(apple, 55);
-                    stocks.addStock(google, 5);
+                    Toast toast = Toast.makeText(this, "Now loading...", Toast.LENGTH_SHORT);
+                    toast.show();
+                    ownedStocks.addStock("INTC", 100);
+                    ownedStocks.addStock("AAPL", 55);
+                    ownedStocks.addStock("GOOG", 5);
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
+
                 startActivity(intent);
+            } else if (!user.isPassCorrect()) {
+                Toast toast = Toast.makeText(this, "Wrong password!", Toast.LENGTH_SHORT);
+                toast.show();
             } else {
-                System.out.println("No user found");
+                Toast toast = Toast.makeText(this, "No user found!", Toast.LENGTH_SHORT);
+                toast.show();
             }
+        } else {
+            Toast toast = Toast.makeText(this, "Connection error", Toast.LENGTH_SHORT);
+            toast.show();
         }
     }
 
@@ -76,6 +85,13 @@ public class MainActivity extends AppCompatActivity {
             String un = username.getText().toString();
             String pw = password.getText().toString();
             user = new User(un, pw, true, getApplicationContext());
+            if (user.userCreated()) {
+                Toast toast = Toast.makeText(this, "User created!", Toast.LENGTH_SHORT);
+                toast.show();
+            } else {
+                Toast toast = Toast.makeText(this, "User already exists!", Toast.LENGTH_SHORT);
+                toast.show();
+            }
         }
     }
 }

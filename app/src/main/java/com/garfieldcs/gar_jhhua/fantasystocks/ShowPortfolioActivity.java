@@ -43,14 +43,15 @@ public class ShowPortfolioActivity extends AppCompatActivity {
         //Loading circle bar... thing
         protected void onPreExecute() {
             status = false;
+            stocks = new ArrayList<String>();
+            stocks = ownedStocks.getAsset();
 
             dialog.setCancelable(false);
             dialog.setInverseBackgroundForced(false);
             dialog = dialog.show(ShowPortfolioActivity.this,
                     "Please wait", "Retrieving data...", true);
-            stocks.add(0, "Apple 28");
-            stocks.add(0, "Google 21");
-            stocks.add(0, "Yahoo 14");
+
+            investedAssets = 0.0;
             super.onPreExecute();
         }
 
@@ -59,8 +60,10 @@ public class ShowPortfolioActivity extends AppCompatActivity {
             bankAssets = 20000.0; //temporary for testing
             for (int i = 0; i < ownedStocks.getSize(); i++) {
                 investedAssets = investedAssets +
-                        (ownedStocks.getAssetPrice(i) * ownedStocks.getAssetQuantity(i));
+                         (ownedStocks.getAssetPrice(i) * ownedStocks.getAssetQuantity(i));
+                System.out.println(investedAssets);
             }
+            totalAssets = investedAssets + bankAssets;
             return new Double[] {bankAssets, investedAssets, totalAssets}; //result
         }
 
@@ -81,11 +84,10 @@ public class ShowPortfolioActivity extends AppCompatActivity {
             totalValue.setText("$" + result[2]);
 
             ArrayAdapter<String> adapter = new ArrayAdapter<String>
-                    (getApplicationContext(), android.R.layout.simple_list_item_1, stocks);
+                    (ShowPortfolioActivity.this, android.R.layout.simple_list_item_1, stocks);
             list.setAdapter(adapter);
 
             dialog.dismiss();
-            super.onPostExecute(result);
         }
     }
 }

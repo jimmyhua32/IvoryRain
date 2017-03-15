@@ -48,6 +48,7 @@ public class OwnedStocks {
     private void fillArrays() throws IOException {
         refresh();
         String infoString = readFrom.readLine();
+        System.out.println(infoString);
         while (infoString != null) {
             info.add(infoString);
             infoString = readFrom.readLine();
@@ -85,6 +86,7 @@ public class OwnedStocks {
     }
 
     public Double getAssetPrice(int index) {
+        System.out.println(price.get(index));
         return price.get(index);
     }
 
@@ -101,9 +103,13 @@ public class OwnedStocks {
     }
 
     //Adds a stock and its info to a file
-    public void addStock(StockInfo stock, int quantityPurchased) throws IOException {
-        //bankAssets = bankAssets - stock.getRawPrice() * quantityPurchased;
-        writeTo.println(stock.getName() + " " + stock.getRawPrice() + " " + quantityPurchased);
+    public void addStock(String stockName, int quantityPurchased) throws IOException {
+        StockInfo stock = new StockInfo(stockName, context);
+        while (!stock.getStatus()) {
+            continue;
+        }
+        System.out.println(stock.getSymbol() + " " + stock.getRawPrice() + " " + quantityPurchased);
+        writeTo.println(stock.getSymbol() + " " + stock.getRawPrice() + " " + quantityPurchased);
         fillArrays();
     }
 
