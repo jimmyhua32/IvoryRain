@@ -108,9 +108,8 @@ public class SellStockActivity extends AppCompatActivity {
             else {
                 investedAssets += (shares * stockInfo.getRawPrice());
                 bankAssets -= (shares * stockInfo.getRawPrice());
-                StockInfo google = new StockInfo("GOOG", getApplicationContext());
                 try {
-                    ownedStocks.addStock(google, shares);
+                    ownedStocks.addStock("GOOG", shares);
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -198,6 +197,5 @@ public class SellStockActivity extends AppCompatActivity {
             dialog.dismiss();
             super.onPostExecute(result);
         }
-    }
     }
 }
