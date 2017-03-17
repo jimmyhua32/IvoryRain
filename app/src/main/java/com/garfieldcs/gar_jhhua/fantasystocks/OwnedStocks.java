@@ -1,6 +1,7 @@
 package com.garfieldcs.gar_jhhua.fantasystocks;
 
 import android.content.Context;
+import android.os.AsyncTask;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -23,6 +24,7 @@ public class OwnedStocks {
     private ArrayList<String> name;
     private ArrayList<Double> price;
     private ArrayList<Integer> quantity;
+    private boolean containStock;
 
     public OwnedStocks(int id, Context context) {
         this.id = id;
@@ -31,6 +33,7 @@ public class OwnedStocks {
         name = new ArrayList<String>();
         price = new ArrayList<Double>();
         quantity = new ArrayList<Integer>();
+        containStock = false;
 
         try {
             writeTo = new PrintWriter(new File
@@ -52,6 +55,7 @@ public class OwnedStocks {
         while (infoString != null) {
             info.add(infoString);
             infoString = readFrom.readLine();
+            containStock = true;
         }
         for (String i : info) {
             Scanner temp = new Scanner(i);
@@ -70,7 +74,10 @@ public class OwnedStocks {
     }
 
     public String getAsset(int index) {
-        return info.get(index);
+        if (containStock) {
+            return info.get(index);
+        }
+        return null;
     }
 
     public ArrayList<String> getAsset() {
@@ -78,7 +85,10 @@ public class OwnedStocks {
     }
 
     public String getAssetName(int index) {
-        return name.get(index);
+        if (containStock) {
+            return name.get(index);
+        }
+        return null;
     }
 
     public ArrayList<String> getAssetName() {
@@ -86,8 +96,10 @@ public class OwnedStocks {
     }
 
     public Double getAssetPrice(int index) {
-        System.out.println(price.get(index));
-        return price.get(index);
+        if (containStock) {
+            return price.get(index);
+        }
+        return null;
     }
 
     public ArrayList<Double> getAssetPrice() {
@@ -103,13 +115,9 @@ public class OwnedStocks {
     }
 
     //Adds a stock and its info to a file
-    public void addStock(String stockName, int quantityPurchased) throws IOException {
-        StockInfo stock = new StockInfo(stockName, context);
-        while (!stock.getStatus()) {
-            continue;
-        }
-        System.out.println(stock.getSymbol() + " " + stock.getRawPrice() + " " + quantityPurchased);
-        writeTo.println(stock.getSymbol() + " " + stock.getRawPrice() + " " + quantityPurchased);
+    public void addStock(String symbol, String price, int quantityPurchased) throws IOException {
+        System.out.println(symbol + " " + price + " " + quantityPurchased);
+        writeTo.println(symbol + " " + price + " " + quantityPurchased);
         fillArrays();
     }
 
@@ -146,4 +154,5 @@ public class OwnedStocks {
     public int getID() {
         return id;
     }
+
 }

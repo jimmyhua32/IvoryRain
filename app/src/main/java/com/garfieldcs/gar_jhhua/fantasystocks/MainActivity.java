@@ -5,12 +5,14 @@
 
 package com.garfieldcs.gar_jhhua.fantasystocks;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.IOException;
@@ -18,6 +20,9 @@ import java.io.IOException;
 public class MainActivity extends AppCompatActivity {
     User user;
     CheckConnection c;
+    StockInfo stockInfo;
+    static String price;
+    static String name;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,19 +54,6 @@ public class MainActivity extends AppCompatActivity {
                 bundle.putString("Username", user.getUserName());
                 bundle.putString("Password", user.getPassword());
                 intent.putExtras(bundle);
-
-                //For testing purposes
-                OwnedStocks ownedStocks = new OwnedStocks(user.getID(), getApplicationContext());
-                try {
-                    Toast toast = Toast.makeText(this, "Now loading...", Toast.LENGTH_SHORT);
-                    toast.show();
-                    ownedStocks.addStock("INTC", 100);
-                    ownedStocks.addStock("AAPL", 55);
-                    ownedStocks.addStock("GOOG", 5);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-
                 startActivity(intent);
             } else if (!user.isPassCorrect()) {
                 Toast toast = Toast.makeText(this, "Wrong password!", Toast.LENGTH_SHORT);

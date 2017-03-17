@@ -146,7 +146,7 @@ public class StockInfo {
     }
 
     //Collects data in a separate thread
-    private class CollectDataTask extends AsyncTask<String, Integer, String[]> {
+    private class CollectDataTask extends AsyncTask<String, Void, String[]> {
 
         protected String[] doInBackground(String... param) {
             try {
