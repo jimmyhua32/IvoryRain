@@ -58,10 +58,13 @@ public class ShowPortfolioActivity extends AppCompatActivity {
         //Collect and analyze data
         protected Double[] doInBackground(Void... arg0 ) {
             bankAssets = 20000.0; //temporary for testing
-            for (int i = 0; i < ownedStocks.getSize(); i++) {
-                investedAssets = investedAssets +
-                         (ownedStocks.getAssetPrice(i) * ownedStocks.getAssetQuantity(i));
-                System.out.println(investedAssets);
+            stocks.add("Apple 13");
+            if (ownedStocks.getSize() > 0) {
+                for (int i = 0; i < ownedStocks.getSize(); i++) {
+                    investedAssets = investedAssets +
+                            (ownedStocks.getAssetPrice(i) * ownedStocks.getAssetQuantity(i));
+                    System.out.println(investedAssets);
+                }
             }
             totalAssets = investedAssets + bankAssets;
             return new Double[] {bankAssets, investedAssets, totalAssets}; //result

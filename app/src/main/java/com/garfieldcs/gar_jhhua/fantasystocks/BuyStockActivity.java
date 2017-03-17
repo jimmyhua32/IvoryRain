@@ -27,6 +27,8 @@ public class BuyStockActivity extends AppCompatActivity {
     private double bankAssets;
     private String username;
     private String password;
+    private static String stockName;
+    private static String stockPrice;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -69,7 +71,6 @@ public class BuyStockActivity extends AppCompatActivity {
         t = new Toast(context);
         c = new CheckConnection(context);
 
-
         if (c.isConnected()) {
 
             stockInfo = new StockInfo(name, getApplicationContext());
@@ -93,6 +94,14 @@ public class BuyStockActivity extends AppCompatActivity {
         CharSequence notEnoughMoney = "Not enough money in bank!";
         CharSequence tranComplete = "Transaction complete!";
         int duration = Toast.LENGTH_SHORT;
+
+        //Testing
+        username = "aaa";
+        password = "111";
+        investedAssets = 0.0;
+        bankAssets = 20000;
+        totalAssets = bankAssets + totalAssets;
+
         if (shares <= 0) {
             Toast nonToast = Toast.makeText(context, nullOrNegative, duration);
             nonToast.show();
@@ -107,9 +116,9 @@ public class BuyStockActivity extends AppCompatActivity {
             else {
                 investedAssets += (shares * stockInfo.getRawPrice());
                 bankAssets -= (shares * stockInfo.getRawPrice());
-                StockInfo stock = new StockInfo("GOOG", context);
+                totalAssets = bankAssets + investedAssets;
                 try {
-                    ownedStocks.addStock("GOOG", stock.getPrice(), shares);
+                    ownedStocks.addStock(stockName, stockPrice, shares);
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -185,6 +194,9 @@ public class BuyStockActivity extends AppCompatActivity {
             } else {
                 buyNameView.setText(name);
             }
+
+            BuyStockActivity.stockName = stockInfo.getSymbol();
+            BuyStockActivity.stockPrice = stockInfo.getPrice();
 
             buyPriceView.setText(stockInfo.getPrice());
             buyPCView.setText(stockInfo.getChangeP());
