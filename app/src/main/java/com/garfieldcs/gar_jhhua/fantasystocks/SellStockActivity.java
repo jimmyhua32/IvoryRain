@@ -40,7 +40,6 @@ public class SellStockActivity extends AppCompatActivity {
         totalAssets = bundle.getDouble("totalAssets");
         bankAssets = bundle.getDouble("bankAssets");
         name = bundle.getString("name");
-
         user = new User(username, password, false, getApplicationContext());
         ownedStocks = new OwnedStocks(user.getID(), getApplicationContext());
 
@@ -125,7 +124,6 @@ public class SellStockActivity extends AppCompatActivity {
                 bundle.putString("name", name);
                 intent.putExtras(bundle);
                 startActivity(intent);
-
             }
         }
 

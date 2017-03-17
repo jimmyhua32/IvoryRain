@@ -26,7 +26,6 @@ public class ShowPortfolioActivity extends AppCompatActivity {
         String password = bundle.getString("Password");
         user = new User(username, password, false, getApplicationContext());
         ownedStocks = new OwnedStocks(user.getID(), getApplicationContext());
-
         new LoadingData().execute();
 
     }
