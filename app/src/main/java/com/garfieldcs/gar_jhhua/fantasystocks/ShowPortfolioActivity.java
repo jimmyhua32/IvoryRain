@@ -1,9 +1,11 @@
 package com.garfieldcs.gar_jhhua.fantasystocks;
 
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -15,6 +17,11 @@ import java.util.List;
 public class ShowPortfolioActivity extends AppCompatActivity {
     private User user;
     private OwnedStocks ownedStocks;
+    private String username;
+    private double investedAssets;
+    private double totalAssets;
+    private double bankAssets;
+    private String password;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -22,13 +29,24 @@ public class ShowPortfolioActivity extends AppCompatActivity {
         setContentView(R.layout.activity_show_portfolio);
 
         Bundle bundle = getIntent().getExtras();
-        String username = bundle.getString("Username");
-        String password = bundle.getString("Password");
+        username = bundle.getString("Username");
+        password = bundle.getString("Password");
         user = new User(username, password, false, getApplicationContext());
         ownedStocks = new OwnedStocks(user.getID(), getApplicationContext());
-
         new LoadingData().execute();
 
+    }
+
+    public void goToSearch (View view) {
+        Intent intent = new Intent(this, SearchActivity.class);
+        Bundle bundle = new Bundle();
+        bundle.putString("Username", username);
+        bundle.putString("Password", password);
+        bundle.putDouble("investedAssets", investedAssets);
+        bundle.putDouble("bankAssets", bankAssets);
+        bundle.putDouble("totalAssets", totalAssets);
+        intent.putExtras(bundle);
+        startActivity(intent);
     }
 
     //Loads the information on a separate thread
@@ -70,6 +88,7 @@ public class ShowPortfolioActivity extends AppCompatActivity {
             return new Double[] {bankAssets, investedAssets, totalAssets}; //result
         }
 
+
         //Display the information onto the screen
         protected void onPostExecute(Double[] result) {
             //{bankAssets, investedAssets, totalAssets}
@@ -92,5 +111,7 @@ public class ShowPortfolioActivity extends AppCompatActivity {
 
             dialog.dismiss();
         }
+
+
     }
 }
