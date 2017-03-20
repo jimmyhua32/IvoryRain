@@ -15,8 +15,8 @@ import java.util.Scanner;
 
 public class OwnedStocks {
     private int id; //Name of text file
-    private PrintWriter writeTo;
-    private BufferedReader readFrom;
+    //private BufferedReader readFrom;
+    private Scanner readFrom;
     private Context context;
 
     private Double bankAssets;
@@ -36,10 +36,9 @@ public class OwnedStocks {
         containStock = false;
 
         try {
-            writeTo = new PrintWriter(new File
-                    (context.getFilesDir(), "S" + id + ".txt"));
-            readFrom = new BufferedReader(new FileReader(new File
-                    (context.getFilesDir(), "S" + id + ".txt")));
+            //readFrom = new BufferedReader(new FileReader(new File
+            //        (context.getFilesDir(), "S" + id + ".txt")));
+            readFrom = new Scanner(new File(context.getFilesDir(), "S" + id + ".txt"));
             fillArrays();
         } catch (IOException e) {
             System.out.println("Something wrong went with the files");
@@ -50,12 +49,14 @@ public class OwnedStocks {
     //Fills the arrays with info from a file
     private void fillArrays() throws IOException {
         refresh();
-        String infoString = readFrom.readLine();
-        System.out.println(infoString);
-        while (infoString != null) {
-            info.add(infoString);
-            infoString = readFrom.readLine();
-            containStock = true;
+        if (readFrom.hasNextLine()) {
+            String infoString = readFrom.nextLine();
+            System.out.println(infoString);
+            while (infoString != null) {
+                info.add(infoString);
+                infoString = readFrom.nextLine();
+                containStock = true;
+            }
         }
         for (String i : info) {
             Scanner temp = new Scanner(i);
@@ -99,7 +100,7 @@ public class OwnedStocks {
         if (containStock) {
             return price.get(index);
         }
-        return null;
+        return 0.0;
     }
 
     public ArrayList<Double> getAssetPrice() {
@@ -107,7 +108,10 @@ public class OwnedStocks {
     }
 
     public Integer getAssetQuantity(int index) {
-        return quantity.get(index);
+        if (containStock) {
+            return quantity.get(index);
+        }
+        return 0;
     }
 
     public ArrayList<Integer> getAssetQuantity() {
@@ -116,12 +120,20 @@ public class OwnedStocks {
 
     //Adds a stock and its info to a file
     public void addStock(String symbol, String price, int quantityPurchased) throws IOException {
-        System.out.println(symbol + " " + price + " " + quantityPurchased);
-        writeTo.println(symbol + " " + price + " " + quantityPurchased);
+        PrintWriter writeTo = null;
+        try {
+            writeTo = new PrintWriter(new File(context.getFilesDir(), "S" + id + ".txt"));
+            System.out.println(symbol + " " + price + " " + quantityPurchased);
+            writeTo.println(symbol + " " + price + " " + quantityPurchased);
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            writeTo.close();
+        }
         fillArrays();
     }
 
-    //Currently sells all quantities of a purchase of stock (for now)
+    //Sells all quantities of a purchase of stock (for now)
     public void removeStock(StockInfo stock, int quantityPurchased) throws IOException {
         String removeLine = stock.getName() + " " + stock.getPrice() + " " + quantityPurchased;
         File oldFile = new File(context.getFilesDir(), "S" + id + ".txt");
