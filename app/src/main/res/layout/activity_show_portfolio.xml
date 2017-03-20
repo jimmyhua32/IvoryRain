@@ -45,7 +45,8 @@
             android:layout_marginStart="16dp"
             android:textSize="16sp"
             android:text="Search"
-            android:background="@android:color/holo_blue_light" />
+            android:background="@android:color/holo_blue_light"
+            android:onClick="goToSearch"/>
 
     </LinearLayout>
 

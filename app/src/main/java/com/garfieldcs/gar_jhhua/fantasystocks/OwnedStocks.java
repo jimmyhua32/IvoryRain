@@ -15,8 +15,7 @@ import java.util.Scanner;
 
 public class OwnedStocks {
     private int id; //Name of text file
-    //private BufferedReader readFrom;
-    private Scanner readFrom;
+    private BufferedReader readFrom;
     private Context context;
 
     private Double bankAssets;
@@ -36,9 +35,8 @@ public class OwnedStocks {
         containStock = false;
 
         try {
-            //readFrom = new BufferedReader(new FileReader(new File
-            //        (context.getFilesDir(), "S" + id + ".txt")));
-            readFrom = new Scanner(new File(context.getFilesDir(), "S" + id + ".txt"));
+            readFrom = new BufferedReader(new FileReader(new File
+                    (context.getFilesDir(), "S" + id + ".txt")));
             fillArrays();
         } catch (IOException e) {
             System.out.println("Something wrong went with the files");
@@ -49,14 +47,12 @@ public class OwnedStocks {
     //Fills the arrays with info from a file
     private void fillArrays() throws IOException {
         refresh();
-        if (readFrom.hasNextLine()) {
-            String infoString = readFrom.nextLine();
-            System.out.println(infoString);
-            while (infoString != null) {
-                info.add(infoString);
-                infoString = readFrom.nextLine();
-                containStock = true;
-            }
+        String infoString = readFrom.readLine();
+        System.out.println(infoString);
+        while (infoString != null) {
+            info.add(infoString);
+            infoString = readFrom.readLine();
+            containStock = true;
         }
         for (String i : info) {
             Scanner temp = new Scanner(i);
