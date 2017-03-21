@@ -96,13 +96,6 @@ public class BuyStockActivity extends AppCompatActivity {
         CharSequence tranComplete = "Transaction complete!";
         int duration = Toast.LENGTH_SHORT;
 
-        //Testing
-        username = "aaa";
-        password = "111";
-        investedAssets = 0.0;
-        bankAssets = 20000;
-        totalAssets = bankAssets + totalAssets;
-
         if (shares <= 0) {
             Toast nonToast = Toast.makeText(context, nullOrNegative, duration);
             nonToast.show();

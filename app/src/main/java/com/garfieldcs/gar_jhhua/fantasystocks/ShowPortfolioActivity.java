@@ -111,7 +111,5 @@ public class ShowPortfolioActivity extends AppCompatActivity {
 
             dialog.dismiss();
         }
-
-
     }
 }
