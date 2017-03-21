@@ -6,9 +6,11 @@ import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,6 +37,17 @@ public class ShowPortfolioActivity extends AppCompatActivity {
         ownedStocks = new OwnedStocks(user.getID(), getApplicationContext());
         new LoadingData().execute();
 
+        ListView list = (ListView) findViewById(R.id.userAssetsList);
+        list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view,
+                                    int position, long id) {
+                Toast.makeText(getApplicationContext(),
+                        "Stock Number " + position, Toast.LENGTH_LONG)
+                        .show();
+                goToStock(view, position);
+            }
+        });
     }
 
     public void goToSearch (View view) {
@@ -47,6 +60,21 @@ public class ShowPortfolioActivity extends AppCompatActivity {
         bundle.putDouble("totalAssets", totalAssets);
         intent.putExtras(bundle);
         startActivity(intent);
+    }
+
+    public void goToStock (View view, int position) {
+        String stockName = ownedStocks.getAsset(position);
+        Intent intent = new Intent(this, DisplayStockActivity.class);
+        Bundle bundle = new Bundle();
+        bundle.putString("Username", username);
+        bundle.putString("Password", password);
+        bundle.putDouble("investedAssets", investedAssets);
+        bundle.putDouble("bankAssets", bankAssets);
+        bundle.putDouble("totalAssets", totalAssets);
+        bundle.putString("name", stockName);
+        intent.putExtras(bundle);
+        startActivity(intent);
+
     }
 
     //Loads the information on a separate thread
