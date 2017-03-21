@@ -53,13 +53,15 @@ public class User {
         try {
             for (int i = 0; i < allFiles.length; i++) {
                 if (allFiles[i].isFile()) {
-                    String currentLine; //Order: id + user + password
-                    reader = new BufferedReader(new FileReader(allFiles[i]));
-                    while((currentLine = reader.readLine()) != null) {
-                        Scanner s = new Scanner(currentLine);
-                        ids.add(Integer.parseInt(s.next()));
-                        usernames.add(s.next().trim());
-                        passwords.add(s.next().trim());
+                    if (!(allFiles[i].getName().startsWith("S"))) {
+                        String currentLine; //Order: id + user + password
+                        reader = new BufferedReader(new FileReader(allFiles[i]));
+                        while ((currentLine = reader.readLine()) != null) {
+                            Scanner s = new Scanner(currentLine);
+                            ids.add(Integer.parseInt(s.next()));
+                            usernames.add(s.next().trim());
+                            passwords.add(s.next().trim());
+                        }
                     }
                 }
             }

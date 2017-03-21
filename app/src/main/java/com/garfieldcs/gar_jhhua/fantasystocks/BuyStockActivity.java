@@ -85,6 +85,7 @@ public class BuyStockActivity extends AppCompatActivity {
         }
     }
 
+    //Adds a stock using OwnedStocks
     public void purchaseStock (View view) {
         EditText sharesTemp = (EditText) findViewById(R.id.sharesWanted);
         int shares = Integer.parseInt(sharesTemp.getText().toString());
@@ -196,7 +197,7 @@ public class BuyStockActivity extends AppCompatActivity {
             }
 
             BuyStockActivity.stockName = stockInfo.getSymbol();
-            BuyStockActivity.stockPrice = stockInfo.getPrice();
+            BuyStockActivity.stockPrice = stockInfo.getRawPrice() + "";
 
             buyPriceView.setText(stockInfo.getPrice());
             buyPCView.setText(stockInfo.getChangeP());
