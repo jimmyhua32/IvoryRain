@@ -72,18 +72,20 @@ public class OwnedStocks {
             quantity.add(Integer.parseInt(temp.next()));
             System.out.println(quantity.get(count));
         }
-        if (!containStock) {
-            PrintWriter writeTo = null;
-            try {
+        PrintWriter writeTo = null;
+        try {
+            BufferedReader tempRead = new BufferedReader(new FileReader
+                    (new File("B" + id + ".txt")));
+            if (tempRead.readLine() == null) {
                 writeTo = new PrintWriter(new File(context.getFilesDir(), "B" + id + ".txt"));
                 writeTo.println(INITIAL_BANK_VALUE);
-            } catch (IOException e) {
-                e.printStackTrace();
-            } finally {
-                writeTo.close();
+            } else {
+                bankAssets = Double.parseDouble(bankReadFrom.readLine());
             }
-        } else {
-            bankAssets = Double.parseDouble(bankReadFrom.readLine());
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            writeTo.close();
         }
     }
 
@@ -107,18 +109,24 @@ public class OwnedStocks {
     }
 
     public Double getAssetValue() {
+        calcChange();
         return assetValue;
     }
 
     public Double getRawAssetChange() {
+        calcChange();
         return rawAssetChange;
     }
 
     public Double getPercentValueChange() {
+        calcChange();
         return percentValueChange;
     }
 
-    public Double getTotalAssets() { return null; }
+    public Double getTotalAssets() {
+        calcChange();
+        return null;
+    }
 
     public int getSize() {
         return info.size();
