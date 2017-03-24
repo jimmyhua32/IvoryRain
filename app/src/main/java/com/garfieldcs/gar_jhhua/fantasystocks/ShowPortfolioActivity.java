@@ -91,13 +91,13 @@ public class ShowPortfolioActivity extends AppCompatActivity {
             status = false;
             stocks = new ArrayList<String>();
             stocks = ownedStocks.getAsset();
+            System.out.println(stocks.toString());
 
             dialog.setCancelable(false);
             dialog.setInverseBackgroundForced(false);
             dialog = dialog.show(ShowPortfolioActivity.this,
                     "Please wait", "Retrieving data...", true);
 
-            investedAssets = 0.0;
             super.onPreExecute();
         }
 

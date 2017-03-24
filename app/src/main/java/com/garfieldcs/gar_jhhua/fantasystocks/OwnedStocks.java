@@ -41,10 +41,12 @@ public class OwnedStocks {
         containStock = false;
 
         try {
-            readFrom = new BufferedReader(new FileReader(new File
-                    (context.getFilesDir(), "S" + id + ".txt")));
-            bankReadFrom = new BufferedReader(new FileReader(new File
-                    (context.getFilesDir(), "B" + id + ".txt")));
+            File read = new File(context.getFilesDir(), "S" + id + ".txt");
+            read.createNewFile();
+            File bankRead = new File(context.getFilesDir(), "B" + id + ".txt");
+            bankRead.createNewFile();
+            readFrom = new BufferedReader(new FileReader(read));
+            bankReadFrom = new BufferedReader(new FileReader(bankRead));
             fillArrays();
         } catch (IOException e) {
             System.out.println("Something wrong went with the files");
@@ -60,6 +62,7 @@ public class OwnedStocks {
         while (infoString != null) {
             containStock = true;
             info.add(infoString);
+            System.out.println("InfoString is not null!");
             infoString = readFrom.readLine();
         }
         int count = 0; //For testing
@@ -74,18 +77,10 @@ public class OwnedStocks {
             System.out.println(quantity.get(count));
         }
         PrintWriter writeTo;
-        String tempLine = null;
         try {
             BufferedReader tempRead = new BufferedReader(new FileReader
-                    (new File("B" + id + ".txt")));
-            tempLine = tempRead.readLine();
-        } catch (FileNotFoundException e) {
-            File file = new File(context.getFilesDir(), "B" + id + ".txt");
-            file.createNewFile();
-            e.printStackTrace();
-        }
-        try {
-            if (tempLine == null) {
+                    (new File(context.getFilesDir(), "B" + id + ".txt")));
+            if (tempRead.readLine() == null || tempRead.readLine().equals("")) {
                 writeTo = new PrintWriter(new File(context.getFilesDir(), "B" + id + ".txt"));
                 writeTo.println(INITIAL_BANK_VALUE);
                 bankAssets = INITIAL_BANK_VALUE;
@@ -198,6 +193,7 @@ public class OwnedStocks {
             writeTo.println(symbol + " " + price + " " + quantityPurchased);
             writeTo = new PrintWriter(new File(context.getFilesDir(), "B" + id + ".txt"));
             writeTo.println(bankAssets - (Double.parseDouble(price) * quantityPurchased));
+            System.out.println("Stock added!");
         } catch (IOException e) {
             e.printStackTrace();
         } finally {
