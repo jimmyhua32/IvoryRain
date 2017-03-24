@@ -190,14 +190,14 @@ public class OwnedStocks {
     }
 
     //Adds a stock and its info to a file
-    public void addStock(String symbol, String price, int quantityPurchased) throws IOException {
+    public void addStock(String symbol, double price, int quantityPurchased) throws IOException {
         PrintWriter writeTo = null;
         try {
             writeTo = new PrintWriter(new File(context.getFilesDir(), "S" + id + ".txt"));
             System.out.println(symbol + " " + price + " " + quantityPurchased);
             writeTo.println(symbol + " " + price + " " + quantityPurchased);
             writeTo = new PrintWriter(new File(context.getFilesDir(), "B" + id + ".txt"));
-            writeTo.println(bankAssets - (Double.parseDouble(price) * quantityPurchased));
+            writeTo.println(bankAssets - (price * quantityPurchased));
         } catch (IOException e) {
             e.printStackTrace();
         } finally {

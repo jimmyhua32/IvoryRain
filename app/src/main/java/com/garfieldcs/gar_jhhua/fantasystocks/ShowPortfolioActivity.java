@@ -103,8 +103,8 @@ public class ShowPortfolioActivity extends AppCompatActivity {
 
         //Collect and analyze data
         protected Double[] doInBackground(Void... arg0 ) {
-            bankAssets = ownedStocks.INITIAL_BANK_VALUE; //ownedStocks.getBankAssets();
-            investedAssets = 0.0; //ownedStocks.getAssetValue();
+            bankAssets = ownedStocks.getBankAssets();
+            investedAssets = ownedStocks.getAssetValue();
             totalAssets = investedAssets + bankAssets;
             return new Double[] {bankAssets, investedAssets, totalAssets}; //result
         }
