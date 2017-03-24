@@ -28,7 +28,7 @@ public class BuyStockActivity extends AppCompatActivity {
     private String username;
     private String password;
     private static String stockName;
-    private static String stockPrice;
+    private static double stockPrice;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -190,7 +190,7 @@ public class BuyStockActivity extends AppCompatActivity {
             }
 
             BuyStockActivity.stockName = stockInfo.getSymbol();
-            BuyStockActivity.stockPrice = stockInfo.getRawPrice().toString();
+            BuyStockActivity.stockPrice = stockInfo.getRawPrice();
 
             buyPriceView.setText(stockInfo.getPrice());
             buyPCView.setText(stockInfo.getChangeP());
