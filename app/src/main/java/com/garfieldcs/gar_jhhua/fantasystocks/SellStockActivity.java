@@ -109,7 +109,7 @@ public class SellStockActivity extends AppCompatActivity {
                 bankAssets -= (shares * stockInfo.getRawPrice());
                 StockInfo stock = new StockInfo("GOOG", context);
                 try {
-                    ownedStocks.addStock("GOOG", stock.getPrice(), shares);
+                    ownedStocks.addStock("GOOG", stock.getRawPrice(), shares);
                 } catch (IOException e) {
                     e.printStackTrace();
                 }

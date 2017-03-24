@@ -80,13 +80,20 @@ public class OwnedStocks {
         try {
             BufferedReader tempRead = new BufferedReader(new FileReader
                     (new File(context.getFilesDir(), "B" + id + ".txt")));
-            if (tempRead.readLine() == null || tempRead.readLine().equals("")) {
+            if (tempRead.readLine() == null) {
                 writeTo = new PrintWriter(new File(context.getFilesDir(), "B" + id + ".txt"));
                 writeTo.println(INITIAL_BANK_VALUE);
                 bankAssets = INITIAL_BANK_VALUE;
                 writeTo.close();
             } else {
-                bankAssets = Double.parseDouble(bankReadFrom.readLine());
+                if (!(tempRead.readLine().equals("")))
+                    bankAssets = Double.parseDouble(bankReadFrom.readLine());
+                else {
+                    writeTo = new PrintWriter(new File(context.getFilesDir(), "B" + id + ".txt"));
+                    writeTo.println(INITIAL_BANK_VALUE);
+                    bankAssets = INITIAL_BANK_VALUE;
+                    writeTo.close();
+                }
             }
         } catch (IOException e) {
             e.printStackTrace();
