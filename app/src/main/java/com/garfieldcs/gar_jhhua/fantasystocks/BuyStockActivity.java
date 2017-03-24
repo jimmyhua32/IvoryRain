@@ -190,7 +190,7 @@ public class BuyStockActivity extends AppCompatActivity {
             }
 
             BuyStockActivity.stockName = stockInfo.getSymbol();
-            BuyStockActivity.stockPrice = stockInfo.getRawPrice() + "";
+            BuyStockActivity.stockPrice = stockInfo.getRawPrice().toString();
 
             buyPriceView.setText(stockInfo.getPrice());
             buyPCView.setText(stockInfo.getChangeP());

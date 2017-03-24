@@ -53,7 +53,8 @@ public class User {
         try {
             for (int i = 0; i < allFiles.length; i++) {
                 if (allFiles[i].isFile()) {
-                    if (!(allFiles[i].getName().startsWith("S"))) {
+                    if (!(allFiles[i].getName().startsWith("S")) &&
+                            !(allFiles[i].getName().startsWith("B"))) {
                         String currentLine; //Order: id + user + password
                         reader = new BufferedReader(new FileReader(allFiles[i]));
                         while ((currentLine = reader.readLine()) != null) {

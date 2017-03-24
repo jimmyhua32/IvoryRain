@@ -5,6 +5,7 @@ import android.content.Context;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -72,21 +73,28 @@ public class OwnedStocks {
             quantity.add(Integer.parseInt(temp.next()));
             System.out.println(quantity.get(count));
         }
-        PrintWriter writeTo = null;
+        PrintWriter writeTo;
+        String tempLine = null;
         try {
             BufferedReader tempRead = new BufferedReader(new FileReader
                     (new File("B" + id + ".txt")));
-            if (tempRead.readLine() == null) {
+            tempLine = tempRead.readLine();
+        } catch (FileNotFoundException e) {
+            File file = new File(context.getFilesDir(), "B" + id + ".txt");
+            file.createNewFile();
+            e.printStackTrace();
+        }
+        try {
+            if (tempLine == null) {
                 writeTo = new PrintWriter(new File(context.getFilesDir(), "B" + id + ".txt"));
                 writeTo.println(INITIAL_BANK_VALUE);
                 bankAssets = INITIAL_BANK_VALUE;
+                writeTo.close();
             } else {
                 bankAssets = Double.parseDouble(bankReadFrom.readLine());
             }
         } catch (IOException e) {
             e.printStackTrace();
-        } finally {
-            writeTo.close();
         }
     }
 
