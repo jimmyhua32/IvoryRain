@@ -45,7 +45,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="40dp"
-            android:textSize="16sp"
+            android:textSize="20sp"
             android:text="Search"
             android:onClick="goToSearch"
             android:background="@android:color/holo_blue_light" />
