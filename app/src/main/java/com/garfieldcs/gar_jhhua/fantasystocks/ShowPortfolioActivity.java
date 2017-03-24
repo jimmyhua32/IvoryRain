@@ -20,9 +20,9 @@ public class ShowPortfolioActivity extends AppCompatActivity {
     private User user;
     private OwnedStocks ownedStocks;
     private String username;
-    private double investedAssets;
-    private double totalAssets;
-    private double bankAssets;
+    private static double investedAssets;
+    private static double totalAssets;
+    private static double bankAssets;
     private String password;
 
     @Override
@@ -103,15 +103,8 @@ public class ShowPortfolioActivity extends AppCompatActivity {
 
         //Collect and analyze data
         protected Double[] doInBackground(Void... arg0 ) {
-            bankAssets = 20000.0; //temporary for testing
-            stocks.add("Apple 13");
-            if (ownedStocks.getSize() > 0) {
-                for (int i = 0; i < ownedStocks.getSize(); i++) {
-                    investedAssets = investedAssets +
-                            (ownedStocks.getAssetPrice(i) * ownedStocks.getAssetQuantity(i));
-                    System.out.println(investedAssets);
-                }
-            }
+            bankAssets = ownedStocks.INITIAL_BANK_VALUE; //ownedStocks.getBankAssets();
+            investedAssets = 0.0; //ownedStocks.getAssetValue();
             totalAssets = investedAssets + bankAssets;
             return new Double[] {bankAssets, investedAssets, totalAssets}; //result
         }
@@ -132,6 +125,10 @@ public class ShowPortfolioActivity extends AppCompatActivity {
             bankValue.setText("$" + result[0]);
             investedValue.setText("$" + result[1]);
             totalValue.setText("$" + result[2]);
+
+            ShowPortfolioActivity.bankAssets = result[0];
+            ShowPortfolioActivity.investedAssets = result[1];
+            ShowPortfolioActivity.totalAssets = result[2];
 
             ArrayAdapter<String> adapter = new ArrayAdapter<String>
                     (ShowPortfolioActivity.this, android.R.layout.simple_list_item_1, stocks);

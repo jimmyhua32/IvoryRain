@@ -79,6 +79,7 @@ public class OwnedStocks {
             if (tempRead.readLine() == null) {
                 writeTo = new PrintWriter(new File(context.getFilesDir(), "B" + id + ".txt"));
                 writeTo.println(INITIAL_BANK_VALUE);
+                bankAssets = INITIAL_BANK_VALUE;
             } else {
                 bankAssets = Double.parseDouble(bankReadFrom.readLine());
             }
@@ -102,6 +103,10 @@ public class OwnedStocks {
             initialAssetValue+= price.get(i) * quantity.get(i);
         }
         percentValueChange = initialAssetValue / assetValue * 100;
+        if (assetValue == null) {
+            bankAssets = 0.0;
+        }
+        System.out.println(assetValue);
     }
 
     public Double getBankAssets() {
