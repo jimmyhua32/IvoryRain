@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 public class User {
-    public static final int MAX_ID_POWER = 10000;
+    public static final int MAX_ID_DIGITS = 10000;
 
     private int id;
     private String username;
@@ -86,7 +86,7 @@ public class User {
         if (!doesExist && createUser) {
             boolean generatedID = false;
             while (!generatedID) {
-                id = (int) (Math.random() * MAX_ID_POWER);
+                id = (int) (Math.random() * MAX_ID_DIGITS);
                 if (ids.size() == 0) {
                     generatedID = true;
                 }

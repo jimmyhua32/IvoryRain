@@ -1,7 +1,6 @@
 package com.garfieldcs.gar_jhhua.fantasystocks;
 
 import android.content.Context;
-import android.os.AsyncTask;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -14,11 +13,17 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 public class OwnedStocks {
+    public static final double INITIAL_BANK_VALUE = 20000;
+
     private int id; //Name of text file
+    private BufferedReader bankReadFrom;
     private BufferedReader readFrom;
     private Context context;
 
     private Double bankAssets;
+    private Double assetValue;
+    private Double percentValueChange;
+    private Double rawAssetChange;
     private ArrayList<String> info; //Whole string which includes name, price, quantity
     private ArrayList<String> name;
     private ArrayList<Double> price;
@@ -37,6 +42,8 @@ public class OwnedStocks {
         try {
             readFrom = new BufferedReader(new FileReader(new File
                     (context.getFilesDir(), "S" + id + ".txt")));
+            bankReadFrom = new BufferedReader(new FileReader(new File
+                    (context.getFilesDir(), "B" + id + ".txt")));
             fillArrays();
         } catch (IOException e) {
             System.out.println("Something wrong went with the files");
@@ -50,20 +57,75 @@ public class OwnedStocks {
         String infoString = readFrom.readLine();
         System.out.println(infoString);
         while (infoString != null) {
+            containStock = true;
             info.add(infoString);
             infoString = readFrom.readLine();
-            containStock = true;
         }
+        int count = 0; //For testing
         for (String i : info) {
             Scanner temp = new Scanner(i);
+            count++;
             name.add(temp.next());
+            System.out.println(name.get(count));
             price.add(Double.parseDouble(temp.next()));
+            System.out.println(price.get(count));
             quantity.add(Integer.parseInt(temp.next()));
+            System.out.println(quantity.get(count));
         }
+        PrintWriter writeTo = null;
+        try {
+            BufferedReader tempRead = new BufferedReader(new FileReader
+                    (new File("B" + id + ".txt")));
+            if (tempRead.readLine() == null) {
+                writeTo = new PrintWriter(new File(context.getFilesDir(), "B" + id + ".txt"));
+                writeTo.println(INITIAL_BANK_VALUE);
+            } else {
+                bankAssets = Double.parseDouble(bankReadFrom.readLine());
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            writeTo.close();
+        }
+    }
+
+    //Calculates various changes in asset value
+    public void calcChange() {
+        assetValue = 0.0;
+        rawAssetChange = 0.0;
+        Double initialAssetValue = 0.0;
+        for (int i = 0; i < price.size(); i++) {
+            StockInfo stock = new StockInfo(name.get(i), context);
+            Double priceChange = price.get(i) - stock.getRawPrice();
+            rawAssetChange+= priceChange * quantity.get(i);
+            assetValue+= stock.getRawPrice() * quantity.get(i);
+            initialAssetValue+= price.get(i) * quantity.get(i);
+        }
+        percentValueChange = initialAssetValue / assetValue * 100;
     }
 
     public Double getBankAssets() {
         return bankAssets;
+    }
+
+    public Double getAssetValue() {
+        calcChange();
+        return assetValue;
+    }
+
+    public Double getRawAssetChange() {
+        calcChange();
+        return rawAssetChange;
+    }
+
+    public Double getPercentValueChange() {
+        calcChange();
+        return percentValueChange;
+    }
+
+    public Double getTotalAssets() {
+        calcChange();
+        return null;
     }
 
     public int getSize() {
@@ -121,6 +183,8 @@ public class OwnedStocks {
             writeTo = new PrintWriter(new File(context.getFilesDir(), "S" + id + ".txt"));
             System.out.println(symbol + " " + price + " " + quantityPurchased);
             writeTo.println(symbol + " " + price + " " + quantityPurchased);
+            writeTo = new PrintWriter(new File(context.getFilesDir(), "B" + id + ".txt"));
+            writeTo.println(bankAssets - (Double.parseDouble(price) * quantityPurchased));
         } catch (IOException e) {
             e.printStackTrace();
         } finally {
