@@ -40,12 +40,6 @@ public class OwnedStocks {
         containStock = false;
 
         try {
-            File read = new File(context.getFilesDir(), "S" + id + ".txt");
-            read.createNewFile();
-            File bankRead = new File(context.getFilesDir(), "B" + id + ".txt");
-            bankRead.createNewFile();
-            readFrom = new BufferedReader(new FileReader(read));
-            bankReadFrom = new BufferedReader(new FileReader(bankRead));
             fillArrays();
         } catch (IOException e) {
             System.out.println("Something wrong went with the files");
@@ -56,6 +50,13 @@ public class OwnedStocks {
     //Fills the arrays with info from a file
     private void fillArrays() throws IOException {
         refresh();
+        File read = new File(context.getFilesDir(), "S" + id + ".txt");
+        read.createNewFile();
+        File bankRead = new File(context.getFilesDir(), "B" + id + ".txt");
+        bankRead.createNewFile();
+        readFrom = new BufferedReader(new FileReader(read));
+        bankReadFrom = new BufferedReader(new FileReader(bankRead));
+
         String infoString = readFrom.readLine();
         System.out.println(infoString);
         while (infoString != null) {
