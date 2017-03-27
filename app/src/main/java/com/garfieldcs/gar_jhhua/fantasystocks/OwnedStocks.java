@@ -5,7 +5,6 @@ import android.content.Context;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -16,7 +15,7 @@ import java.util.Scanner;
 public class OwnedStocks {
     public static final double INITIAL_BANK_VALUE = 20000;
 
-    private int id; //Name of text file
+    private int id;
     private BufferedReader bankReadFrom;
     private BufferedReader readFrom;
     private Context context;
@@ -80,15 +79,16 @@ public class OwnedStocks {
         try {
             BufferedReader tempRead = new BufferedReader(new FileReader
                     (new File(context.getFilesDir(), "B" + id + ".txt")));
-            if (tempRead.readLine() == null) {
+            String tempLine = tempRead.readLine();
+            if (tempLine == null) {
                 writeTo = new PrintWriter(new File(context.getFilesDir(), "B" + id + ".txt"));
                 writeTo.println(INITIAL_BANK_VALUE);
                 bankAssets = INITIAL_BANK_VALUE;
                 writeTo.close();
             } else {
-                if (!(tempRead.readLine().equals("")))
+                if (!(tempLine.equals(""))) {
                     bankAssets = Double.parseDouble(bankReadFrom.readLine());
-                else {
+                } else {
                     writeTo = new PrintWriter(new File(context.getFilesDir(), "B" + id + ".txt"));
                     writeTo.println(INITIAL_BANK_VALUE);
                     bankAssets = INITIAL_BANK_VALUE;
@@ -155,6 +155,9 @@ public class OwnedStocks {
     }
 
     public ArrayList<String> getAsset() {
+        //name, price, quantity
+        //Eventually make a new array with better formatting
+        System.out.println(info.toString());
         return info;
     }
 
