@@ -14,7 +14,7 @@ import android.widget.Toast;
 
 import java.io.IOException;
 
-public class BuyStockActivity extends AppCompatActivity {
+public class SellStockActivity extends AppCompatActivity {
 
     private Toast t;
     private CheckConnection c;
@@ -27,12 +27,11 @@ public class BuyStockActivity extends AppCompatActivity {
     private double bankAssets;
     private String username;
     private String password;
-    private static String stockName;
-    private static double stockPrice;
 
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_buy_stock);
+        setContentView(R.layout.activity_sell_stock);
 
         Bundle bundle = getIntent().getExtras();
         username = bundle.getString("Username");
@@ -41,7 +40,6 @@ public class BuyStockActivity extends AppCompatActivity {
         totalAssets = bundle.getDouble("totalAssets");
         bankAssets = bundle.getDouble("bankAssets");
         name = bundle.getString("name");
-
         user = new User(username, password, false, getApplicationContext());
         ownedStocks = new OwnedStocks(user.getID(), getApplicationContext());
 
@@ -71,6 +69,7 @@ public class BuyStockActivity extends AppCompatActivity {
         t = new Toast(context);
         c = new CheckConnection(context);
 
+
         if (c.isConnected()) {
 
             stockInfo = new StockInfo(name, getApplicationContext());
@@ -85,17 +84,15 @@ public class BuyStockActivity extends AppCompatActivity {
         }
     }
 
-    //Adds a stock using OwnedStocks
-    public void purchaseStock (View view) {
+    public void sellStock (View view) {
         EditText sharesTemp = (EditText) findViewById(R.id.sharesWanted);
         int shares = Integer.parseInt(sharesTemp.getText().toString());
         Context context = getApplicationContext();
         CharSequence nullOrNegative = "Input has to be a positive integer!";
         CharSequence positiveShares = "Transaction processing...";
-        CharSequence notEnoughMoney = "Not enough money in bank!";
+        CharSequence notEnoughStocks = "You do not own enough stocks!";
         CharSequence tranComplete = "Transaction complete!";
         int duration = Toast.LENGTH_SHORT;
-
         if (shares <= 0) {
             Toast nonToast = Toast.makeText(context, nullOrNegative, duration);
             nonToast.show();
@@ -104,15 +101,15 @@ public class BuyStockActivity extends AppCompatActivity {
             Toast tranProcess = Toast.makeText(context, positiveShares, duration);
             tranProcess.show();
             if ((shares * stockInfo.getRawPrice()) > bankAssets) {
-                Toast noMoney = Toast.makeText(context, notEnoughMoney, duration);
+                Toast noMoney = Toast.makeText(context, notEnoughStocks, duration);
                 noMoney.show();
             }
             else {
                 investedAssets += (shares * stockInfo.getRawPrice());
                 bankAssets -= (shares * stockInfo.getRawPrice());
-                totalAssets = bankAssets + investedAssets;
+                StockInfo stock = new StockInfo("GOOG", context);
                 try {
-                    ownedStocks.addStock(stockName, stockPrice, shares);
+                    ownedStocks.addStock("GOOG", stock.getRawPrice(), shares);
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -148,7 +145,7 @@ public class BuyStockActivity extends AppCompatActivity {
 
     //Checks to see if StockInfo is done
     private class loadingData extends AsyncTask<Void, Void, Void> {
-        ProgressDialog dialog = new ProgressDialog(BuyStockActivity.this);
+        ProgressDialog dialog = new ProgressDialog(SellStockActivity.this);
         boolean status;
 
         //Sets up progress dialog
@@ -157,7 +154,7 @@ public class BuyStockActivity extends AppCompatActivity {
 
             dialog.setCancelable(false);
             dialog.setInverseBackgroundForced(false);
-            dialog = dialog.show(BuyStockActivity.this,
+            dialog = dialog.show(SellStockActivity.this,
                     "Please wait", "Retrieving data...", true);
             super.onPreExecute();
         }
@@ -173,31 +170,28 @@ public class BuyStockActivity extends AppCompatActivity {
         //Changes the views and dismisses the progress dialog
         protected void onPostExecute(Void result) {
 
-            TextView buyNameView = (TextView) findViewById(R.id.buyStockName);
-            TextView buyPriceView = (TextView) findViewById(R.id.buyStockPrice);
-            TextView buyPCView = (TextView) findViewById(R.id.buyPCValue);
-            TextView buyDHighView = (TextView) findViewById(R.id.buyDHValue);
-            TextView buyDLowView = (TextView) findViewById(R.id.buyDLValue);
-            TextView buyYHighView = (TextView) findViewById(R.id.buyYHValue);
-            TextView buyYLowView = (TextView) findViewById(R.id.buyYLValue);
+            TextView sellNameView = (TextView) findViewById(R.id.sellStockName);
+            TextView sellPriceView = (TextView) findViewById(R.id.sellStockPrice);
+            TextView sellPCView = (TextView) findViewById(R.id.sellPCValue);
+            TextView sellDHighView = (TextView) findViewById(R.id.sellDHValue);
+            TextView sellDLowView = (TextView) findViewById(R.id.sellDLValue);
+            TextView sellYHighView = (TextView) findViewById(R.id.sellYHValue);
+            TextView sellYLowView = (TextView) findViewById(R.id.sellYLValue);
 
 
             if (c.isConnected()) {
-                String fullname = stockInfo.getName() + " (" + stockInfo.getSymbol() + ")";
-                buyNameView.setText(fullname);
+                String fullname = name + " (" + stockInfo.getSymbol() + ")";
+                sellNameView.setText(fullname);
             } else {
-                buyNameView.setText(name);
+                sellNameView.setText(name);
             }
 
-            BuyStockActivity.stockName = stockInfo.getSymbol();
-            BuyStockActivity.stockPrice = stockInfo.getRawPrice();
-
-            buyPriceView.setText(stockInfo.getPrice());
-            buyPCView.setText(stockInfo.getChangeP());
-            buyDHighView.setText(stockInfo.getHighD());
-            buyDLowView.setText(stockInfo.getLowD());
-            buyYHighView.setText(stockInfo.getHighY());
-            buyYLowView.setText(stockInfo.getLowY());
+            sellPriceView.setText(stockInfo.getPrice());
+            sellPCView.setText(stockInfo.getChangeP());
+            sellDHighView.setText(stockInfo.getHighD());
+            sellDLowView.setText(stockInfo.getLowD());
+            sellYHighView.setText(stockInfo.getHighY());
+            sellYLowView.setText(stockInfo.getLowY());
 
             dialog.dismiss();
             super.onPostExecute(result);

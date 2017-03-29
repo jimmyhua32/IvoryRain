@@ -5,25 +5,30 @@ import android.content.Context;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Scanner;
 
 public class OwnedStocks {
-    private int id; //Name of text file
-    private PrintWriter writeTo;
+    public static final double INITIAL_BANK_VALUE = 20000;
+
+    private int id;
+    private BufferedReader bankReadFrom;
     private BufferedReader readFrom;
     private Context context;
 
+    private Double bankAssets;
+    private Double assetValue;
+    private Double percentValueChange;
+    private Double rawAssetChange;
     private ArrayList<String> info; //Whole string which includes name, price, quantity
     private ArrayList<String> name;
     private ArrayList<Double> price;
     private ArrayList<Integer> quantity;
+    private boolean containStock;
 
     public OwnedStocks(int id, Context context) {
         this.id = id;
@@ -32,11 +37,9 @@ public class OwnedStocks {
         name = new ArrayList<String>();
         price = new ArrayList<Double>();
         quantity = new ArrayList<Integer>();
+        containStock = false;
 
         try {
-            writeTo = new PrintWriter(new File(context.getFilesDir(), id + ".txt"));
-            FileReader reader = new FileReader(new File(context.getFilesDir(), id + ".txt"));
-            readFrom = new BufferedReader(reader);
             fillArrays();
         } catch (IOException e) {
             System.out.println("Something wrong went with the files");
@@ -47,18 +50,98 @@ public class OwnedStocks {
     //Fills the arrays with info from a file
     private void fillArrays() throws IOException {
         refresh();
+        File read = new File(context.getFilesDir(), "S" + id + ".txt");
+        read.createNewFile();
+        File bankRead = new File(context.getFilesDir(), "B" + id + ".txt");
+        bankRead.createNewFile();
+        readFrom = new BufferedReader(new FileReader(read));
+        bankReadFrom = new BufferedReader(new FileReader(bankRead));
+
         String infoString = readFrom.readLine();
+        System.out.println(infoString);
         while (infoString != null) {
+            containStock = true;
             info.add(infoString);
+            System.out.println("InfoString is not null!");
             infoString = readFrom.readLine();
         }
+        int count = 0; //For testing
         for (String i : info) {
             Scanner temp = new Scanner(i);
+            count++;
             name.add(temp.next());
-            price.add(temp.nextDouble());
-            quantity.add(temp.nextInt());
+            System.out.println(name.get(count));
+            price.add(Double.parseDouble(temp.next()));
+            System.out.println(price.get(count));
+            quantity.add(Integer.parseInt(temp.next()));
+            System.out.println(quantity.get(count));
         }
-        readFrom.close();
+        PrintWriter writeTo;
+        try {
+            BufferedReader tempRead = new BufferedReader(new FileReader
+                    (new File(context.getFilesDir(), "B" + id + ".txt")));
+            String tempLine = tempRead.readLine();
+            if (tempLine == null) {
+                writeTo = new PrintWriter(new File(context.getFilesDir(), "B" + id + ".txt"));
+                writeTo.println(INITIAL_BANK_VALUE);
+                bankAssets = INITIAL_BANK_VALUE;
+                writeTo.close();
+            } else {
+                if (!(tempLine.equals(""))) {
+                    bankAssets = Double.parseDouble(bankReadFrom.readLine());
+                } else {
+                    writeTo = new PrintWriter(new File(context.getFilesDir(), "B" + id + ".txt"));
+                    writeTo.println(INITIAL_BANK_VALUE);
+                    bankAssets = INITIAL_BANK_VALUE;
+                    writeTo.close();
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    //Calculates various changes in asset value
+    public void calcChange() {
+        assetValue = 0.0;
+        rawAssetChange = 0.0;
+        Double initialAssetValue = 0.0;
+        for (int i = 0; i < price.size(); i++) {
+            StockInfo stock = new StockInfo(name.get(i), context);
+            Double priceChange = price.get(i) - stock.getRawPrice();
+            rawAssetChange+= priceChange * quantity.get(i);
+            assetValue+= stock.getRawPrice() * quantity.get(i);
+            initialAssetValue+= price.get(i) * quantity.get(i);
+        }
+        percentValueChange = initialAssetValue / assetValue * 100;
+        if (assetValue == null) {
+            bankAssets = 0.0;
+        }
+        System.out.println(assetValue);
+    }
+
+    public Double getBankAssets() {
+        return bankAssets;
+    }
+
+    public Double getAssetValue() {
+        calcChange();
+        return assetValue;
+    }
+
+    public Double getRawAssetChange() {
+        calcChange();
+        return rawAssetChange;
+    }
+
+    public Double getPercentValueChange() {
+        calcChange();
+        return percentValueChange;
+    }
+
+    public Double getTotalAssets() {
+        calcChange();
+        return null;
     }
 
     public int getSize() {
@@ -66,15 +149,24 @@ public class OwnedStocks {
     }
 
     public String getAsset(int index) {
-        return info.get(index);
+        if (containStock) {
+            return info.get(index);
+        }
+        return null;
     }
 
     public ArrayList<String> getAsset() {
+        //name, price, quantity
+        //Eventually make a new array with better formatting
+        System.out.println(info.toString());
         return info;
     }
 
     public String getAssetName(int index) {
-        return name.get(index);
+        if (containStock) {
+            return name.get(index);
+        }
+        return null;
     }
 
     public ArrayList<String> getAssetName() {
@@ -82,7 +174,10 @@ public class OwnedStocks {
     }
 
     public Double getAssetPrice(int index) {
-        return price.get(index);
+        if (containStock) {
+            return price.get(index);
+        }
+        return 0.0;
     }
 
     public ArrayList<Double> getAssetPrice() {
@@ -90,7 +185,10 @@ public class OwnedStocks {
     }
 
     public Integer getAssetQuantity(int index) {
-        return quantity.get(index);
+        if (containStock) {
+            return quantity.get(index);
+        }
+        return 0;
     }
 
     public ArrayList<Integer> getAssetQuantity() {
@@ -98,17 +196,29 @@ public class OwnedStocks {
     }
 
     //Adds a stock and its info to a file
-    public void addStock(StockInfo stock, int quantityPurchased) throws IOException {
-        writeTo.println(stock.getName() + " " + stock.getRawPrice() + " " + quantityPurchased);
+    public void addStock(String symbol, double price, int quantityPurchased) throws IOException {
+        PrintWriter writeTo = null;
+        try {
+            writeTo = new PrintWriter(new File(context.getFilesDir(), "S" + id + ".txt"));
+            System.out.println(symbol + " " + price + " " + quantityPurchased);
+            writeTo.println(symbol + " " + price + " " + quantityPurchased);
+            writeTo = new PrintWriter(new File(context.getFilesDir(), "B" + id + ".txt"));
+            writeTo.println(bankAssets - (price * quantityPurchased));
+            System.out.println("Stock added!");
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            writeTo.close();
+        }
         fillArrays();
     }
 
-    //Currently sells all quantities of a purchase of stock (for now)
+    //Sells all quantities of a purchase of stock (for now)
     public void removeStock(StockInfo stock, int quantityPurchased) throws IOException {
         String removeLine = stock.getName() + " " + stock.getPrice() + " " + quantityPurchased;
-        File oldFile = new File(context.getFilesDir(), id + ".txt");
+        File oldFile = new File(context.getFilesDir(), "S" + id + ".txt");
         File oldFileName = oldFile;
-        File newFile = new File(context.getFilesDir(), id + "b.txt");
+        File newFile = new File(context.getFilesDir(), "S" + id + "b.txt");
         BufferedReader reader = new BufferedReader(new FileReader(oldFile));
         BufferedWriter writer = new BufferedWriter((new FileWriter(newFile)));
         String currentLine;
@@ -136,4 +246,5 @@ public class OwnedStocks {
     public int getID() {
         return id;
     }
+
 }

@@ -15,7 +15,7 @@
         android:textStyle="bold"
         android:layout_marginTop="20dp"
         android:layout_gravity="center_horizontal"
-        android:text="Buy" />
+        android:text="Sell" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -25,7 +25,7 @@
         android:text="Stock Name"
         android:layout_gravity="center_horizontal"
         android:paddingTop="8dp"
-        android:id="@+id/buyStockName"/>
+        android:id="@+id/sellStockName"/>
 
     <ImageView
         android:layout_width="match_parent"
@@ -94,7 +94,7 @@
                             android:layout_height="wrap_content"
                             android:textSize="18sp"
                             android:text="Value"
-                            android:id="@+id/buyStockPrice"/>
+                            android:id="@+id/sellStockPrice"/>
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -109,7 +109,7 @@
                             android:layout_height="wrap_content"
                             android:textSize="18sp"
                             android:text="Value"
-                            android:id="@+id/buyPCValue"/>
+                            android:id="@+id/sellPCValue"/>
 
                     </LinearLayout>
 
@@ -129,7 +129,7 @@
                             android:layout_height="wrap_content"
                             android:textSize="18sp"
                             android:text="Value"
-                            android:id="@+id/buyDHValue"/>
+                            android:id="@+id/sellDHValue"/>
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -144,7 +144,7 @@
                             android:layout_height="wrap_content"
                             android:textSize="18sp"
                             android:text="Value"
-                            android:id="@+id/buyDLValue"/>
+                            android:id="@+id/sellDLValue"/>
 
                     </LinearLayout>
 
@@ -163,7 +163,7 @@
                             android:layout_height="wrap_content"
                             android:textSize="18sp"
                             android:text="Value"
-                            android:id="@+id/buyYHValue"/>
+                            android:id="@+id/sellYHValue"/>
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -178,7 +178,7 @@
                             android:layout_height="wrap_content"
                             android:textSize="18sp"
                             android:text="Value"
-                            android:id="@+id/buyYLValue"/>
+                            android:id="@+id/sellYLValue"/>
 
                     </LinearLayout>
 
@@ -222,7 +222,7 @@
             android:textSize="24sp"
             android:hint="####"
             android:inputType="number"
-            android:id="@+id/sharesWanted"
+            android:id="@+id/sharesToSell"
             android:maxLength="4"
             android:ems="3"
             android:paddingStart="0dp"
@@ -233,8 +233,8 @@
             android:layout_height="wrap_content"
             android:background="@android:color/holo_red_light"
             android:layout_marginStart="36dp"
-            android:layout_marginEnd="36dp"
             android:onClick="cancelToDisplay"
+            android:layout_marginEnd="36dp"
             android:textSize="20sp"
             android:text="Cancel"/>
 
@@ -243,8 +243,8 @@
             android:layout_height="wrap_content"
             android:background="@android:color/holo_green_light"
             android:textSize="20sp"
-            android:text="Purchase"
-            android:onClick="purchaseStock"/>
+            android:text="Sell"
+            android:onClick="sellStock"/>
 
     </LinearLayout>
 

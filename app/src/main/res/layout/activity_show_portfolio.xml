@@ -15,7 +15,8 @@
         android:layout_height="wrap_content"
         android:id="@+id/userTeamName"
         android:layout_gravity="center_horizontal"
-        android:textSize="40sp"
+        android:textSize="60sp"
+        android:textStyle="bold"
         android:text="Team Name"
         android:paddingTop="12dp"/>
 
@@ -28,17 +29,27 @@
         <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="24sp"
+        android:textSize="36sp"
         android:layout_marginTop="8dp"
-        android:text="Total Assets: "/>
+        android:text="Total Assets: "
+            android:textStyle="bold"/>
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="20sp"
+            android:textSize="28sp"
             android:layout_marginTop="8dp"
             android:text="Value"
             android:id="@+id/TotalAssetValue" />
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="40dp"
+            android:textSize="20sp"
+            android:text="Search"
+            android:onClick="goToSearch"
+            android:background="@android:color/holo_blue_light" />
+
 
     </LinearLayout>
 
@@ -52,13 +63,14 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
-            android:textSize="16sp"
+            android:textSize="26sp"
+            android:textStyle="bold"
             android:text="Invested Assets: " />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="12sp"
+            android:textSize="20sp"
             android:text="Value"
             android:id="@+id/InvestedAssetsValue"/>
 
@@ -73,13 +85,14 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
-            android:textSize="16sp"
+            android:textSize="26sp"
+            android:textStyle="bold"
             android:text="Bank Account Assets: " />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="12sp"
+            android:textSize="20sp"
             android:text="Value"
             android:id="@+id/BankAccountValue"/>
 
