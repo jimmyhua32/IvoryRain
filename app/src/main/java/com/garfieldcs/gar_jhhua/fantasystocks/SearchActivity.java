@@ -14,6 +14,7 @@ import java.util.ArrayList;
 public class SearchActivity extends AppCompatActivity {
 
     private ArrayList<String> stockSearch;
+    private ArrayList<String> searchFullName;
     private double investedAssets;
     private double totalAssets;
     private double bankAssets;
@@ -43,19 +44,27 @@ public class SearchActivity extends AppCompatActivity {
         stockSearch.add(0, "AAPL");
         stockSearch.add(0, "GOOG");
 
+        searchFullName = new ArrayList<String>();
+        searchFullName.add(0, "Verizon");
+        searchFullName.add(0, "Amazon");
+        searchFullName.add(0, "Starbucks");
+        searchFullName.add(0, "Nike");
+        searchFullName.add(0, "Yahoo");
+        searchFullName.add(0, "AT&T");
+        searchFullName.add(0, "Coca-Cola");
+        searchFullName.add(0, "Apple");
+        searchFullName.add(0, "Google");
+
         ListView list = (ListView) findViewById(R.id.stockSearchList);
 
         ArrayAdapter<String> adapter = new ArrayAdapter<String>
-                (SearchActivity.this, android.R.layout.simple_list_item_1, stockSearch);
+                (SearchActivity.this, android.R.layout.simple_list_item_1, searchFullName);
         list.setAdapter(adapter);
 
         list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view,
                                     int position, long id) {
-                Toast.makeText(getApplicationContext(),
-                        "Stock Number " + position, Toast.LENGTH_LONG)
-                        .show();
                 goToStock(view, position);
             }
         });
