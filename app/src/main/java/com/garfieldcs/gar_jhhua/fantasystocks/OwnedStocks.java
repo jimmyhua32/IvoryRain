@@ -5,7 +5,6 @@ import android.content.Context;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -16,7 +15,7 @@ import java.util.Scanner;
 public class OwnedStocks {
     public static final double INITIAL_BANK_VALUE = 20000;
 
-    private int id; //Name of text file
+    private int id;
     private BufferedReader bankReadFrom;
     private BufferedReader readFrom;
     private Context context;
@@ -41,12 +40,6 @@ public class OwnedStocks {
         containStock = false;
 
         try {
-            File read = new File(context.getFilesDir(), "S" + id + ".txt");
-            read.createNewFile();
-            File bankRead = new File(context.getFilesDir(), "B" + id + ".txt");
-            bankRead.createNewFile();
-            readFrom = new BufferedReader(new FileReader(read));
-            bankReadFrom = new BufferedReader(new FileReader(bankRead));
             fillArrays();
         } catch (IOException e) {
             System.out.println("Something wrong went with the files");
@@ -57,6 +50,13 @@ public class OwnedStocks {
     //Fills the arrays with info from a file
     private void fillArrays() throws IOException {
         refresh();
+        File read = new File(context.getFilesDir(), "S" + id + ".txt");
+        read.createNewFile();
+        File bankRead = new File(context.getFilesDir(), "B" + id + ".txt");
+        bankRead.createNewFile();
+        readFrom = new BufferedReader(new FileReader(read));
+        bankReadFrom = new BufferedReader(new FileReader(bankRead));
+
         String infoString = readFrom.readLine();
         System.out.println(infoString);
         while (infoString != null) {
@@ -80,13 +80,21 @@ public class OwnedStocks {
         try {
             BufferedReader tempRead = new BufferedReader(new FileReader
                     (new File(context.getFilesDir(), "B" + id + ".txt")));
-            if (tempRead.readLine() == null || tempRead.readLine().equals("")) {
+            String tempLine = tempRead.readLine();
+            if (tempLine == null) {
                 writeTo = new PrintWriter(new File(context.getFilesDir(), "B" + id + ".txt"));
                 writeTo.println(INITIAL_BANK_VALUE);
                 bankAssets = INITIAL_BANK_VALUE;
                 writeTo.close();
             } else {
-                bankAssets = Double.parseDouble(bankReadFrom.readLine());
+                if (!(tempLine.equals(""))) {
+                    bankAssets = Double.parseDouble(bankReadFrom.readLine());
+                } else {
+                    writeTo = new PrintWriter(new File(context.getFilesDir(), "B" + id + ".txt"));
+                    writeTo.println(INITIAL_BANK_VALUE);
+                    bankAssets = INITIAL_BANK_VALUE;
+                    writeTo.close();
+                }
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -148,6 +156,9 @@ public class OwnedStocks {
     }
 
     public ArrayList<String> getAsset() {
+        //name, price, quantity
+        //Eventually make a new array with better formatting
+        System.out.println(info.toString());
         return info;
     }
 
