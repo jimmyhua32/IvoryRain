@@ -104,9 +104,6 @@ public class User {
                 try {
                     writer = new PrintWriter(
                             new File(context.getFilesDir(), id + ".txt"));
-
-                    /*FileOutputStream fos = context.openFileOutput(id + ".txt", context.MODE_PRIVATE);
-                    BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(fos));*/
                     System.out.println(id + " " + username + " " + password);
                     writer.println(id + " " + username + " " + password);
                     writer.println("end");
