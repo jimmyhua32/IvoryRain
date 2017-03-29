@@ -177,11 +177,13 @@ public class OwnedStocks {
     }
 
     public double getBankAssets() {
+        System.out.println(bankAssets);
         return bankAssets;
     }
 
     public double getAssetValue() {
         calcChange();
+        System.out.println(assetValue);
         return assetValue;
     }
 
@@ -197,6 +199,7 @@ public class OwnedStocks {
 
     public double getTotalAssets() {
         calcChange();
+        System.out.println(bankAssets + assetValue);
         return bankAssets + assetValue;
     }
 

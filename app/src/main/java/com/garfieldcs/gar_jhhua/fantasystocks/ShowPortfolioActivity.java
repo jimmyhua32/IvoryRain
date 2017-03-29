@@ -75,12 +75,12 @@ public class ShowPortfolioActivity extends AppCompatActivity {
     }
 
     //Loads the information on a separate thread
-    private class LoadingData extends AsyncTask<Void, Void, Double[]> {
+    private class LoadingData extends AsyncTask<Void, Void, double[]> {
         ProgressDialog dialog = new ProgressDialog(ShowPortfolioActivity.this);
         boolean status;
-        Double investedAssets;
-        Double bankAssets;
-        Double totalAssets;
+        double investedAssets;
+        double bankAssets;
+        double totalAssets;
         List<String> stocks;
 
         //Loading circle bar... thing
@@ -99,17 +99,17 @@ public class ShowPortfolioActivity extends AppCompatActivity {
         }
 
         //Collect and analyze data
-        protected Double[] doInBackground(Void... arg0 ) {
+        protected double[] doInBackground(Void... arg0 ) {
             bankAssets = ownedStocks.getBankAssets();
             investedAssets = ownedStocks.getAssetValue();
             totalAssets = ownedStocks.getTotalAssets();
             System.out.println(1);
-            return new Double[] {bankAssets, investedAssets, totalAssets}; //result
+            return new double[] {bankAssets, investedAssets, totalAssets}; //result
         }
 
 
         //Display the information onto the screen
-        protected void onPostExecute(Double[] result) {
+        protected void onPostExecute(double[] result) {
             //{bankAssets, investedAssets, totalAssets}
 
             System.out.println(2);
@@ -136,7 +136,7 @@ public class ShowPortfolioActivity extends AppCompatActivity {
                     (ShowPortfolioActivity.this, android.R.layout.simple_list_item_1, stocks);
             list.setAdapter(adapter);
 
-
+            super.onPostExecute(result);
         }
     }
 }
