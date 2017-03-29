@@ -20,10 +20,10 @@ public class OwnedStocks {
     private BufferedReader readFrom;
     private Context context;
 
-    private Double bankAssets;
-    private Double assetValue;
-    private Double percentValueChange;
-    private Double rawAssetChange;
+    private double bankAssets;
+    private double assetValue;
+    private double percentValueChange;
+    private double rawAssetChange;
     private ArrayList<String> info;
     private ArrayList<String> name;
     private ArrayList<Double> price;
@@ -58,14 +58,12 @@ public class OwnedStocks {
         bankReadFrom = new BufferedReader(new FileReader(bankRead));
 
         String infoString;
-        System.out.println(1);
         while ((infoString = readFrom.readLine()) != null) {
             System.out.println(infoString);
             containStock = true;
             info.add(infoString);
             System.out.println("InfoString is not null!");
         }
-        System.out.println(2);
         int count = 0; //For testing
         for (String i : info) {
             Scanner temp = new Scanner(i);
@@ -83,7 +81,6 @@ public class OwnedStocks {
     }
 
     private void calcBankAssets() {
-        System.out.println(3);
         PrintWriter writeTo;
         try {
             BufferedReader tempRead = new BufferedReader(new FileReader
@@ -122,9 +119,6 @@ public class OwnedStocks {
             initialAssetValue+= price.get(i) * quantity.get(i);
         }
         percentValueChange = initialAssetValue / assetValue * 100;
-        if (assetValue == null) {
-            bankAssets = 0.0;
-        }
         System.out.println(assetValue);
     }
 
@@ -139,7 +133,9 @@ public class OwnedStocks {
             writeTo.println(str);
             writeTo.flush();
             writeTo = new PrintWriter(new File(context.getFilesDir(), "B" + id + ".txt"));
-            writeTo.println(bankAssets - (price * quantityPurchased));
+            double doub = bankAssets - (price * quantityPurchased);
+            doub = Math.round(doub * 100.0) / 100.0;
+            writeTo.println(doub);
             System.out.println("Stock added!");
             writeTo.flush();
         } catch (IOException e) {
@@ -180,28 +176,28 @@ public class OwnedStocks {
         quantity.clear();
     }
 
-    public Double getBankAssets() {
-        return Math.round(bankAssets * 100.0) / 100.0;
+    public double getBankAssets() {
+        return bankAssets;
     }
 
-    public Double getAssetValue() {
+    public double getAssetValue() {
         calcChange();
         return assetValue;
     }
 
-    public Double getRawAssetChange() {
+    public double getRawAssetChange() {
         calcChange();
         return rawAssetChange;
     }
 
-    public Double getPercentValueChange() {
+    public double getPercentValueChange() {
         calcChange();
         return percentValueChange;
     }
 
-    public Double getTotalAssets() {
+    public double getTotalAssets() {
         calcChange();
-        return null;
+        return bankAssets + assetValue;
     }
 
     public int getSize() {
@@ -233,7 +229,7 @@ public class OwnedStocks {
         return name;
     }
 
-    public Double getAssetPrice(int index) {
+    public double getAssetPrice(int index) {
         if (containStock) {
             return price.get(index);
         }
