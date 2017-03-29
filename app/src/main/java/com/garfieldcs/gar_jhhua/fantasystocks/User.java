@@ -107,6 +107,7 @@ public class User {
                             new File(context.getFilesDir(), id + ".txt"));
                     System.out.println(id + " " + username + " " + password);
                     writer.println(id + " " + username + " " + password);
+                    writer.flush();
                 } catch (IOException e) {
                     e.printStackTrace();
                 } finally {

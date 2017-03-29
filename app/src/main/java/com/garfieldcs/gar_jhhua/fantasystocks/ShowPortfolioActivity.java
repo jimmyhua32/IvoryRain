@@ -100,8 +100,7 @@ public class ShowPortfolioActivity extends AppCompatActivity {
 
         //Collect and analyze data
         protected Double[] doInBackground(Void... arg0 ) {
-            bankAssets = Math.round(
-                    ownedStocks.getBankAssets() * 100.0) / 100.0;
+            bankAssets = ownedStocks.getBankAssets();
             investedAssets = ownedStocks.getAssetValue();
             totalAssets = investedAssets + bankAssets;
             return new Double[] {bankAssets, investedAssets, totalAssets}; //result
@@ -128,11 +127,13 @@ public class ShowPortfolioActivity extends AppCompatActivity {
             ShowPortfolioActivity.investedAssets = result[1];
             ShowPortfolioActivity.totalAssets = result[2];
 
+            dialog.dismiss();
+
             ArrayAdapter<String> adapter = new ArrayAdapter<String>
                     (ShowPortfolioActivity.this, android.R.layout.simple_list_item_1, stocks);
             list.setAdapter(adapter);
 
-            dialog.dismiss();
+
         }
     }
 }
