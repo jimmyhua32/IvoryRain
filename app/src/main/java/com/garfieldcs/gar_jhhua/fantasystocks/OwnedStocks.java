@@ -57,27 +57,28 @@ public class OwnedStocks {
         readFrom = new BufferedReader(new FileReader(read));
         bankReadFrom = new BufferedReader(new FileReader(bankRead));
 
-        String infoString = readFrom.readLine();
+        String infoString;
         System.out.println(1);
-        System.out.println(infoString);
-        while (infoString != null) {
+        while ((infoString = readFrom.readLine()) != null) {
+            System.out.println(infoString);
             containStock = true;
             info.add(infoString);
             System.out.println("InfoString is not null!");
-            infoString = readFrom.readLine();
         }
         System.out.println(2);
         int count = 0; //For testing
         for (String i : info) {
             Scanner temp = new Scanner(i);
-            count++;
             name.add(temp.next());
             System.out.println(name.get(count));
             price.add(Double.parseDouble(temp.next()));
             System.out.println(price.get(count));
             quantity.add(Integer.parseInt(temp.next()));
             System.out.println(quantity.get(count));
+            count++;
         }
+        readFrom.close();
+        bankReadFrom.close();
         calcBankAssets();
     }
 
@@ -136,9 +137,11 @@ public class OwnedStocks {
             String str = symbol + " " + price + " " + quantityPurchased;
             System.out.println(str);
             writeTo.println(str);
+            writeTo.flush();
             writeTo = new PrintWriter(new File(context.getFilesDir(), "B" + id + ".txt"));
             writeTo.println(bankAssets - (price * quantityPurchased));
             System.out.println("Stock added!");
+            writeTo.flush();
         } catch (IOException e) {
             e.printStackTrace();
         } finally {
@@ -178,7 +181,7 @@ public class OwnedStocks {
     }
 
     public Double getBankAssets() {
-        return bankAssets;
+        return Math.round(bankAssets * 100.0) / 100.0;
     }
 
     public Double getAssetValue() {
