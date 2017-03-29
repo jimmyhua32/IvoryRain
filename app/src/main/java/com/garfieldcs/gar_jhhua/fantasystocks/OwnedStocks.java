@@ -24,7 +24,7 @@ public class OwnedStocks {
     private Double assetValue;
     private Double percentValueChange;
     private Double rawAssetChange;
-    private ArrayList<String> info; //Whole string which includes name, price, quantity
+    private ArrayList<String> info;
     private ArrayList<String> name;
     private ArrayList<Double> price;
     private ArrayList<Integer> quantity;
@@ -58,6 +58,7 @@ public class OwnedStocks {
         bankReadFrom = new BufferedReader(new FileReader(bankRead));
 
         String infoString = readFrom.readLine();
+        System.out.println(1);
         System.out.println(infoString);
         while (infoString != null) {
             containStock = true;
@@ -65,6 +66,7 @@ public class OwnedStocks {
             System.out.println("InfoString is not null!");
             infoString = readFrom.readLine();
         }
+        System.out.println(2);
         int count = 0; //For testing
         for (String i : info) {
             Scanner temp = new Scanner(i);
@@ -76,6 +78,11 @@ public class OwnedStocks {
             quantity.add(Integer.parseInt(temp.next()));
             System.out.println(quantity.get(count));
         }
+        calcBankAssets();
+    }
+
+    private void calcBankAssets() {
+        System.out.println(3);
         PrintWriter writeTo;
         try {
             BufferedReader tempRead = new BufferedReader(new FileReader
@@ -118,6 +125,56 @@ public class OwnedStocks {
             bankAssets = 0.0;
         }
         System.out.println(assetValue);
+    }
+
+    //Adds a stock and its info to a file
+    public void addStock(String symbol, double price, int quantityPurchased) throws IOException {
+        PrintWriter writeTo = null;
+        try {
+            writeTo = new PrintWriter(new File(context.getFilesDir(), "S" + id + ".txt"));
+            System.out.println("Printing the added stock");
+            String str = symbol + " " + price + " " + quantityPurchased;
+            System.out.println(str);
+            writeTo.println(str);
+            writeTo = new PrintWriter(new File(context.getFilesDir(), "B" + id + ".txt"));
+            writeTo.println(bankAssets - (price * quantityPurchased));
+            System.out.println("Stock added!");
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            writeTo.close();
+        }
+        fillArrays();
+    }
+
+    //Sells all quantities of a purchase of stock (for now)
+    public void removeStock(StockInfo stock, int quantityPurchased) throws IOException {
+        String removeLine = stock.getName() + " " + stock.getPrice() + " " + quantityPurchased;
+        File oldFile = new File(context.getFilesDir(), "S" + id + ".txt");
+        File oldFileName = oldFile;
+        File newFile = new File(context.getFilesDir(), "S" + id + "b.txt");
+        BufferedReader reader = new BufferedReader(new FileReader(oldFile));
+        BufferedWriter writer = new BufferedWriter((new FileWriter(newFile)));
+        String currentLine;
+        while ((currentLine = reader.readLine()) != null) {
+            if (!currentLine.trim().equals(removeLine)) {
+                writer.write(currentLine);
+                writer.flush();
+            }
+        }
+        reader.close();
+        writer.close();
+        oldFile.delete();
+        newFile.renameTo(oldFileName);
+        fillArrays();
+    }
+
+    //Clears all the ArrayLists so they can be refilled
+    private void refresh() {
+        info.clear();
+        name.clear();
+        price.clear();
+        quantity.clear();
     }
 
     public Double getBankAssets() {
@@ -195,56 +252,7 @@ public class OwnedStocks {
         return quantity;
     }
 
-    //Adds a stock and its info to a file
-    public void addStock(String symbol, double price, int quantityPurchased) throws IOException {
-        PrintWriter writeTo = null;
-        try {
-            writeTo = new PrintWriter(new File(context.getFilesDir(), "S" + id + ".txt"));
-            System.out.println(symbol + " " + price + " " + quantityPurchased);
-            writeTo.println(symbol + " " + price + " " + quantityPurchased);
-            writeTo = new PrintWriter(new File(context.getFilesDir(), "B" + id + ".txt"));
-            writeTo.println(bankAssets - (price * quantityPurchased));
-            System.out.println("Stock added!");
-        } catch (IOException e) {
-            e.printStackTrace();
-        } finally {
-            writeTo.close();
-        }
-        fillArrays();
-    }
-
-    //Sells all quantities of a purchase of stock (for now)
-    public void removeStock(StockInfo stock, int quantityPurchased) throws IOException {
-        String removeLine = stock.getName() + " " + stock.getPrice() + " " + quantityPurchased;
-        File oldFile = new File(context.getFilesDir(), "S" + id + ".txt");
-        File oldFileName = oldFile;
-        File newFile = new File(context.getFilesDir(), "S" + id + "b.txt");
-        BufferedReader reader = new BufferedReader(new FileReader(oldFile));
-        BufferedWriter writer = new BufferedWriter((new FileWriter(newFile)));
-        String currentLine;
-        while ((currentLine = reader.readLine()) != null) {
-            if (!currentLine.trim().equals(removeLine)) {
-                writer.write(currentLine);
-                writer.flush();
-            }
-        }
-        reader.close();
-        writer.close();
-        oldFile.delete();
-        newFile.renameTo(oldFileName);
-        fillArrays();
-    }
-
-    //Clears all the ArrayLists so they can be refilled
-    private void refresh() {
-        info.clear();
-        name.clear();
-        price.clear();
-        quantity.clear();
-    }
-
     public int getID() {
         return id;
     }
-
 }
