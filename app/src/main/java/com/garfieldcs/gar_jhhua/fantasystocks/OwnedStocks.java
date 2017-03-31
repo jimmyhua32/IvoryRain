@@ -12,6 +12,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Scanner;
+import java.util.concurrent.ExecutionException;
 
 public class OwnedStocks {
     public static final double INITIAL_BANK_VALUE = 20000;
@@ -118,11 +119,21 @@ public class OwnedStocks {
     public void calcChange() {
         assetValue = 0.0;
         rawAssetChange = 0.0;
-        Double initialAssetValue = 0.0;
+        double initialAssetValue = 0.0;
         System.out.println("Calculating value changes");
         for (int i = 0; i < info.size(); i++) {
-            new StockData().execute(i);
-            Double priceChange = price.get(i) - currentPrice;
+            System.out.println("Pre-stock");
+            stock = new StockInfo(name.get(i), context);
+            System.out.println("Post-stock");
+            try {
+                new StockData().execute().get();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            } catch (ExecutionException e ) {
+                e.printStackTrace();
+            }
+            System.out.println("Post-stock");
+            double priceChange = price.get(i) - currentPrice;
             rawAssetChange+= priceChange * quantity.get(i);
             assetValue+= currentPrice * quantity.get(i);
             initialAssetValue+= price.get(i) * quantity.get(i);
@@ -134,6 +145,7 @@ public class OwnedStocks {
 
     private void setCurrentPrice(Double currentPrice) {
         this.currentPrice = currentPrice;
+        System.out.println(this.currentPrice);
     }
 
     //Adds a stock and its info to a file
@@ -158,15 +170,20 @@ public class OwnedStocks {
         fillArrays();
     }
 
-    //Sells all quantities of a purchase of stock (for now)
-    public void removeStock(StockInfo stock, int quantityPurchased) throws IOException {
-        String removeLine = stock.getName() + " " + stock.getPrice() + " " + quantityPurchased;
+    public void removeStock(String name, int quantitySold) throws IOException {
         File oldFile = new File(context.getFilesDir(), "S" + id + ".txt");
         File oldFileName = oldFile;
         File newFile = new File(context.getFilesDir(), "S" + id + "b.txt");
+        newFile.createNewFile();
+        BufferedReader tempRead = new BufferedReader(new FileReader(oldFile));
+        String currentLine;
+                
+
+
+
+
         BufferedReader reader = new BufferedReader(new FileReader(oldFile));
         BufferedWriter writer = new BufferedWriter((new FileWriter(newFile)));
-        String currentLine;
         while ((currentLine = reader.readLine()) != null) {
             if (!currentLine.trim().equals(removeLine)) {
                 writer.write(currentLine);
@@ -194,7 +211,8 @@ public class OwnedStocks {
     }
 
     public double getAssetValue() {
-        calcChange();
+        //calcChange();
+        assetValue = 0;
         return assetValue;
     }
 
@@ -209,7 +227,7 @@ public class OwnedStocks {
     }
 
     public double getTotalAssets() {
-        calcChange();
+        //calcChange();
         return bankAssets + assetValue;
     }
 
@@ -269,16 +287,22 @@ public class OwnedStocks {
     }
 
     //Just retrieves the stock price from StockInfo for calcChange
-    private class StockData extends AsyncTask<Integer, Void, Double> {
+    private class StockData extends AsyncTask<Void, Void, Double> {
+
         @Override
-        protected Double doInBackground(Integer... i) {
-            stock = new StockInfo(name.get(i[0]), context);
+        protected Double doInBackground(Void... params) {
+            boolean status = false;
+            while (!status) {
+                status = stock.getStatus();
+            }
+            System.out.println(stock.getRawPrice());
             return stock.getRawPrice();
         }
 
         @Override
         protected void onPostExecute(Double result) {
             setCurrentPrice(result);
+            super.onPostExecute(result);
         }
     }
 }

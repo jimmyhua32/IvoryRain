@@ -101,7 +101,7 @@ public class ShowPortfolioActivity extends AppCompatActivity {
 
         //Collect and analyze data
         @Override
-        protected double[] doInBackground(Void... arg0) {
+        protected double[] doInBackground(Void... params) {
             System.out.println(0);
             bankAssets = ownedStocks.getBankAssets();
             investedAssets = ownedStocks.getAssetValue();
