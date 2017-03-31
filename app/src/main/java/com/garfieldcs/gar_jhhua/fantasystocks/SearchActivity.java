@@ -72,7 +72,6 @@ public class SearchActivity extends AppCompatActivity {
                 goToStock(view, position);
             }
         });
-
     }
 
 
