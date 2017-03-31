@@ -1,6 +1,7 @@
 package com.garfieldcs.gar_jhhua.fantasystocks;
 
 import android.content.Context;
+import android.os.AsyncTask;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -29,6 +30,9 @@ public class OwnedStocks {
     private ArrayList<Double> price;
     private ArrayList<Integer> quantity;
     private boolean containStock;
+
+    private StockInfo stock;
+    private Double currentPrice;
 
     public OwnedStocks(int id, Context context) {
         this.id = id;
@@ -115,15 +119,21 @@ public class OwnedStocks {
         assetValue = 0.0;
         rawAssetChange = 0.0;
         Double initialAssetValue = 0.0;
-        for (int i = 0; i < price.size(); i++) {
-            StockInfo stock = new StockInfo(name.get(i), context);
-            Double priceChange = price.get(i) - stock.getRawPrice();
+        System.out.println("Calculating value changes");
+        for (int i = 0; i < info.size(); i++) {
+            new StockData().execute(i);
+            Double priceChange = price.get(i) - currentPrice;
             rawAssetChange+= priceChange * quantity.get(i);
-            assetValue+= stock.getRawPrice() * quantity.get(i);
+            assetValue+= currentPrice * quantity.get(i);
             initialAssetValue+= price.get(i) * quantity.get(i);
         }
         percentValueChange = initialAssetValue / assetValue * 100;
+        System.out.println("Finished calculating value changes");
         System.out.println(assetValue);
+    }
+
+    private void setCurrentPrice(Double currentPrice) {
+        this.currentPrice = currentPrice;
     }
 
     //Adds a stock and its info to a file
@@ -256,5 +266,19 @@ public class OwnedStocks {
 
     public int getID() {
         return id;
+    }
+
+    //Just retrieves the stock price from StockInfo for calcChange
+    private class StockData extends AsyncTask<Integer, Void, Double> {
+        @Override
+        protected Double doInBackground(Integer... i) {
+            stock = new StockInfo(name.get(i[0]), context);
+            return stock.getRawPrice();
+        }
+
+        @Override
+        protected void onPostExecute(Double result) {
+            setCurrentPrice(result);
+        }
     }
 }
