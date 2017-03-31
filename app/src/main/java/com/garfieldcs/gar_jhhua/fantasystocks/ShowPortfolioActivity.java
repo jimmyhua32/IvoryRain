@@ -35,16 +35,8 @@ public class ShowPortfolioActivity extends AppCompatActivity {
         user = new User(username, password, false, getApplicationContext());
         ownedStocks = new OwnedStocks(user.getID(), getApplicationContext());
 
-        ListView list = (ListView) findViewById(R.id.userAssetsList);
-        list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view,
-                                    int position, long id) {
-                goToStock(view, position);
-            }
-        });
-
         new LoadingData().execute();
+
     }
 
     public void goToSearch (View view) {
@@ -71,7 +63,6 @@ public class ShowPortfolioActivity extends AppCompatActivity {
         bundle.putString("name", stockName);
         intent.putExtras(bundle);
         startActivity(intent);
-
     }
 
     //Loads the information on a separate thread
@@ -139,7 +130,16 @@ public class ShowPortfolioActivity extends AppCompatActivity {
                     (ShowPortfolioActivity.this, android.R.layout.simple_list_item_1, stocks);
             list.setAdapter(adapter);
 
+            list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view,
+                                        int position, long id) {
+                    goToStock(view, position);
+                }
+            });
+
             dialog.dismiss();
+
             super.onPostExecute(result);
         }
     }
