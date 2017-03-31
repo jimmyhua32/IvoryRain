@@ -34,7 +34,6 @@ public class ShowPortfolioActivity extends AppCompatActivity {
         password = bundle.getString("Password");
         user = new User(username, password, false, getApplicationContext());
         ownedStocks = new OwnedStocks(user.getID(), getApplicationContext());
-        new LoadingData().execute();
 
         ListView list = (ListView) findViewById(R.id.userAssetsList);
         list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -44,6 +43,8 @@ public class ShowPortfolioActivity extends AppCompatActivity {
                 goToStock(view, position);
             }
         });
+
+        new LoadingData().execute();
     }
 
     public void goToSearch (View view) {
@@ -83,6 +84,7 @@ public class ShowPortfolioActivity extends AppCompatActivity {
         List<String> stocks;
 
         //Loading circle bar... thing
+        @Override
         protected void onPreExecute() {
             status = false;
             stocks = new ArrayList<String>();
@@ -98,19 +100,22 @@ public class ShowPortfolioActivity extends AppCompatActivity {
         }
 
         //Collect and analyze data
-        protected double[] doInBackground(Void... arg0 ) {
+        @Override
+        protected double[] doInBackground(Void... arg0) {
+            System.out.println(0);
             bankAssets = ownedStocks.getBankAssets();
             investedAssets = ownedStocks.getAssetValue();
             totalAssets = ownedStocks.getTotalAssets();
             System.out.println(1);
+            System.out.println(bankAssets + " " + investedAssets + " " + totalAssets);
             return new double[] {bankAssets, investedAssets, totalAssets}; //result
         }
 
 
         //Display the information onto the screen
+        @Override
         protected void onPostExecute(double[] result) {
             //{bankAssets, investedAssets, totalAssets}
-
             System.out.println(2);
             setContentView(R.layout.activity_show_portfolio);
             ListView list = (ListView) findViewById(R.id.userAssetsList);
