@@ -93,7 +93,8 @@ public class OwnedStocks {
                 writeTo.close();
             } else {
                 if (!(tempLine.equals(""))) {
-                    bankAssets = Double.parseDouble(bankReadFrom.readLine());
+                    bankAssets = Math.round(Double.parseDouble
+                            (bankReadFrom.readLine())* 100) / 100.0;
                 } else {
                     writeTo = new PrintWriter(new File(context.getFilesDir(), "B" + id + ".txt"));
                     writeTo.println(INITIAL_BANK_VALUE);

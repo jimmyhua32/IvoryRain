@@ -10,7 +10,6 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -130,12 +129,12 @@ public class ShowPortfolioActivity extends AppCompatActivity {
             ShowPortfolioActivity.totalAssets = result[2];
 
             System.out.println(3);
-            dialog.dismiss();
 
             ArrayAdapter<String> adapter = new ArrayAdapter<String>
                     (ShowPortfolioActivity.this, android.R.layout.simple_list_item_1, stocks);
             list.setAdapter(adapter);
 
+            dialog.dismiss();
             super.onPostExecute(result);
         }
     }
