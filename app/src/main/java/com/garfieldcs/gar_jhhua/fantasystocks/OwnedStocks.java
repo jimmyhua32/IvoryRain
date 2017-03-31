@@ -75,9 +75,9 @@ public class OwnedStocks {
             System.out.println(quantity.get(count));
             count++;
         }
+        calcBankAssets();
         readFrom.close();
         bankReadFrom.close();
-        calcBankAssets();
     }
 
     private void calcBankAssets() {
@@ -90,20 +90,24 @@ public class OwnedStocks {
                 writeTo = new PrintWriter(new File(context.getFilesDir(), "B" + id + ".txt"));
                 writeTo.println(INITIAL_BANK_VALUE);
                 bankAssets = INITIAL_BANK_VALUE;
+                writeTo.flush();
                 writeTo.close();
             } else {
                 if (!(tempLine.equals(""))) {
-                    bankAssets = Double.parseDouble(bankReadFrom.readLine());
+                    bankAssets = Math.round(Double.parseDouble
+                            (bankReadFrom.readLine())* 100) / 100.0;
                 } else {
                     writeTo = new PrintWriter(new File(context.getFilesDir(), "B" + id + ".txt"));
                     writeTo.println(INITIAL_BANK_VALUE);
                     bankAssets = INITIAL_BANK_VALUE;
+                    writeTo.flush();
                     writeTo.close();
                 }
             }
         } catch (IOException e) {
             e.printStackTrace();
         }
+        System.out.println("Calculated bank assets!");
     }
 
     //Calculates various changes in asset value
@@ -133,9 +137,7 @@ public class OwnedStocks {
             writeTo.println(str);
             writeTo.flush();
             writeTo = new PrintWriter(new File(context.getFilesDir(), "B" + id + ".txt"));
-            double doub = bankAssets - (price * quantityPurchased);
-            doub = Math.round(doub * 100.0) / 100.0;
-            writeTo.println(doub);
+            writeTo.println(bankAssets - (price * quantityPurchased));
             System.out.println("Stock added!");
             writeTo.flush();
         } catch (IOException e) {
@@ -183,7 +185,6 @@ public class OwnedStocks {
 
     public double getAssetValue() {
         calcChange();
-        System.out.println(assetValue);
         return assetValue;
     }
 
@@ -199,7 +200,6 @@ public class OwnedStocks {
 
     public double getTotalAssets() {
         calcChange();
-        System.out.println(bankAssets + assetValue);
         return bankAssets + assetValue;
     }
 

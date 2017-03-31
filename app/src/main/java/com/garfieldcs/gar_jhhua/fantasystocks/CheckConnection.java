@@ -32,7 +32,7 @@ public class CheckConnection {
     } */
 
     public boolean isConnected() {
-        if(networkInfo == null) {
+        if(networkInfo == null || !networkInfo.isConnected()) {
             return false;
         } else {
             return networkInfo.isConnected();
