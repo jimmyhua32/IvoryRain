@@ -52,14 +52,12 @@ public class ShowPortfolioActivity extends AppCompatActivity {
     }
 
     public void goToStock (View view, int position) {
-        String stockName = ownedStocks.getAsset(position);
-        Intent intent = new Intent(this, DisplayStockActivity.class);
+        String stockName = ownedStocks.getAssetName(position);
+        System.out.println(stockName + 2);
+        Intent intent = new Intent(this, SellStockActivity.class);
         Bundle bundle = new Bundle();
         bundle.putString("Username", username);
         bundle.putString("Password", password);
-        bundle.putDouble("investedAssets", investedAssets);
-        bundle.putDouble("bankAssets", bankAssets);
-        bundle.putDouble("totalAssets", totalAssets);
         bundle.putString("name", stockName);
         intent.putExtras(bundle);
         startActivity(intent);

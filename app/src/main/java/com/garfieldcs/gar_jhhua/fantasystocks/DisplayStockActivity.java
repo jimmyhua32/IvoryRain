@@ -26,9 +26,6 @@ public class DisplayStockActivity extends AppCompatActivity {
     private CheckConnection c;
     private String name;
     private StockInfo stockInfo;
-    private double investedAssets;
-    private double totalAssets;
-    private double bankAssets;
     private String username;
     private String password;
 
@@ -42,9 +39,7 @@ public class DisplayStockActivity extends AppCompatActivity {
         c = new CheckConnection(context);
         Bundle bundle = getIntent().getExtras();
         name = bundle.getString("name");
-        investedAssets = bundle.getDouble("investedAssets");
-        bankAssets = bundle.getDouble("bankAssets");
-        totalAssets = bundle.getDouble("totalAssets");
+        System.out.println(name + 1);
         username = bundle.getString("Username");
         password = bundle.getString("Password");
 
@@ -65,9 +60,6 @@ public class DisplayStockActivity extends AppCompatActivity {
     public void goToBuyScreen (View view) {
         Intent intent = new Intent(this, BuyStockActivity.class);
         Bundle bundle = new Bundle();
-        bundle.putDouble("investedAssets", investedAssets);
-        bundle.putDouble("bankAssets", bankAssets);
-        bundle.putDouble("totalAssets", totalAssets);
         bundle.putString("name", name);
         bundle.putString("Username", username);
         bundle.putString("Password", password);
@@ -76,11 +68,8 @@ public class DisplayStockActivity extends AppCompatActivity {
     }
 
     public void goToSellScreen (View view) {
-        Intent intent = new Intent(this, BuyStockActivity.class);
+        Intent intent = new Intent(this, SellStockActivity.class);
         Bundle bundle = new Bundle();
-        bundle.putDouble("investedAssets", investedAssets);
-        bundle.putDouble("bankAssets", bankAssets);
-        bundle.putDouble("totalAssets", totalAssets);
         bundle.putString("name", name);
         bundle.putString("Username", username);
         bundle.putString("Password", password);

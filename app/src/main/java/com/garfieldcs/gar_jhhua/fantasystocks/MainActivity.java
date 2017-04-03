@@ -20,9 +20,6 @@ import java.io.IOException;
 public class MainActivity extends AppCompatActivity {
     User user;
     CheckConnection c;
-    StockInfo stockInfo;
-    static String price;
-    static String name;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
