@@ -100,13 +100,13 @@ public class SellStockActivity extends AppCompatActivity {
         else {
             Toast tranProcess = Toast.makeText(context, positiveShares, duration);
             tranProcess.show();
-            if ((shares * stockInfo.getRawPrice()) > bankAssets) {
+            if ((shares < ownedStocks.getShares(name))) {
                 Toast noMoney = Toast.makeText(context, notEnoughStocks, duration);
                 noMoney.show();
             }
             else {
-                investedAssets += (shares * stockInfo.getRawPrice());
-                bankAssets -= (shares * stockInfo.getRawPrice());
+                investedAssets -= (shares * stockInfo.getRawPrice());
+                bankAssets += (shares * stockInfo.getRawPrice());
                 StockInfo stock = new StockInfo("GOOG", context);
                 try {
                     ownedStocks.addStock("GOOG", stock.getRawPrice(), shares);
