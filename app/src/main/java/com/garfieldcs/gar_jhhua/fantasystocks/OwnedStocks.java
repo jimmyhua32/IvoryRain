@@ -180,24 +180,44 @@ public class OwnedStocks {
         return stockCount;
     }
 
-    public void removeStock(String name, int quantitySold) throws IOException {
+
+    public void removeStock(String name, double price, int quantitySold) throws IOException {
+
         File oldFile = new File(context.getFilesDir(), "S" + id + ".txt");
         File oldFileName = oldFile;
         File newFile = new File(context.getFilesDir(), "S" + id + "b.txt");
         newFile.createNewFile();
         BufferedReader tempRead = new BufferedReader(new FileReader(oldFile));
         String currentLine;
-                
-
-
-
-
+        String removeLine = "";
+        while (((currentLine = tempRead.readLine()) != null)) {
+            Scanner s = new Scanner(currentLine);
+            if (s.next().equals(name)) {
+                removeLine = currentLine;
+            }
+        }
+        tempRead.close();
         BufferedReader reader = new BufferedReader(new FileReader(oldFile));
-        BufferedWriter writer = new BufferedWriter((new FileWriter(newFile)));
+        PrintWriter writer = new PrintWriter(newFile);
         while ((currentLine = reader.readLine()) != null) {
-            if (!currentLine.trim().equals(removeLine)) {
-                writer.write(currentLine);
+            if (!currentLine.equals(removeLine)) {
+                writer.println(currentLine);
                 writer.flush();
+            } else {
+                Scanner s = new Scanner(currentLine);
+                String tempName = s.next();
+                String pricePurchased = s.next();
+                int quantity = s.nextInt() - quantitySold;
+                if (quantity > 0) {
+                    writer.println(tempName + " " + pricePurchased + " " + quantity);
+                    writer.flush();
+                }
+                PrintWriter writeTo = new PrintWriter(new File
+                        (context.getFilesDir(), "B" + id + ".txt"));
+                writeTo.println( bankAssets + quantitySold * price);
+                writeTo.flush();
+                writeTo.close();
+                break;
             }
         }
         reader.close();

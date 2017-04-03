@@ -27,6 +27,8 @@ public class SellStockActivity extends AppCompatActivity {
     private double bankAssets;
     private String username;
     private String password;
+    private static String stockName;
+    private static double stockPrice;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -93,6 +95,7 @@ public class SellStockActivity extends AppCompatActivity {
         CharSequence notEnoughStocks = "You do not own enough stocks!";
         CharSequence tranComplete = "Transaction complete!";
         int duration = Toast.LENGTH_SHORT;
+        
         if (shares <= 0) {
             Toast nonToast = Toast.makeText(context, nullOrNegative, duration);
             nonToast.show();
@@ -105,11 +108,13 @@ public class SellStockActivity extends AppCompatActivity {
                 noMoney.show();
             }
             else {
-                investedAssets -= (shares * stockInfo.getRawPrice());
-                bankAssets += (shares * stockInfo.getRawPrice());
-                StockInfo stock = new StockInfo("GOOG", context);
+                
+                investedAssets += (shares * stockInfo.getRawPrice());
+                bankAssets -= (shares * stockInfo.getRawPrice());
+                totalAssets = bankAssets + investedAssets;
+
                 try {
-                    ownedStocks.addStock("GOOG", stock.getRawPrice(), shares);
+                    ownedStocks.removeStock(stockName, stockPrice, shares);
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
