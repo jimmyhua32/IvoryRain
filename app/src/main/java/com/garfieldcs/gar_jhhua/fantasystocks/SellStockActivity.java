@@ -108,7 +108,7 @@ public class SellStockActivity extends AppCompatActivity {
                 noMoney.show();
             }
             else {
-                
+
                 investedAssets += (shares * stockInfo.getRawPrice());
                 bankAssets -= (shares * stockInfo.getRawPrice());
                 totalAssets = bankAssets + investedAssets;
