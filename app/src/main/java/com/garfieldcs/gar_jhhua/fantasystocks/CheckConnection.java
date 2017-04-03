@@ -23,14 +23,6 @@ public class CheckConnection {
     }
 
     //Returns connection status each time it is called
-    /* public boolean isConnected() {
-        if (networkInfo.isConnected()) {
-            return networkInfo.isConnected();
-        } else {
-            return false;
-        }
-    } */
-
     public boolean isConnected() {
         if(networkInfo == null || !networkInfo.isConnected()) {
             return false;
