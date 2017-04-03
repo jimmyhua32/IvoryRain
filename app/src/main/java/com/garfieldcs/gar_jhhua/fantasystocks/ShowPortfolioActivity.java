@@ -54,7 +54,7 @@ public class ShowPortfolioActivity extends AppCompatActivity {
     public void goToStock (View view, int position) {
         String stockName = ownedStocks.getAssetName(position);
         System.out.println(stockName + 2);
-        Intent intent = new Intent(this, SellStockActivity.class);
+        Intent intent = new Intent(this, DisplayStockActivity.class);
         Bundle bundle = new Bundle();
         bundle.putString("Username", username);
         bundle.putString("Password", password);

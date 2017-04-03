@@ -82,8 +82,10 @@ public class SellStockActivity extends AppCompatActivity {
     }
 
     public void sellStock (View view) {
-        EditText sharesTemp = (EditText) findViewById(R.id.sharesWanted);
+        EditText sharesTemp = (EditText) findViewById(R.id.sharesToSell);
+        System.out.println(sharesTemp.getText().toString());
         int shares = Integer.parseInt(sharesTemp.getText().toString());
+        System.out.println(shares);
         Context context = getApplicationContext();
         CharSequence nullOrNegative = "Input has to be a positive integer!";
         CharSequence positiveShares = "Transaction processing...";
