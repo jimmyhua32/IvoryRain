@@ -187,12 +187,11 @@ public class OwnedStocks {
         tempRead.close();
         BufferedReader reader = new BufferedReader(new FileReader(oldFile));
         PrintWriter writer = new PrintWriter(newFile);
-        boolean sold = false;
         while ((currentLine = reader.readLine()) != null) {
             if (!currentLine.equals(removeLine)) {
                 writer.println(currentLine);
                 writer.flush();
-            } else if (!sold) {
+            } else {
                 Scanner s = new Scanner(currentLine);
                 String tempName = s.next();
                 String pricePurchased = s.next();
@@ -200,13 +199,13 @@ public class OwnedStocks {
                 if (quantity > 0) {
                     writer.println(tempName + " " + pricePurchased + " " + quantity);
                     writer.flush();
-                } 
+                }
                 PrintWriter writeTo = new PrintWriter(new File
                         (context.getFilesDir(), "B" + id + ".txt"));
-                writeTo.println(quantitySold * price);
+                writeTo.println( bankAssets + quantitySold * price);
                 writeTo.flush();
                 writeTo.close();
-                sold = true;
+                break;
             }
         }
         reader.close();
