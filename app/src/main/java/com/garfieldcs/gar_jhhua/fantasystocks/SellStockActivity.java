@@ -98,7 +98,7 @@ public class SellStockActivity extends AppCompatActivity {
         else {
             Toast tranProcess = Toast.makeText(context, positiveShares, duration);
             tranProcess.show();
-            if ((shares * stockInfo.getRawPrice()) > ownedStocks.getBankAssets()) {
+            if ((shares < ownedStocks.getShares(name))) {
                 Toast noMoney = Toast.makeText(context, notEnoughStocks, duration);
                 noMoney.show();
             }

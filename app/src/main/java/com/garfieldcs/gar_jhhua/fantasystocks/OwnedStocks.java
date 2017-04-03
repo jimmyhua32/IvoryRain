@@ -170,7 +170,19 @@ public class OwnedStocks {
         fillArrays();
     }
 
+    public int getShares (String symbol) {
+        int stockCount = 0;
+        for(int i = 0; i < name.size(); i++) {
+            if(symbol.equals(name.get(i))) {
+                stockCount += quantity.get(i);
+            }
+        }
+        return stockCount;
+    }
+
+
     public void removeStock(String name, double price, int quantitySold) throws IOException {
+
         File oldFile = new File(context.getFilesDir(), "S" + id + ".txt");
         File oldFileName = oldFile;
         File newFile = new File(context.getFilesDir(), "S" + id + "b.txt");
