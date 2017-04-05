@@ -91,11 +91,9 @@ public class ShowPortfolioActivity extends AppCompatActivity {
         //Collect and analyze data
         @Override
         protected double[] doInBackground(Void... params) {
-            System.out.println(0);
             bankAssets = ownedStocks.getBankAssets();
             investedAssets = ownedStocks.getInitialAssetValue(); //should be getAssetValue
             totalAssets = bankAssets + investedAssets; //ownedStocks.getTotalAssets();
-            System.out.println(1);
             System.out.println(bankAssets + " " + investedAssets + " " + totalAssets);
             return new double[] {bankAssets, investedAssets, totalAssets}; //result
         }
@@ -105,7 +103,6 @@ public class ShowPortfolioActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(double[] result) {
             //{bankAssets, investedAssets, totalAssets}
-            System.out.println(2);
             setContentView(R.layout.activity_show_portfolio);
             ListView list = (ListView) findViewById(R.id.userAssetsList);
             TextView teamName = (TextView) findViewById(R.id.userTeamName);
@@ -121,8 +118,6 @@ public class ShowPortfolioActivity extends AppCompatActivity {
             ShowPortfolioActivity.bankAssets = result[0];
             ShowPortfolioActivity.investedAssets = result[1];
             ShowPortfolioActivity.totalAssets = result[2];
-
-            System.out.println(3);
 
             ArrayAdapter<String> adapter = new ArrayAdapter<String>
                     (ShowPortfolioActivity.this, android.R.layout.simple_list_item_1, stocks);

@@ -83,9 +83,7 @@ public class SellStockActivity extends AppCompatActivity {
 
     public void sellStock (View view) {
         EditText sharesTemp = (EditText) findViewById(R.id.sharesToSell);
-        System.out.println(sharesTemp.getText().toString());
         int shares = Integer.parseInt(sharesTemp.getText().toString());
-        System.out.println(shares);
         Context context = getApplicationContext();
         CharSequence nullOrNegative = "Input has to be a positive integer!";
         CharSequence positiveShares = "Transaction processing...";
@@ -100,7 +98,7 @@ public class SellStockActivity extends AppCompatActivity {
         else {
             Toast tranProcess = Toast.makeText(context, positiveShares, duration);
             tranProcess.show();
-            if ((shares < ownedStocks.getShares(name))) {
+            if ((shares > ownedStocks.getShares(name))) {
                 Toast noMoney = Toast.makeText(context, notEnoughStocks, duration);
                 noMoney.show();
             }
@@ -121,11 +119,10 @@ public class SellStockActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         }
-
     }
 
     public void cancelToDisplay (View view) {
-        Intent intent = new Intent(this, DisplayStockActivity.class);
+        Intent intent = new Intent(this, ShowPortfolioActivity.class);
         Bundle bundle = new Bundle();
         bundle.putString("Username", username);
         bundle.putString("Password", password);
@@ -176,6 +173,9 @@ public class SellStockActivity extends AppCompatActivity {
             } else {
                 sellNameView.setText(name);
             }
+
+            SellStockActivity.stockName = stockInfo.getSymbol();
+            SellStockActivity.stockPrice = stockInfo.getRawPrice();
 
             sellPriceView.setText(stockInfo.getPrice());
             sellPCView.setText(stockInfo.getChangeP());

@@ -82,6 +82,7 @@ public class OwnedStocks {
             count++;
         }
         calcBankAssets();
+        calcChange();
         readFrom.close();
         bankReadFrom.close();
     }
@@ -122,7 +123,7 @@ public class OwnedStocks {
         rawAssetChange = 0.0;
         initialAssetValue = 0.0;
         System.out.println("Calculating value changes");
-        for (int i = 0; i < info.size(); i++) {
+        /*for (int i = 0; i < info.size(); i++) {
             System.out.println("Pre-stock");
             stock = new StockInfo(name.get(i), context);
             System.out.println("Post-stock");
@@ -138,16 +139,16 @@ public class OwnedStocks {
             rawAssetChange+= priceChange * quantity.get(i);
             assetValue+= currentPrice * quantity.get(i);
             initialAssetValue+= price.get(i) * quantity.get(i);
-        }
+        }*/
         //For testing
         int count = 0;
         for (double i : price) {
             initialAssetValue+= i * quantity.get(count);
             count++;
         }
-        percentValueChange = initialAssetValue / assetValue * 100;
+        //percentValueChange = initialAssetValue / assetValue * 100;
         System.out.println("Finished calculating value changes");
-        System.out.println(assetValue);
+        //System.out.println(assetValue);
     }
 
     private void setCurrentPrice(Double currentPrice) {
@@ -178,17 +179,18 @@ public class OwnedStocks {
     }
 
     public int getShares (String symbol) {
-        int stockCount = 0;
+        /*int stockCount = 0;
         for(int i = 0; i < name.size(); i++) {
             if(symbol.equals(name.get(i))) {
                 stockCount += quantity.get(i);
             }
-        }
-        return stockCount;
+        }*/
+        return quantity.get(name.indexOf(symbol));
     }
 
 
     public void removeStock(String name, double price, int quantitySold) throws IOException {
+        System.out.println("REMOVING STOCKS");
         File oldFile = new File(context.getFilesDir(), "S" + id + ".txt");
         File oldFileName = oldFile;
         File newFile = new File(context.getFilesDir(), "S" + id + "b.txt");
@@ -198,29 +200,36 @@ public class OwnedStocks {
         String removeLine = "";
         while (((currentLine = tempRead.readLine()) != null)) {
             Scanner s = new Scanner(currentLine);
-            if (s.next().equals(name)) {
+            String removeName = s.next();
+            if (removeName.equals(name)) {
+                System.out.println(removeName);
                 removeLine = currentLine;
             }
         }
+        System.out.println(removeLine + " remove line");
         tempRead.close();
         BufferedReader reader = new BufferedReader(new FileReader(oldFile));
         PrintWriter writer = new PrintWriter(newFile);
         while ((currentLine = reader.readLine()) != null) {
             if (!currentLine.equals(removeLine)) {
+                System.out.println("currentLine does not equal removeLine");
+                System.out.println(currentLine);
                 writer.println(currentLine);
                 writer.flush();
             } else {
+                System.out.println(currentLine + " removing");
                 Scanner s = new Scanner(currentLine);
                 String tempName = s.next();
                 String pricePurchased = s.next();
                 int quantity = s.nextInt() - quantitySold;
                 if (quantity > 0) {
+                    System.out.println(tempName + " " + pricePurchased + " " + quantity);
                     writer.println(tempName + " " + pricePurchased + " " + quantity);
                     writer.flush();
                 }
                 PrintWriter writeTo = new PrintWriter(new File
                         (context.getFilesDir(), "B" + id + ".txt"));
-                writeTo.println( bankAssets + quantitySold * price);
+                writeTo.println(bankAssets + (quantitySold * price));
                 writeTo.flush();
                 writeTo.close();
                 break;
