@@ -18,7 +18,7 @@ public class SellStockActivity extends AppCompatActivity {
 
     private Toast t;
     private CheckConnection c;
-    private String name;
+    private String name; //Stock name
     private StockInfo stockInfo;
     private OwnedStocks ownedStocks;
     private User user;

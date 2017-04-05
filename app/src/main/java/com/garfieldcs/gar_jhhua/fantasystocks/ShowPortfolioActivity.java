@@ -93,8 +93,8 @@ public class ShowPortfolioActivity extends AppCompatActivity {
         protected double[] doInBackground(Void... params) {
             System.out.println(0);
             bankAssets = ownedStocks.getBankAssets();
-            investedAssets = ownedStocks.getAssetValue();
-            totalAssets = ownedStocks.getTotalAssets();
+            investedAssets = ownedStocks.getInitialAssetValue(); //should be getAssetValue
+            totalAssets = bankAssets + investedAssets; //ownedStocks.getTotalAssets();
             System.out.println(1);
             System.out.println(bankAssets + " " + investedAssets + " " + totalAssets);
             return new double[] {bankAssets, investedAssets, totalAssets}; //result

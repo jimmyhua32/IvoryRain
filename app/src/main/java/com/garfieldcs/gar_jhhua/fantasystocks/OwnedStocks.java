@@ -22,8 +22,9 @@ public class OwnedStocks {
     private BufferedReader readFrom;
     private Context context;
 
-    private double bankAssets;
     private double assetValue;
+    private double bankAssets;
+    private double initialAssetValue;
     private double percentValueChange;
     private double rawAssetChange;
     private ArrayList<String> info;
@@ -119,7 +120,7 @@ public class OwnedStocks {
     public void calcChange() {
         assetValue = 0.0;
         rawAssetChange = 0.0;
-        double initialAssetValue = 0.0;
+        initialAssetValue = 0.0;
         System.out.println("Calculating value changes");
         for (int i = 0; i < info.size(); i++) {
             System.out.println("Pre-stock");
@@ -137,6 +138,12 @@ public class OwnedStocks {
             rawAssetChange+= priceChange * quantity.get(i);
             assetValue+= currentPrice * quantity.get(i);
             initialAssetValue+= price.get(i) * quantity.get(i);
+        }
+        //For testing
+        int count = 0;
+        for (double i : price) {
+            initialAssetValue+= i * quantity.get(count);
+            count++;
         }
         percentValueChange = initialAssetValue / assetValue * 100;
         System.out.println("Finished calculating value changes");
@@ -182,7 +189,6 @@ public class OwnedStocks {
 
 
     public void removeStock(String name, double price, int quantitySold) throws IOException {
-
         File oldFile = new File(context.getFilesDir(), "S" + id + ".txt");
         File oldFileName = oldFile;
         File newFile = new File(context.getFilesDir(), "S" + id + "b.txt");
@@ -244,6 +250,10 @@ public class OwnedStocks {
         //calcChange();
         assetValue = 0;
         return assetValue;
+    }
+
+    public double getInitialAssetValue() {
+        return initialAssetValue;
     }
 
     public double getRawAssetChange() {
