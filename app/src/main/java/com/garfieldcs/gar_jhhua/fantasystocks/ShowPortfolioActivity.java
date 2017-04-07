@@ -19,9 +19,6 @@ public class ShowPortfolioActivity extends AppCompatActivity {
     private User user;
     private OwnedStocks ownedStocks;
     private String username;
-    private static double investedAssets;
-    private static double totalAssets;
-    private static double bankAssets;
     private String password;
 
     @Override
@@ -44,9 +41,6 @@ public class ShowPortfolioActivity extends AppCompatActivity {
         Bundle bundle = new Bundle();
         bundle.putString("Username", username);
         bundle.putString("Password", password);
-        bundle.putDouble("investedAssets", investedAssets);
-        bundle.putDouble("bankAssets", bankAssets);
-        bundle.putDouble("totalAssets", totalAssets);
         intent.putExtras(bundle);
         startActivity(intent);
     }
@@ -114,10 +108,6 @@ public class ShowPortfolioActivity extends AppCompatActivity {
             bankValue.setText("$" + result[0]);
             investedValue.setText("$" + result[1]);
             totalValue.setText("$" + result[2]);
-
-            ShowPortfolioActivity.bankAssets = result[0];
-            ShowPortfolioActivity.investedAssets = result[1];
-            ShowPortfolioActivity.totalAssets = result[2];
 
             ArrayAdapter<String> adapter = new ArrayAdapter<String>
                     (ShowPortfolioActivity.this, android.R.layout.simple_list_item_1, stocks);
