@@ -99,9 +99,10 @@ public class SellStockActivity extends AppCompatActivity {
             Toast tranProcess = Toast.makeText(context, positiveShares, duration);
             tranProcess.show();
             if ((shares > ownedStocks.getShares(name))) {
-                Toast noMoney = Toast.makeText(context, notEnoughStocks, duration);
-                noMoney.show();
+                Toast noStocks = Toast.makeText(context, notEnoughStocks, duration);
+                noStocks.show();
             }
+            //If user has enough stocks and is selling more than 0
             else {
                 try {
                     ownedStocks.removeStock(stockName, stockPrice, shares);
@@ -121,6 +122,7 @@ public class SellStockActivity extends AppCompatActivity {
         }
     }
 
+    //Cancels the transaction and goes back to portfolio
     public void cancelToDisplay (View view) {
         Intent intent = new Intent(this, ShowPortfolioActivity.class);
         Bundle bundle = new Bundle();

@@ -33,7 +33,6 @@ public class ShowPortfolioActivity extends AppCompatActivity {
         ownedStocks = new OwnedStocks(user.getID(), getApplicationContext());
 
         new LoadingData().execute();
-
     }
 
     public void goToSearch (View view) {
@@ -45,6 +44,7 @@ public class ShowPortfolioActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
+    //Based on position in the List
     public void goToStock (View view, int position) {
         String stockName = ownedStocks.getAssetName(position);
         System.out.println(stockName + 2);
@@ -82,7 +82,7 @@ public class ShowPortfolioActivity extends AppCompatActivity {
             super.onPreExecute();
         }
 
-        //Collect and analyze data
+        //Collect data from OwnedStocks
         @Override
         protected double[] doInBackground(Void... params) {
             bankAssets = ownedStocks.getBankAssets();
@@ -109,6 +109,7 @@ public class ShowPortfolioActivity extends AppCompatActivity {
             investedValue.setText("$" + result[1]);
             totalValue.setText("$" + result[2]);
 
+            //Organizes stocks into a clickable list
             ArrayAdapter<String> adapter = new ArrayAdapter<String>
                     (ShowPortfolioActivity.this, android.R.layout.simple_list_item_1, stocks);
             list.setAdapter(adapter);
