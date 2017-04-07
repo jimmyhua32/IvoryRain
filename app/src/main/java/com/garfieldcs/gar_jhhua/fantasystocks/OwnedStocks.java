@@ -181,10 +181,6 @@ public class OwnedStocks {
         fillArrays();
     }
 
-    public int getShares (String symbol) {
-        return quantity.get(name.indexOf(symbol));
-    }
-
     /*
     Removes a stock by reading each line and writing it to a new file except for the line
     to be removed. That line would only be rewritten if the quantity after it is sold is
@@ -239,6 +235,7 @@ public class OwnedStocks {
         writer.close();
         oldFile.delete();
         newFile.renameTo(oldFileName);
+
         fillArrays();
     }
 
@@ -248,6 +245,10 @@ public class OwnedStocks {
         name.clear();
         price.clear();
         quantity.clear();
+    }
+
+    public int getShares (String symbol) {
+        return quantity.get(name.indexOf(symbol));
     }
 
     public double getBankAssets() {
