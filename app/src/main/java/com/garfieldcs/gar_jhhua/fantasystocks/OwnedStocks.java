@@ -65,20 +65,16 @@ public class OwnedStocks {
 
         String infoString;
         while ((infoString = readFrom.readLine()) != null) {
-            System.out.println(infoString);
             containStock = true;
             info.add(infoString);
-            System.out.println("InfoString is not null!");
         }
         int count = 0; //For testing
         for (String i : info) {
+            System.out.println(count);
             Scanner temp = new Scanner(i);
             name.add(temp.next());
-            System.out.println(name.get(count));
             price.add(Double.parseDouble(temp.next()));
-            System.out.println(price.get(count));
             quantity.add(Integer.parseInt(temp.next()));
-            System.out.println(quantity.get(count));
             count++;
         }
         calcBankAssets();
@@ -153,77 +149,81 @@ public class OwnedStocks {
 
     private void setCurrentPrice(Double currentPrice) {
         this.currentPrice = currentPrice;
-        System.out.println(this.currentPrice);
     }
 
-    //Adds a stock and its info to a file
+    //Adds a stock by replicating the owned stocks file and adding a new line w/ the info
     public void addStock(String symbol, double price, int quantityPurchased) throws IOException {
-        PrintWriter writeTo = null;
-        try {
-            writeTo = new PrintWriter(new File(context.getFilesDir(), "S" + id + ".txt"));
-            System.out.println("Printing the added stock");
-            String str = symbol + " " + price + " " + quantityPurchased;
-            System.out.println(str);
+        File oldFile = new File(context.getFilesDir(), "S" + id + ".txt");
+        File oldFileName = oldFile;
+        File newFile = new File(context.getFilesDir(), "S" + id + ".txt");
+        newFile.createNewFile();
+        BufferedReader reader = new BufferedReader(new FileReader(oldFile));
+        PrintWriter writeTo = new PrintWriter(newFile);
+        String str;
+        while ((str = reader.readLine()) != null) {
             writeTo.println(str);
             writeTo.flush();
-            writeTo = new PrintWriter(new File(context.getFilesDir(), "B" + id + ".txt"));
-            writeTo.println(bankAssets - (price * quantityPurchased));
-            System.out.println("Stock added!");
-            writeTo.flush();
-        } catch (IOException e) {
-            e.printStackTrace();
-        } finally {
-            writeTo.close();
         }
+        writeTo.println(symbol + " " + price + " " + quantityPurchased);
+        writeTo.flush();
+
+        //Updates the value of bank assets
+        writeTo = new PrintWriter(new File(context.getFilesDir(), "B" + id + ".txt"));
+
+        writeTo.println(bankAssets - (price * quantityPurchased));
+        writeTo.flush();
+
+        reader.close();
+        writeTo.close();
+        oldFile.delete();
+        newFile.renameTo(oldFileName);
+
         fillArrays();
     }
 
     public int getShares (String symbol) {
-        /*int stockCount = 0;
-        for(int i = 0; i < name.size(); i++) {
-            if(symbol.equals(name.get(i))) {
-                stockCount += quantity.get(i);
-            }
-        }*/
         return quantity.get(name.indexOf(symbol));
     }
 
-
+    /*
+    Removes a stock by reading each line and writing it to a new file except for the line
+    to be removed. That line would only be rewritten if the quantity after it is sold is
+    greater than 0.
+    */
     public void removeStock(String name, double price, int quantitySold) throws IOException {
-        System.out.println("REMOVING STOCKS");
         File oldFile = new File(context.getFilesDir(), "S" + id + ".txt");
         File oldFileName = oldFile;
         File newFile = new File(context.getFilesDir(), "S" + id + "b.txt");
         newFile.createNewFile();
         BufferedReader tempRead = new BufferedReader(new FileReader(oldFile));
+
         String currentLine;
         String removeLine = "";
+        //Finds the line to be removed within the original file since we only have the symbol
         while (((currentLine = tempRead.readLine()) != null)) {
             Scanner s = new Scanner(currentLine);
             String removeName = s.next();
             if (removeName.equals(name)) {
-                System.out.println(removeName);
                 removeLine = currentLine;
             }
         }
-        System.out.println(removeLine + " remove line");
         tempRead.close();
+        if (removeLine.isEmpty() || removeLine == null) {
+            return;
+        }
+
         BufferedReader reader = new BufferedReader(new FileReader(oldFile));
         PrintWriter writer = new PrintWriter(newFile);
         while ((currentLine = reader.readLine()) != null) {
             if (!currentLine.equals(removeLine)) {
-                System.out.println("currentLine does not equal removeLine");
-                System.out.println(currentLine);
                 writer.println(currentLine);
                 writer.flush();
             } else {
-                System.out.println(currentLine + " removing");
                 Scanner s = new Scanner(currentLine);
                 String tempName = s.next();
                 String pricePurchased = s.next();
                 int quantity = s.nextInt() - quantitySold;
                 if (quantity > 0) {
-                    System.out.println(tempName + " " + pricePurchased + " " + quantity);
                     writer.println(tempName + " " + pricePurchased + " " + quantity);
                     writer.flush();
                 }
@@ -251,7 +251,6 @@ public class OwnedStocks {
     }
 
     public double getBankAssets() {
-        System.out.println(bankAssets);
         return bankAssets;
     }
 
@@ -292,9 +291,6 @@ public class OwnedStocks {
     }
 
     public ArrayList<String> getAsset() {
-        //name, price, quantity
-        //Eventually make a new array with better formatting
-        System.out.println(info.toString());
         return info;
     }
 
