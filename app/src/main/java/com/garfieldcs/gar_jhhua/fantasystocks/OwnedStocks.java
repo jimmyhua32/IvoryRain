@@ -35,6 +35,7 @@ public class OwnedStocks {
 
     private StockInfo stock;
     private Double currentPrice;
+    private String fullName;
 
     public OwnedStocks(int id, Context context) {
         this.id = id;
@@ -65,17 +66,14 @@ public class OwnedStocks {
 
         String infoString;
         while ((infoString = readFrom.readLine()) != null) {
-            containStock = true;
+            containStock = true; //So calling for something in an array doesn't return null
             info.add(infoString);
         }
-        int count = 0; //For testing
-        for (String i : info) {
-            System.out.println(count);
-            Scanner temp = new Scanner(i);
+        for (String s : info) {
+            Scanner temp = new Scanner(s);
             name.add(temp.next());
             price.add(Double.parseDouble(temp.next()));
             quantity.add(Integer.parseInt(temp.next()));
-            count++;
         }
         calcBankAssets();
         calcChange();
@@ -110,7 +108,6 @@ public class OwnedStocks {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        System.out.println("Calculated bank assets!");
     }
 
     //Calculates various changes in asset value
@@ -119,36 +116,42 @@ public class OwnedStocks {
         rawAssetChange = 0.0;
         initialAssetValue = 0.0;
         System.out.println("Calculating value changes");
-        /*for (int i = 0; i < info.size(); i++) {
+
+        for (int i = 0; i < info.size(); i++) {
             System.out.println("Pre-stock");
             stock = new StockInfo(name.get(i), context);
             System.out.println("Post-stock");
             try {
-                new StockData().execute().get();
+                new StockPriceData().execute().get();
             } catch (InterruptedException e) {
                 e.printStackTrace();
             } catch (ExecutionException e ) {
                 e.printStackTrace();
             }
-            System.out.println("Post-stock");
+            System.out.println("Post-stock 2");
             double priceChange = price.get(i) - currentPrice;
             rawAssetChange+= priceChange * quantity.get(i);
             assetValue+= currentPrice * quantity.get(i);
             initialAssetValue+= price.get(i) * quantity.get(i);
-        }*/
-        //For testing
+        }
+
+        //For testing, remove when above works
+        /*
         int count = 0;
         for (double i : price) {
             initialAssetValue+= i * quantity.get(count);
             count++;
         }
-        //percentValueChange = initialAssetValue / assetValue * 100;
-        System.out.println("Finished calculating value changes");
-        //System.out.println(assetValue);
+        */
+        percentValueChange = initialAssetValue / assetValue * 100;
     }
 
     private void setCurrentPrice(Double currentPrice) {
         this.currentPrice = currentPrice;
+    }
+
+    private void setFullName(String fullName) {
+        this.fullName = fullName;
     }
 
     //Adds a stock by replicating the owned stocks file and adding a new line w/ the info
@@ -291,11 +294,13 @@ public class OwnedStocks {
         return null;
     }
 
+    //Makes strings that are easier to read than those in info
     public ArrayList<String> getAsset() {
         ArrayList<String> readableInfo = new ArrayList<String>();
         for (int i = 0; i < info.size(); i++) {
-            StockInfo stockInfo = new StockInfo(name.get(i), context);
-            String tempName = stockInfo.getName();
+            stock = new StockInfo(name.get(i), context);
+            new StockNameData().execute();
+            String tempName = fullName;
             String priceUSD = "$" + price.get(i);
             String singleQuantity = "Quantity: " + quantity.get(i);
             readableInfo.add(tempName + priceUSD + singleQuantity);
@@ -344,8 +349,8 @@ public class OwnedStocks {
         return id;
     }
 
-    //Just retrieves the stock price from StockInfo for calcChange
-    private class StockData extends AsyncTask<Void, Void, Double> {
+    //Just retrieves the stock data from StockInfo for calcChange and getAsset
+    private class StockPriceData extends AsyncTask<Void, Void, Double> {
 
         @Override
         protected Double doInBackground(Void... params) {
@@ -360,6 +365,24 @@ public class OwnedStocks {
         @Override
         protected void onPostExecute(Double result) {
             setCurrentPrice(result);
+            super.onPostExecute(result);
+        }
+    }
+
+    private class StockNameData extends AsyncTask<Void, Void, String> {
+        @Override
+        protected String doInBackground(Void... params) {
+            boolean status = false;
+            while (!status) {
+                status = stock.getStatus();
+            }
+            System.out.println(stock.getRawPrice());
+            return stock.getName();
+        }
+
+        @Override
+        protected void onPostExecute(String result) {
+            setFullName(result);
             super.onPostExecute(result);
         }
     }
