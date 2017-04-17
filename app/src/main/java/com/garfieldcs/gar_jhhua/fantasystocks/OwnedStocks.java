@@ -4,10 +4,8 @@ import android.content.Context;
 import android.os.AsyncTask;
 
 import java.io.BufferedReader;
-import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileReader;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
@@ -19,7 +17,6 @@ public class OwnedStocks {
 
     private int id;
     private BufferedReader bankReadFrom;
-    private BufferedReader readFrom;
     private Context context;
 
     private double assetValue;
@@ -40,10 +37,10 @@ public class OwnedStocks {
     public OwnedStocks(int id, Context context) {
         this.id = id;
         this.context = context;
-        info = new ArrayList<String>();
-        name = new ArrayList<String>();
-        price = new ArrayList<Double>();
-        quantity = new ArrayList<Integer>();
+        info = new ArrayList<>();
+        name = new ArrayList<>();
+        price = new ArrayList<>();
+        quantity = new ArrayList<>();
         containStock = false;
 
         try {
@@ -61,7 +58,7 @@ public class OwnedStocks {
         read.createNewFile();
         File bankRead = new File(context.getFilesDir(), "B" + id + ".txt");
         bankRead.createNewFile();
-        readFrom = new BufferedReader(new FileReader(read));
+        BufferedReader readFrom = new BufferedReader(new FileReader(read));
         bankReadFrom = new BufferedReader(new FileReader(bankRead));
 
         String infoString;
@@ -123,9 +120,7 @@ public class OwnedStocks {
             System.out.println("Post-stock");
             try {
                 new StockPriceData().execute().get();
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            } catch (ExecutionException e ) {
+            } catch (InterruptedException|ExecutionException e) {
                 e.printStackTrace();
             }
             System.out.println("Post-stock 2");
@@ -207,7 +202,7 @@ public class OwnedStocks {
             }
         }
         tempRead.close();
-        if (removeLine.isEmpty() || removeLine == null) {
+        if (removeLine.isEmpty()) {
             return;
         }
 
@@ -296,7 +291,7 @@ public class OwnedStocks {
 
     //Makes strings that are easier to read than those in info
     public ArrayList<String> getAsset() {
-        ArrayList<String> readableInfo = new ArrayList<String>();
+        ArrayList<String> readableInfo = new ArrayList<>();
         for (int i = 0; i < info.size(); i++) {
             stock = new StockInfo(name.get(i), context);
             new StockNameData().execute();
