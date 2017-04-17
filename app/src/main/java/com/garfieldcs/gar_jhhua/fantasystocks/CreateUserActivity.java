@@ -19,6 +19,7 @@ public class CreateUserActivity extends AppCompatActivity {
         c = new CheckConnection(getApplicationContext());
     }
 
+    //Goes back to main activity
     public void goToMain(View view) {
         Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);

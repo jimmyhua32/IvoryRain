@@ -292,6 +292,18 @@ public class OwnedStocks {
     }
 
     public ArrayList<String> getAsset() {
+        ArrayList<String> readableInfo = new ArrayList<String>();
+        for (int i = 0; i < info.size(); i++) {
+            StockInfo stockInfo = new StockInfo(name.get(i), context);
+            String tempName = stockInfo.getName();
+            String priceUSD = "$" + price.get(i);
+            String singleQuantity = "Quantity: " + quantity.get(i);
+            readableInfo.add(tempName + priceUSD + singleQuantity);
+        }
+        return readableInfo;
+    }
+
+    public ArrayList<String> getAssetRaw() {
         return info;
     }
 
