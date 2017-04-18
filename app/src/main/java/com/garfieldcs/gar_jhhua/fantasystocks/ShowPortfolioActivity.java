@@ -70,7 +70,7 @@ public class ShowPortfolioActivity extends AppCompatActivity {
         @Override
         protected void onPreExecute() {
             status = false;
-            stocks = new ArrayList<String>();
+            stocks = new ArrayList<>();
             stocks = ownedStocks.getAsset();
             System.out.println(stocks.toString());
 
@@ -86,8 +86,8 @@ public class ShowPortfolioActivity extends AppCompatActivity {
         @Override
         protected double[] doInBackground(Void... params) {
             bankAssets = ownedStocks.getBankAssets();
-            investedAssets = ownedStocks.getInitialAssetValue(); //should be getAssetValue
-            totalAssets = bankAssets + investedAssets; //ownedStocks.getTotalAssets();
+            investedAssets = ownedStocks.getAssetValue();
+            totalAssets = ownedStocks.getTotalAssets();
             System.out.println(bankAssets + " " + investedAssets + " " + totalAssets);
             return new double[] {bankAssets, investedAssets, totalAssets}; //result
         }
