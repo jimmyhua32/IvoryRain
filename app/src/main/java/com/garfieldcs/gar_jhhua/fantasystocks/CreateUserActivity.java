@@ -31,17 +31,25 @@ public class CreateUserActivity extends AppCompatActivity {
             //Temporary; will be a new screen later
             EditText username = (EditText) findViewById(R.id.usernameEditText);
             EditText password = (EditText) findViewById(R.id.passwordEditText);
+            EditText confirmPassword = (EditText) findViewById(R.id.passwordConfirmEditText);
             String un = username.getText().toString();
             String pw = password.getText().toString();
+            String pw2 = confirmPassword.getText().toString();
             user = new User(un, pw, true, getApplicationContext());
-            if (user.userCreated()) {
+            if (pw.equals(pw2)) {
+                if (user.userCreated()) {
                 Toast toast = Toast.makeText(
                         this, "User created! Please login.", Toast.LENGTH_SHORT);
                 toast.show();
                 goToMain(view);
-            } else {
+                } else {
                 Toast toast = Toast.makeText(this, "User already exists!", Toast.LENGTH_SHORT);
                 toast.show();
+                }
+            } else {
+                Toast diffPW = Toast.makeText(
+                        this, "Passwords do not match!", Toast.LENGTH_SHORT);
+                diffPW.show();
             }
         }
     }

@@ -10,12 +10,11 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="40sp"
-        android:paddingTop="30dp"
-        android:paddingStart="24dp"
-        android:paddingEnd="0dp"
+        android:textSize="50sp"
+        android:paddingTop="40dp"
         android:paddingBottom="10dp"
         android:textStyle="bold"
+        android:layout_gravity="center_horizontal"
         android:text="Registration: "/>
 
     <EditText
@@ -29,6 +28,7 @@
         android:paddingStart="20dp"
         android:paddingEnd="0dp"
         android:hint="Username"
+        android:layout_marginTop="12dp"
         android:id="@+id/usernameEditText" />
 
     <EditText
@@ -41,7 +41,21 @@
         android:paddingStart="20dp"
         android:paddingEnd="0dp"
         android:hint="Password"
+        android:layout_marginTop="12dp"
         android:id="@+id/passwordEditText" />
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inputType="textPassword"
+        android:text=""
+        android:textSize="28sp"
+        android:ems="10"
+        android:paddingStart="20dp"
+        android:paddingEnd="0dp"
+        android:hint="Confirm Password"
+        android:layout_marginTop="12dp"
+        android:id="@+id/passwordConfirmEditText" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -52,17 +66,18 @@
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="24sp"
-            android:text="Back"
-            android:layout_marginRight="20dp"
+            android:textSize="28sp"
+            android:text="Cancel"
+            android:layout_marginStart="100dp"
             android:id="@+id/backButton"
             android:onClick="goToMain"/>
 
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="24sp"
+            android:textSize="28sp"
             android:text="Create User"
+            android:layout_marginStart="80dp"
             android:id="@+id/createUserButton"
             android:onClick="newUser"/>
 
