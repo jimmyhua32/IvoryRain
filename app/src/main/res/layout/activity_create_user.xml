@@ -7,24 +7,6 @@
     android:orientation="vertical"
     android:weightSum="1">
 
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:textSize="65sp"
-        android:text="Fantasy Stocks"
-        android:textStyle="bold"
-        android:paddingTop="50dp" />
-
-    <ImageView
-        android:layout_width="215dp"
-        android:layout_height="135dp"
-        android:layout_marginTop="20dp"
-        android:layout_gravity="center_horizontal"
-        android:src="@mipmap/logoplaceholder2"
-        android:contentDescription="place holder for the logo"/>
-
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -34,7 +16,7 @@
         android:paddingEnd="0dp"
         android:paddingBottom="10dp"
         android:textStyle="bold"
-        android:text="Login: "/>
+        android:text="Registration: "/>
 
     <EditText
         android:layout_width="match_parent"
@@ -70,31 +52,21 @@
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="start"
-            android:layout_marginStart="110dp"
-            android:layout_marginEnd="110dp"
             android:textSize="24sp"
-            android:text="New User?"
-            android:id="@+id/newUserButton"
-            android:onClick="goToNewUser"/>
+            android:text="Back"
+            android:layout_marginRight="20dp"
+            android:id="@+id/backButton"
+            android:onClick="goToMain"/>
+
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="24sp"
-            android:text="Login"
-            android:id="@+id/loginButton"
-            android:onClick="goToPortfolio"/>
+            android:text="Create User"
+            android:id="@+id/createUserButton"
+            android:onClick="newUser"/>
 
     </LinearLayout>
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginTop="20dp"
-        android:textSize="24sp"
-        android:text="Forgot Password?"
-        android:id="@+id/forgotPasswordButton"
-        android:onClick="forgotPassword"/>
-
 </LinearLayout>
+

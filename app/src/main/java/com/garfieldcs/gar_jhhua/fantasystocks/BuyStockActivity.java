@@ -22,9 +22,6 @@ public class BuyStockActivity extends AppCompatActivity {
     private StockInfo stockInfo;
     private OwnedStocks ownedStocks;
     private User user;
-    private double investedAssets;
-    private double totalAssets;
-    private double bankAssets;
     private String username;
     private String password;
     private static String stockName;
@@ -37,9 +34,6 @@ public class BuyStockActivity extends AppCompatActivity {
         Bundle bundle = getIntent().getExtras();
         username = bundle.getString("Username");
         password = bundle.getString("Password");
-        investedAssets = bundle.getDouble("investedAssets");
-        totalAssets = bundle.getDouble("totalAssets");
-        bankAssets = bundle.getDouble("bankAssets");
         name = bundle.getString("name");
 
         user = new User(username, password, false, getApplicationContext());
@@ -103,14 +97,11 @@ public class BuyStockActivity extends AppCompatActivity {
         else {
             Toast tranProcess = Toast.makeText(context, positiveShares, duration);
             tranProcess.show();
-            if ((shares * stockInfo.getRawPrice()) > bankAssets) {
+            if ((shares * stockInfo.getRawPrice()) > ownedStocks.getBankAssets()) {
                 Toast noMoney = Toast.makeText(context, notEnoughMoney, duration);
                 noMoney.show();
             }
             else {
-                investedAssets += (shares * stockInfo.getRawPrice());
-                bankAssets -= (shares * stockInfo.getRawPrice());
-                totalAssets = bankAssets + investedAssets;
                 try {
                     ownedStocks.addStock(stockName, stockPrice, shares);
                 } catch (IOException e) {
@@ -122,9 +113,6 @@ public class BuyStockActivity extends AppCompatActivity {
                 Bundle bundle = new Bundle();
                 bundle.putString("Username", username);
                 bundle.putString("Password", password);
-                bundle.putDouble("investedAssets", investedAssets);
-                bundle.putDouble("bankAssets", bankAssets);
-                bundle.putDouble("totalAssets", totalAssets);
                 bundle.putString("name", name);
                 intent.putExtras(bundle);
                 startActivity(intent);
@@ -134,13 +122,10 @@ public class BuyStockActivity extends AppCompatActivity {
     }
 
     public void cancelToDisplay (View view) {
-        Intent intent = new Intent(this, DisplayStockActivity.class);
+        Intent intent = new Intent(this, ShowPortfolioActivity.class);
         Bundle bundle = new Bundle();
         bundle.putString("Username", username);
         bundle.putString("Password", password);
-        bundle.putDouble("investedAssets", investedAssets);
-        bundle.putDouble("bankAssets", bankAssets);
-        bundle.putDouble("totalAssets", totalAssets);
         bundle.putString("name", name);
         intent.putExtras(bundle);
         startActivity(intent);

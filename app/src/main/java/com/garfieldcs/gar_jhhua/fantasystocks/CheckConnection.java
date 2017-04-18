@@ -24,6 +24,7 @@ public class CheckConnection {
 
     //Returns connection status each time it is called
     public boolean isConnected() {
+        //Sometimes if networkInfo is null then the program crashes
         if(networkInfo == null || !networkInfo.isConnected()) {
             return false;
         } else {
