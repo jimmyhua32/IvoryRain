@@ -55,14 +55,13 @@ public class OwnedStocks {
     //Adds a stock by replicating the owned stocks file and adding a new line w/ the info
     public void addStock(String symbol, double price, int quantityPurchased) throws IOException {
         File oldFile = new File(context.getFilesDir(), "S" + id + ".txt");
-        File newFile = new File(context.getFilesDir(), "S" + id + ".txt");
+        File newFile = new File(context.getFilesDir(), "S" + id + "b.txt");
         newFile.createNewFile();
         BufferedReader reader = new BufferedReader(new FileReader(oldFile));
         PrintWriter writeTo = new PrintWriter(newFile);
         String str;
         while ((str = reader.readLine()) != null) {
             writeTo.println(str);
-            writeTo.flush();
         }
         writeTo.println(symbol + " " + price + " " + quantityPurchased);
         writeTo.flush();
