@@ -209,7 +209,7 @@ public class OwnedStocks {
         rawAssetChange = 0.0;
         initialAssetValue = 0.0;
 
-        for (int i = 0; i < info.size(); i++) {
+        /*for (int i = 0; i < info.size(); i++) {
             System.out.println("Pre-stock");
             try {
                 new StockPriceData().execute(name.get(i)).get();
@@ -223,16 +223,14 @@ public class OwnedStocks {
             assetValue+= currentPrice * quantity.get(i);
             initialAssetValue+= price.get(i) * quantity.get(i);
         }
-
+*/
         //For testing, remove when above works
-        /*
         int count = 0;
         for (double i : price) {
             initialAssetValue+= i * quantity.get(count);
             count++;
         }
-        */
-        percentValueChange = initialAssetValue / assetValue * 100;
+        //percentValueChange = initialAssetValue / assetValue * 100;
         System.out.println("fin");
     }
 

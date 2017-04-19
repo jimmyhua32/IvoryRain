@@ -81,7 +81,7 @@ public class ShowPortfolioActivity extends AppCompatActivity {
         protected void onPreExecute() {
             status = false;
             stocks = new ArrayList<>();
-            stocks = ownedStocks.getAsset();
+            stocks = ownedStocks.getAssetRaw();
             System.out.println(stocks.toString());
 
             dialog.setCancelable(false);
@@ -96,9 +96,9 @@ public class ShowPortfolioActivity extends AppCompatActivity {
         @Override
         protected double[] doInBackground(Void... params) {
             bankAssets = ownedStocks.getBankAssets();
-            investedAssets = ownedStocks.getAssetValue();
-            totalAssets = ownedStocks.getTotalAssets();
-            percentChange = ownedStocks.getPercentValueChange();
+            investedAssets = ownedStocks.getInitialAssetValue();
+            totalAssets = bankAssets + investedAssets;//ownedStocks.getTotalAssets();
+            percentChange = 0.0;//ownedStocks.getPercentValueChange();
             System.out.println
                     (bankAssets + " " + investedAssets + " " + totalAssets + " " + percentChange);
             return new double[] {bankAssets, investedAssets, totalAssets, percentChange};

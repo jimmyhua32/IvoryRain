@@ -145,6 +145,11 @@ public class StockInfo {
         collectStatus = true;
     }
 
+    //Rounds the number to 2 decimal places
+    public static Double toDecimal(BigDecimal value) {
+        return Math.round((value.floatValue() * 100)) / 100.0;
+    }
+
     //Collects data in a separate thread
     private class CollectDataTask extends AsyncTask<String, Void, String[]> {
 
@@ -200,11 +205,6 @@ public class StockInfo {
             }
             StockInfo.collectStatus = true;
             super.onPostExecute(result);
-        }
-
-        //Rounds the number to 2 decimal places
-        private Double toDecimal(BigDecimal value) {
-            return Math.round((value.floatValue() * 100)) / 100.0;
         }
     }
 }
