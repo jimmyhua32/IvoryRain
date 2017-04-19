@@ -14,7 +14,8 @@ import java.util.Scanner;
 import java.util.concurrent.ExecutionException;
 
 public class OwnedStocks {
-    public static final double INITIAL_BANK_VALUE = 20000;
+    protected static final double INITIAL_BANK_VALUE = 20000;
+    protected static final int NAME_MAX_LENGTH = 10;
 
     private int id;
     private BufferedReader bankReadFrom;
@@ -297,8 +298,8 @@ public class OwnedStocks {
         for (int i = 0; i < info.size(); i++) {
             new StockNameData().execute(name.get(i));
             String tempName = fullName;
-            if (fullName.length() > 10) {
-                tempName = fullName.substring(0, 10);
+            if (fullName.length() > NAME_MAX_LENGTH) {
+                tempName = fullName.substring(0, NAME_MAX_LENGTH);
             }
             String priceUSD = "$" + price.get(i);
             String singleQuantity = "Quantity: " + quantity.get(i);
@@ -368,6 +369,7 @@ public class OwnedStocks {
         }
     }
 
+    //Retrieves a stock's "full name" from the symbol
     private class StockNameData extends AsyncTask<String, Void, String> {
 
         @Override

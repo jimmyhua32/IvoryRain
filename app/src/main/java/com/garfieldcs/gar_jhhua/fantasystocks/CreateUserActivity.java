@@ -35,8 +35,8 @@ public class CreateUserActivity extends AppCompatActivity {
             String un = username.getText().toString();
             String pw = password.getText().toString();
             String pw2 = confirmPassword.getText().toString();
-            user = new User(un, pw, true, getApplicationContext());
             if (pw.equals(pw2)) {
+                user = new User(un, pw, true, getApplicationContext());
                 if (user.userCreated()) {
                 Toast toast = Toast.makeText(
                         this, "User created! Please login.", Toast.LENGTH_SHORT);
@@ -47,9 +47,9 @@ public class CreateUserActivity extends AppCompatActivity {
                 toast.show();
                 }
             } else {
-                Toast diffPW = Toast.makeText(
+                Toast toast = Toast.makeText(
                         this, "Passwords do not match!", Toast.LENGTH_SHORT);
-                diffPW.show();
+                toast.show();
             }
         }
     }
