@@ -32,8 +32,8 @@ public class OwnedStocks {
     private ArrayList<Integer> quantity;
     private boolean containStock;
 
-    private Double currentPrice;
-    private String fullName;
+    private static Double currentPrice;
+    private static String fullName;
 
     public OwnedStocks(int id, Context context) {
         this.id = id;
@@ -173,6 +173,7 @@ public class OwnedStocks {
         quantity.clear();
     }
 
+    //Updates the amount of money the user has left to spend
     private void calcBankAssets() {
         PrintWriter writeTo;
         try {
@@ -207,7 +208,6 @@ public class OwnedStocks {
         assetValue = 0.0;
         rawAssetChange = 0.0;
         initialAssetValue = 0.0;
-        System.out.println("Calculating value changes");
 
         for (int i = 0; i < info.size(); i++) {
             System.out.println("Pre-stock");
@@ -215,15 +215,9 @@ public class OwnedStocks {
                 new StockPriceData().execute(name.get(i)).get();
             } catch (InterruptedException|ExecutionException e) {
                 e.printStackTrace();
-                assetValue = 0.0;
-                rawAssetChange = 0.0;
-                initialAssetValue = 0.0;
-                //Actually don't know if you can make toast outside of activity/UI thread
-                Toast t = Toast.makeText(context, "Couldn't fetch stock data", Toast.LENGTH_SHORT);
-                t.show();
-                break;
             }
             System.out.println("Post-stock");
+            System.out.println(currentPrice);
             double priceChange = price.get(i) - currentPrice;
             rawAssetChange+= priceChange * quantity.get(i);
             assetValue+= currentPrice * quantity.get(i);
@@ -239,14 +233,7 @@ public class OwnedStocks {
         }
         */
         percentValueChange = initialAssetValue / assetValue * 100;
-    }
-
-    private void setCurrentPrice(Double currentPrice) {
-        this.currentPrice = currentPrice;
-    }
-
-    private void setFullName(String fullName) {
-        this.fullName = fullName;
+        System.out.println("fin");
     }
 
     public int getShares (String symbol) {
@@ -254,6 +241,7 @@ public class OwnedStocks {
     }
 
     public double getBankAssets() {
+        calcBankAssets();
         return bankAssets;
     }
 
@@ -349,13 +337,20 @@ public class OwnedStocks {
         return id;
     }
 
+
     //Just retrieves the stock data from StockInfo for calcChange and getAsset
     private class StockPriceData extends AsyncTask<String, Void, Double> {
+        boolean status;
+
+        @Override
+        protected void onPreExecute() {
+            currentPrice = new Double(0);
+            status = false;
+        }
 
         @Override
         protected Double doInBackground(String... params) {
             StockInfo stock = new StockInfo(params[0], context);
-            boolean status = false;
             while (!status) {
                 status = stock.getStatus();
             }
@@ -364,18 +359,24 @@ public class OwnedStocks {
 
         @Override
         protected void onPostExecute(Double result) {
-            setCurrentPrice(result);
+            currentPrice = result;
             super.onPostExecute(result);
         }
     }
 
     //Retrieves a stock's "full name" from the symbol
     private class StockNameData extends AsyncTask<String, Void, String> {
+        boolean status;
+
+        @Override
+        protected void onPreExecute() {
+            fullName = "";
+            status = false;
+        }
 
         @Override
         protected String doInBackground(String... params) {
             StockInfo stock = new StockInfo(params[0], context);
-            boolean status = false;
             while (!status) {
                 status = stock.getStatus();
             }
@@ -384,7 +385,7 @@ public class OwnedStocks {
 
         @Override
         protected void onPostExecute(String result) {
-            setFullName(result);
+            fullName = result;
             super.onPostExecute(result);
         }
     }
