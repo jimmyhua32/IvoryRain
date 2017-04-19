@@ -79,7 +79,8 @@
             android:layout_height="wrap_content"
             android:textSize="20sp"
             android:text="Leaderboard"
-            android:layout_marginStart="16dp"
+            android:layout_marginStart="75dp"
+            android:onClick="goToLeader"
             android:background="@android:color/holo_orange_light"/>
 
     </LinearLayout>

@@ -13,7 +13,7 @@ public class LeaderboardActivity extends AppCompatActivity {
     private String password;
     private double totalAssets;
     private double percentChange;
-    private List<String> users;
+    private List<String> usersList;
 
 
     @Override
