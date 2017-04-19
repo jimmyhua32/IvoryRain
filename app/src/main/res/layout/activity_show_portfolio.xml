@@ -74,6 +74,14 @@
             android:text="Value"
             android:id="@+id/InvestedAssetsValue"/>
 
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="20sp"
+            android:text="Leaderboard"
+            android:layout_marginStart="16dp"
+            android:background="@android:color/holo_orange_light"/>
+
     </LinearLayout>
 
     <LinearLayout
