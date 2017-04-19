@@ -73,6 +73,7 @@ public class ShowPortfolioActivity extends AppCompatActivity {
         double investedAssets;
         double bankAssets;
         double totalAssets;
+        double percentChange;
         List<String> stocks;
 
         //Loading circle bar... thing
@@ -97,8 +98,10 @@ public class ShowPortfolioActivity extends AppCompatActivity {
             bankAssets = ownedStocks.getBankAssets();
             investedAssets = ownedStocks.getAssetValue();
             totalAssets = ownedStocks.getTotalAssets();
-            System.out.println(bankAssets + " " + investedAssets + " " + totalAssets);
-            return new double[] {bankAssets, investedAssets, totalAssets}; //result
+            percentChange = ownedStocks.getPercentValueChange();
+            System.out.println
+                    (bankAssets + " " + investedAssets + " " + totalAssets + " " + percentChange);
+            return new double[] {bankAssets, investedAssets, totalAssets, percentChange};
         }
 
 
@@ -112,11 +115,13 @@ public class ShowPortfolioActivity extends AppCompatActivity {
             TextView totalValue = (TextView) findViewById(R.id.TotalAssetValue);
             TextView bankValue = (TextView) findViewById(R.id.BankAccountValue);
             TextView investedValue = (TextView) findViewById(R.id.InvestedAssetsValue);
+            TextView percentValue = (TextView) findViewById(R.id.PercentChangeValue);
 
             teamName.setText(user.getUserName().toUpperCase());
             bankValue.setText("$" + result[0]);
             investedValue.setText("$" + result[1]);
             totalValue.setText("$" + result[2]);
+            percentValue.setText(result[3] + "%");
 
             //Organizes stocks into a clickable list
             ArrayAdapter<String> adapter = new ArrayAdapter<String>
