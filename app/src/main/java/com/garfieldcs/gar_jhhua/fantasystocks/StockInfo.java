@@ -145,10 +145,6 @@ public class StockInfo {
         collectStatus = true;
     }
 
-    //Rounds the number to 2 decimal places
-    public static Double toDecimal(BigDecimal value) {
-        return Math.round((value.floatValue() * 100)) / 100.0;
-    }
 
     //Collects data in a separate thread
     private class CollectDataTask extends AsyncTask<String, Void, String[]> {
@@ -158,13 +154,14 @@ public class StockInfo {
                 if (c.isConnected()) {
                     Stock stock = YahooFinance.get(param[0]);
                     String currency = stock.getCurrency() + " ";
-                    String price = toDecimal(stock.getQuote().getPrice()).toString();
-                    String change = toDecimal(stock.getQuote().getChange()).toString();
-                    String changeP = toDecimal(stock.getQuote().getChangeInPercent()).toString();
-                    String highY = toDecimal(stock.getQuote().getYearHigh()).toString();
-                    String lowY = toDecimal(stock.getQuote().getYearLow()).toString();
-                    String highD = toDecimal(stock.getQuote().getDayHigh()).toString();
-                    String lowD = toDecimal(stock.getQuote().getDayLow()).toString();
+                    String price = Formatting.toDecimal(stock.getQuote().getPrice()).toString();
+                    String change = Formatting.toDecimal(stock.getQuote().getChange()).toString();
+                    String changeP = Formatting.toDecimal
+                            (stock.getQuote().getChangeInPercent()).toString();
+                    String highY = Formatting.toDecimal(stock.getQuote().getYearHigh()).toString();
+                    String lowY = Formatting.toDecimal(stock.getQuote().getYearLow()).toString();
+                    String highD = Formatting.toDecimal(stock.getQuote().getDayHigh()).toString();
+                    String lowD = Formatting.toDecimal(stock.getQuote().getDayLow()).toString();
                     String symbol = stock.getQuote().getSymbol();
                     String name = stock.getName();
 
