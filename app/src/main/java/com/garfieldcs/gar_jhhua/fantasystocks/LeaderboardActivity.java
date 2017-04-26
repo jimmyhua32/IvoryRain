@@ -1,13 +1,19 @@
 package com.garfieldcs.gar_jhhua.fantasystocks;
 
+import android.content.Context;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
 
 public class LeaderboardActivity extends AppCompatActivity {
     private User user;
@@ -16,8 +22,12 @@ public class LeaderboardActivity extends AppCompatActivity {
     private String password;
     private double totalAssets;
     private double percentChange;
+    private List<Integer> allUserIDs;
+    private List<String> allUsernames;
+    private List<Double> allUserAssets;
     private List<String> usersRanked;
     private List<String> usersListNumbered;
+    private Context context;
 
 
     @Override
@@ -32,7 +42,7 @@ public class LeaderboardActivity extends AppCompatActivity {
         //gets ownedstocks for user and gets assets and change
         ownedStocks = new OwnedStocks(user.getID(), getApplicationContext());
         CalcChange calcChange = new CalcChange(ownedStocks.getAssetName(), getApplicationContext());
-        totalAssets = calcChange.getTotalAssets();
+        totalAssets = calcChange.getTotalAssetValue();
         percentChange = calcChange.getPercentValueChange();
 
         //displays information
@@ -42,17 +52,56 @@ public class LeaderboardActivity extends AppCompatActivity {
         userAssets.setText("" + totalAssets);
         userPC.setText("" + percentChange + "%");
 
-        //orders top 25 users
-        usersRanked = new ArrayList<>();
-        for (int i = 0; i <=25; i++) {
-
+        //while loop filled with all user asset values
+        allUserIDs = new ArrayList<>();
+        File folder = new File(context.getFilesDir().getAbsolutePath());
+        File[] allFiles = folder.listFiles();
+        try {
+            for (int i = 0; i < allFiles.length; i++) {
+                if (allFiles[i].isFile()) {
+                    if (!(allFiles[i].getName().startsWith("S")) &&
+                            !(allFiles[i].getName().startsWith("B"))) {
+                        String currentLine; //Order: id + user + password
+                        BufferedReader reader = new BufferedReader(new FileReader(allFiles[i]));
+                        while ((currentLine = reader.readLine()) != null) {
+                            Scanner s = new Scanner(currentLine);
+                            allUserIDs.add(Integer.parseInt(s.next()));
+                            allUsernames.add(s.next().trim());
+                        }
+                    }
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        allUserAssets = new ArrayList<>();
+        for (int i = 0; i < allUserIDs.size(); i++) {
+            OwnedStocks ownedStocksTemp = new OwnedStocks(allUserIDs.get(i), context);
+            CalcChange calcChangeTemp = new CalcChange(ownedStocksTemp.getAssetName(), context);
+            allUserAssets.add(calcChangeTemp.getTotalAssetValue());
         }
 
 
+        //orders top 25 users
+        usersRanked = new ArrayList<>();
+        for (int i = 0; i < 10; i++) {
+            double tempHighest = 0;
+            int highestSpot = 0;
+            for (int j = 0; j < allUserAssets.size(); j++) {
+                if (allUserAssets.get(j) > tempHighest) {
+                    tempHighest = allUserAssets.get(j);
+                    highestSpot = j;
+                }
+            }
+            usersRanked.add(allUsernames.get(highestSpot) + " " + allUserAssets.get(highestSpot));
+            allUsernames.remove(highestSpot);
+            allUserAssets.remove(highestSpot);
+        }
+
         //fills arraylist of users
         usersListNumbered = new ArrayList<>();
-        for (int i = 0; i <=25; i++) {
-            usersListNumbered.add(i + ". ");
+        for (int i = 0; i < 10; i++) {
+            usersListNumbered.add(i + ". " + usersRanked.get(i));
         }
 
         //adapts arraylist into listview
