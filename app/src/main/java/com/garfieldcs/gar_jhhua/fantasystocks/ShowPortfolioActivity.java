@@ -18,6 +18,7 @@ import java.util.List;
 public class ShowPortfolioActivity extends AppCompatActivity {
     private User user;
     private OwnedStocks ownedStocks;
+    private CalcChange calcChange;
     private String username;
     private String password;
 
@@ -31,6 +32,8 @@ public class ShowPortfolioActivity extends AppCompatActivity {
         password = bundle.getString("Password");
         user = new User(username, password, false, getApplicationContext());
         ownedStocks = new OwnedStocks(user.getID(), getApplicationContext());
+        calcChange = new CalcChange(ownedStocks.getAssetName(), getApplicationContext());
+        calcChange.execute(user.getID());
 
         new LoadingData().execute();
     }
@@ -96,9 +99,9 @@ public class ShowPortfolioActivity extends AppCompatActivity {
         @Override
         protected double[] doInBackground(Void... params) {
             bankAssets = ownedStocks.getBankAssets();
-            investedAssets = ownedStocks.getInitialAssetValue();
-            totalAssets = bankAssets + investedAssets;//ownedStocks.getTotalAssets();
-            percentChange = 0.0;//ownedStocks.getPercentValueChange();
+            investedAssets = calcChange.getAssetValue();
+            totalAssets = calcChange.getTotalAssetValue();
+            percentChange = calcChange.getPercentValueChange();
             System.out.println
                     (bankAssets + " " + investedAssets + " " + totalAssets + " " + percentChange);
             return new double[] {bankAssets, investedAssets, totalAssets, percentChange};

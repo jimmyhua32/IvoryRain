@@ -21,11 +21,7 @@ public class OwnedStocks {
     private BufferedReader bankReadFrom;
     private Context context;
 
-    private double assetValue;
     private double bankAssets;
-    private double initialAssetValue;
-    private double percentValueChange;
-    private double rawAssetChange;
     private ArrayList<String> info;
     private ArrayList<String> name;
     private ArrayList<Double> price;
@@ -159,7 +155,6 @@ public class OwnedStocks {
             quantity.add(Integer.parseInt(temp.next()));
         }
         calcBankAssets();
-        calcChange();
         readFrom.close();
         bankReadFrom.close();
     }
@@ -202,37 +197,6 @@ public class OwnedStocks {
         }
     }
 
-    //Calculates various changes in asset value
-    public void calcChange() {
-        assetValue = 0.0;
-        rawAssetChange = 0.0;
-        initialAssetValue = 0.0;
-
-        /*for (int i = 0; i < info.size(); i++) {
-            System.out.println("Pre-stock");
-            try {
-                new StockPriceData().execute(name.get(i)).get();
-            } catch (InterruptedException|ExecutionException e) {
-                e.printStackTrace();
-            }
-            System.out.println("Post-stock");
-            System.out.println(currentPrice);
-            double priceChange = price.get(i) - currentPrice;
-            rawAssetChange+= priceChange * quantity.get(i);
-            assetValue+= currentPrice * quantity.get(i);
-            initialAssetValue+= price.get(i) * quantity.get(i);
-        }
-*/
-        //For testing, remove when above works
-        int count = 0;
-        for (double i : price) {
-            initialAssetValue+= i * quantity.get(count);
-            count++;
-        }
-        //percentValueChange = initialAssetValue / assetValue * 100;
-        System.out.println("fin");
-    }
-
     public int getShares (String symbol) {
         return quantity.get(name.indexOf(symbol));
     }
@@ -240,30 +204,6 @@ public class OwnedStocks {
     public double getBankAssets() {
         calcBankAssets();
         return bankAssets;
-    }
-
-    public double getAssetValue() {
-        calcChange();
-        return assetValue;
-    }
-
-    public double getInitialAssetValue() {
-        return initialAssetValue;
-    }
-
-    public double getRawAssetChange() {
-        calcChange();
-        return rawAssetChange;
-    }
-
-    public double getPercentValueChange() {
-        calcChange();
-        return percentValueChange;
-    }
-
-    public double getTotalAssets() {
-        calcChange();
-        return bankAssets + assetValue;
     }
 
     public int getSize() {
@@ -334,32 +274,6 @@ public class OwnedStocks {
         return id;
     }
 
-
-    //Just retrieves the stock data from StockInfo for calcChange and getAsset
-    private class StockPriceData extends AsyncTask<String, Void, Double> {
-        boolean status;
-
-        @Override
-        protected void onPreExecute() {
-            currentPrice = new Double(0);
-            status = false;
-        }
-
-        @Override
-        protected Double doInBackground(String... params) {
-            StockInfo stock = new StockInfo(params[0], context);
-            while (!status) {
-                status = stock.getStatus();
-            }
-            return stock.getRawPrice();
-        }
-
-        @Override
-        protected void onPostExecute(Double result) {
-            currentPrice = result;
-            super.onPostExecute(result);
-        }
-    }
 
     //Retrieves a stock's "full name" from the symbol
     private class StockNameData extends AsyncTask<String, Void, String> {
