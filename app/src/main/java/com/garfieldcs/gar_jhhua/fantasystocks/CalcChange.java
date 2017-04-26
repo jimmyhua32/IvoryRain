@@ -13,13 +13,13 @@ public class CalcChange {
     private static double initialAssetValue;
     private static double percentValueChange;
 
-    private ArrayList<String> name;
     private Context context;
     private OwnedStocks ownedStocks;
+    private MultiStockInfo multi;
 
     //Handles all the stocks of a user
-    public CalcChange(ArrayList<String> name, Context context) {
-        this.name = name;
+    public CalcChange(MultiStockInfo multi, Context context) {
+        this.multi = multi;
         this.context = context;
         assetValue = 0.0;
         rawAssetChange = 0.0;
@@ -61,42 +61,28 @@ public class CalcChange {
         return assetValue + ownedStocks.getBankAssets();
     }
 
-    private class StockPriceData extends AsyncTask<String[], Void, Double[]> {
-        MultiStockInfo multi;
+    private class StockPriceData extends AsyncTask<String[], Void, Void> {
 
         @Override
-        protected void onPreExecute() {
-            System.out.println("pre multi");
-            multi = new MultiStockInfo(name.toArray(new String[name.size()]), context);
-            System.out.println("post multi");
+        protected Void doInBackground(String[]... params) {
+            return null;
         }
 
         @Override
-        protected Double[] doInBackground(String[]... params) {
+        protected void onPostExecute(Void result) {
             ArrayList<Double> price = ownedStocks.getAssetPrice();
             ArrayList<Double> allPrices = multi.getAllPrices();
             ArrayList<Integer> quantity = ownedStocks.getAssetQuantity();
-            double tRawAssetChange = 0.0;
-            double tAssetValue = 0.0;
-            double tInitialAssetValue = 0.0;
 
             System.out.println("pre calc");
             for (int i = 0; i < allPrices.size(); i++) {
                 double currentPrice = allPrices.get(i);
                 double priceChange = price.get(i) - currentPrice;
-                tRawAssetChange+= priceChange * quantity.get(i);
-                tAssetValue+= currentPrice * quantity.get(i);
-                tInitialAssetValue+= price.get(i) * quantity.get(i);
+                rawAssetChange+= priceChange * quantity.get(i);
+                assetValue+= currentPrice * quantity.get(i);
+                initialAssetValue+= price.get(i) * quantity.get(i);
             }
             System.out.println("post calc");
-            return new Double[] {tRawAssetChange, tAssetValue, tInitialAssetValue};
-        }
-
-        @Override
-        protected void onPostExecute(Double[] result) {
-            rawAssetChange = result[0];
-            assetValue = result[1];
-            initialAssetValue = result[2];
 
             percentValueChange = initialAssetValue / assetValue * 100;
             System.out.println("fin");

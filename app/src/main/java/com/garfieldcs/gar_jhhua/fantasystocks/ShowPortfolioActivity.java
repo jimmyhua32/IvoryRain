@@ -32,7 +32,11 @@ public class ShowPortfolioActivity extends AppCompatActivity {
         password = bundle.getString("Password");
         user = new User(username, password, false, getApplicationContext());
         ownedStocks = new OwnedStocks(user.getID(), getApplicationContext());
-        calcChange = new CalcChange(ownedStocks.getAssetName(), getApplicationContext());
+
+        ArrayList<String> namesTemp = ownedStocks.getAssetName();
+        MultiStockInfo multi = new MultiStockInfo
+                (namesTemp.toArray(new String[namesTemp.size()]), getApplicationContext());
+        calcChange = new CalcChange(multi, getApplicationContext());
         calcChange.execute(user.getID());
 
         new LoadingData().execute();
