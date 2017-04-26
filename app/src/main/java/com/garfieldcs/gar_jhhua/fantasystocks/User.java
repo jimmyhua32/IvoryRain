@@ -39,7 +39,6 @@ public class User {
         created = false;
         isPassCorrect = true;
 
-
         checkExist(allFiles);
         makeUser(createUser);
     }

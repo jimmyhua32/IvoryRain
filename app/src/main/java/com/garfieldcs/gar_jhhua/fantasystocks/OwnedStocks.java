@@ -156,7 +156,6 @@ public class OwnedStocks {
         }
         calcBankAssets();
         readFrom.close();
-        bankReadFrom.close();
     }
 
     //Clears all the ArrayLists so they can be refilled

@@ -56,6 +56,7 @@ public class MultiStockInfo {
     private class CollectDataTask extends AsyncTask<String[], Void, ArrayList<Double>> {
 
         protected ArrayList<Double> doInBackground(String[]... param) {
+            System.out.println("collecting data");
             ArrayList<Double> prices = new ArrayList<>();
             try {
                 if (c.isConnected()) {
@@ -71,6 +72,7 @@ public class MultiStockInfo {
             } catch (IOException e) {
                 e.printStackTrace();
             }
+            System.out.println("fin data");
             return prices;
         }
 
@@ -79,6 +81,7 @@ public class MultiStockInfo {
                 allPrices = result;
             }
             collectStatus = true;
+            System.out.println("status is true");
             super.onPostExecute(result);
         }
     }
