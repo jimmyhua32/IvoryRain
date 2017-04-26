@@ -40,15 +40,15 @@ public class MultiStockInfo {
         collectStatus = true;
     }
 
-    private ArrayList<Double> getAllPrices() {
+    public ArrayList<Double> getAllPrices() {
         return allPrices;
     }
 
-    private ArrayList<String> getAllNames() {
+    public ArrayList<String> getAllNames() {
         return new ArrayList<>(Arrays.asList(names));
     }
 
-    private boolean getStatus() {
+    public boolean getStatus() {
         return collectStatus;
     }
 
