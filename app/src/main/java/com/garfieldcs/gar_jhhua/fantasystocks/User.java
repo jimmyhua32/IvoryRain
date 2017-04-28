@@ -43,6 +43,26 @@ public class User {
         makeUser(createUser);
     }
 
+    public User(int id, Context context) {
+        this.context = context;
+        File folder = new File(context.getFilesDir().getAbsolutePath());
+        File[] allFiles = folder.listFiles();
+
+        for (int i = 0; i < allFiles.length; i++) {
+            if (allFiles[i].isFile()) {
+                if (allFiles[i].getName().equals(id)) {
+                    String currentLine; //Order: id + user + password
+                    reader = new BufferedReader(new FileReader(allFiles[i]));
+                    while ((currentLine = reader.readLine()) != null) {
+                        Scanner s = new Scanner(currentLine);
+                        ids.add(Integer.parseInt(s.next()));
+                        usernames.add(s.next().trim());
+                        passwords.add(s.next().trim());
+                }
+            }
+        }
+    }
+
     //Checks to see if the user already exists
     private void checkExist(File[] allFiles) {
         ArrayList<String> usernames = new ArrayList<String>();

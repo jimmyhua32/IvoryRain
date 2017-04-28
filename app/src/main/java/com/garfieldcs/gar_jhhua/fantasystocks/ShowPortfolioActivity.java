@@ -38,8 +38,11 @@ public class ShowPortfolioActivity extends AppCompatActivity {
                 (namesTemp.toArray(new String[namesTemp.size()]), getApplicationContext());
         calcChange = new CalcChange(multi, ownedStocks);
 
-        calcChange.execute(); //Not an async!
+        calcChange.execute();
 
+    }
+
+    public void startLoading() {
         new LoadingData().execute();
     }
 

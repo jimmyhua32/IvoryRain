@@ -1,5 +1,6 @@
 package com.garfieldcs.gar_jhhua.fantasystocks;
 
+import android.app.Activity;
 import android.os.AsyncTask;
 
 import java.util.ArrayList;
@@ -7,12 +8,13 @@ import java.util.concurrent.ExecutionException;
 
 public class CalcChange {
 
-    private boolean calcStatus;
     private static double assetValue;
     private static double rawAssetChange;
     private static double initialAssetValue;
     private static double percentValueChange;
     private static double bankAssets;
+
+    private boolean status;
 
     private OwnedStocks ownedStocks;
     private MultiStockInfo multi;
@@ -21,7 +23,6 @@ public class CalcChange {
     public CalcChange(MultiStockInfo multi, OwnedStocks ownedStocks) {
         this.multi = multi;
         this.ownedStocks = ownedStocks;
-        calcStatus = false;
         assetValue = 0.0;
         rawAssetChange = 0.0;
         initialAssetValue = 0.0;
@@ -31,11 +32,10 @@ public class CalcChange {
     public void execute() {
         try {
             new StockValueData().execute().get();
-        } catch (InterruptedException|ExecutionException e) {
+        } catch (InterruptedException | ExecutionException e) {
             e.printStackTrace();
-        } finally {
-            calcStatus = true;
         }
+        status = true;
     }
 
     //Add formatting later to accessor methods
@@ -61,7 +61,7 @@ public class CalcChange {
     }
 
     public boolean getStatus() {
-        return calcStatus;
+        return status;
     }
 
     //Calculates user's asset values
