@@ -1,6 +1,8 @@
 package com.garfieldcs.gar_jhhua.fantasystocks;
 
+import android.app.ProgressDialog;
 import android.content.Context;
+import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.ArrayAdapter;
@@ -57,6 +59,7 @@ public class LeaderboardActivity extends AppCompatActivity {
 
         //while loop filled with all user asset values
         allUserIDs = new ArrayList<>();
+        allUsernames = new ArrayList<>();
         File folder = new File(context.getFilesDir().getAbsolutePath());
         File[] allFiles = folder.listFiles();
         try {
