@@ -20,9 +20,6 @@ import java.io.IOException;
 public class MainActivity extends AppCompatActivity {
     User user;
     CheckConnection c;
-    StockInfo stockInfo;
-    static String price;
-    static String name;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,22 +65,15 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    //Creates a new user
-    public void newUser(View view) {
-        if (c.isConnected()) {
-            //Temporary; will be a new screen later
-            EditText username = (EditText) findViewById(R.id.usernameEditText);
-            EditText password = (EditText) findViewById(R.id.passwordEditText);
-            String un = username.getText().toString();
-            String pw = password.getText().toString();
-            user = new User(un, pw, true, getApplicationContext());
-            if (user.userCreated()) {
-                Toast toast = Toast.makeText(this, "User created!", Toast.LENGTH_SHORT);
-                toast.show();
-            } else {
-                Toast toast = Toast.makeText(this, "User already exists!", Toast.LENGTH_SHORT);
-                toast.show();
-            }
-        }
+    //Goes to the registration screen
+    public void goToNewUser(View view) {
+        Intent intent = new Intent(this, CreateUserActivity.class);
+        startActivity(intent);
+    }
+
+    //To be implemented when MVP is done
+    public void forgotPassword() {
+        Toast toast = Toast.makeText(this, "Sorry, you're out of luck for now", Toast.LENGTH_SHORT);
+        toast.show();
     }
 }

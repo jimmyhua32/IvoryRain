@@ -18,15 +18,14 @@ public class SellStockActivity extends AppCompatActivity {
 
     private Toast t;
     private CheckConnection c;
-    private String name;
+    private String name; //Stock name
     private StockInfo stockInfo;
     private OwnedStocks ownedStocks;
     private User user;
-    private double investedAssets;
-    private double totalAssets;
-    private double bankAssets;
     private String username;
     private String password;
+    private static String stockName;
+    private static double stockPrice;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,10 +35,8 @@ public class SellStockActivity extends AppCompatActivity {
         Bundle bundle = getIntent().getExtras();
         username = bundle.getString("Username");
         password = bundle.getString("Password");
-        investedAssets = bundle.getDouble("investedAssets");
-        totalAssets = bundle.getDouble("totalAssets");
-        bankAssets = bundle.getDouble("bankAssets");
         name = bundle.getString("name");
+        System.out.println(name + 1);
         user = new User(username, password, false, getApplicationContext());
         ownedStocks = new OwnedStocks(user.getID(), getApplicationContext());
 
@@ -85,7 +82,7 @@ public class SellStockActivity extends AppCompatActivity {
     }
 
     public void sellStock (View view) {
-        EditText sharesTemp = (EditText) findViewById(R.id.sharesWanted);
+        EditText sharesTemp = (EditText) findViewById(R.id.sharesToSell);
         int shares = Integer.parseInt(sharesTemp.getText().toString());
         Context context = getApplicationContext();
         CharSequence nullOrNegative = "Input has to be a positive integer!";
@@ -93,6 +90,7 @@ public class SellStockActivity extends AppCompatActivity {
         CharSequence notEnoughStocks = "You do not own enough stocks!";
         CharSequence tranComplete = "Transaction complete!";
         int duration = Toast.LENGTH_SHORT;
+
         if (shares <= 0) {
             Toast nonToast = Toast.makeText(context, nullOrNegative, duration);
             nonToast.show();
@@ -100,16 +98,14 @@ public class SellStockActivity extends AppCompatActivity {
         else {
             Toast tranProcess = Toast.makeText(context, positiveShares, duration);
             tranProcess.show();
-            if ((shares * stockInfo.getRawPrice()) > bankAssets) {
-                Toast noMoney = Toast.makeText(context, notEnoughStocks, duration);
-                noMoney.show();
+            if ((shares > ownedStocks.getShares(name))) {
+                Toast noStocks = Toast.makeText(context, notEnoughStocks, duration);
+                noStocks.show();
             }
+            //If user has enough stocks and is selling more than 0
             else {
-                investedAssets += (shares * stockInfo.getRawPrice());
-                bankAssets -= (shares * stockInfo.getRawPrice());
-                StockInfo stock = new StockInfo("GOOG", context);
                 try {
-                    ownedStocks.addStock("GOOG", stock.getRawPrice(), shares);
+                    ownedStocks.removeStock(stockName, stockPrice, shares);
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -119,25 +115,19 @@ public class SellStockActivity extends AppCompatActivity {
                 Bundle bundle = new Bundle();
                 bundle.putString("Username", username);
                 bundle.putString("Password", password);
-                bundle.putDouble("investedAssets", investedAssets);
-                bundle.putDouble("bankAssets", bankAssets);
-                bundle.putDouble("totalAssets", totalAssets);
                 bundle.putString("name", name);
                 intent.putExtras(bundle);
                 startActivity(intent);
             }
         }
-
     }
 
+    //Cancels the transaction and goes back to portfolio
     public void cancelToDisplay (View view) {
-        Intent intent = new Intent(this, DisplayStockActivity.class);
+        Intent intent = new Intent(this, ShowPortfolioActivity.class);
         Bundle bundle = new Bundle();
         bundle.putString("Username", username);
         bundle.putString("Password", password);
-        bundle.putDouble("investedAssets", investedAssets);
-        bundle.putDouble("bankAssets", bankAssets);
-        bundle.putDouble("totalAssets", totalAssets);
         bundle.putString("name", name);
         intent.putExtras(bundle);
         startActivity(intent);
@@ -185,6 +175,9 @@ public class SellStockActivity extends AppCompatActivity {
             } else {
                 sellNameView.setText(name);
             }
+
+            SellStockActivity.stockName = stockInfo.getSymbol();
+            SellStockActivity.stockPrice = stockInfo.getRawPrice();
 
             sellPriceView.setText(stockInfo.getPrice());
             sellPCView.setText(stockInfo.getChangeP());

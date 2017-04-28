@@ -24,10 +24,11 @@ public class CheckConnection {
 
     //Returns connection status each time it is called
     public boolean isConnected() {
-        if (networkInfo.isConnected() || networkInfo != null) {
-            return networkInfo.isConnected();
-        } else {
+        //Sometimes if networkInfo is null then the program crashes
+        if(networkInfo == null || !networkInfo.isConnected()) {
             return false;
+        } else {
+            return networkInfo.isConnected();
         }
     }
 }

@@ -10,7 +10,6 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,10 +18,8 @@ import java.util.List;
 public class ShowPortfolioActivity extends AppCompatActivity {
     private User user;
     private OwnedStocks ownedStocks;
+    private CalcChange calcChange;
     private String username;
-    private static double investedAssets;
-    private static double totalAssets;
-    private static double bankAssets;
     private String password;
 
     @Override
@@ -35,19 +32,14 @@ public class ShowPortfolioActivity extends AppCompatActivity {
         password = bundle.getString("Password");
         user = new User(username, password, false, getApplicationContext());
         ownedStocks = new OwnedStocks(user.getID(), getApplicationContext());
-        new LoadingData().execute();
 
-        ListView list = (ListView) findViewById(R.id.userAssetsList);
-        list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view,
-                                    int position, long id) {
-                Toast.makeText(getApplicationContext(),
-                        "Stock Number " + position, Toast.LENGTH_LONG)
-                        .show();
-                goToStock(view, position);
-            }
-        });
+        ArrayList<String> namesTemp = ownedStocks.getAssetName();
+        MultiStockInfo multi = new MultiStockInfo
+                (namesTemp.toArray(new String[namesTemp.size()]), getApplicationContext());
+        calcChange = new CalcChange(multi, getApplicationContext());
+        calcChange.execute(user.getID());
+
+        new LoadingData().execute();
     }
 
     public void goToSearch (View view) {
@@ -55,42 +47,48 @@ public class ShowPortfolioActivity extends AppCompatActivity {
         Bundle bundle = new Bundle();
         bundle.putString("Username", username);
         bundle.putString("Password", password);
-        bundle.putDouble("investedAssets", investedAssets);
-        bundle.putDouble("bankAssets", bankAssets);
-        bundle.putDouble("totalAssets", totalAssets);
         intent.putExtras(bundle);
         startActivity(intent);
     }
 
+    //Based on position in the List
     public void goToStock (View view, int position) {
-        String stockName = ownedStocks.getAsset(position);
+        String stockName = ownedStocks.getAssetName(position);
+        System.out.println(stockName + 2);
         Intent intent = new Intent(this, DisplayStockActivity.class);
         Bundle bundle = new Bundle();
         bundle.putString("Username", username);
         bundle.putString("Password", password);
-        bundle.putDouble("investedAssets", investedAssets);
-        bundle.putDouble("bankAssets", bankAssets);
-        bundle.putDouble("totalAssets", totalAssets);
         bundle.putString("name", stockName);
         intent.putExtras(bundle);
         startActivity(intent);
+    }
 
+    public void goToLeader (View view) {
+        Intent intent = new Intent(this, LeaderboardActivity.class);
+        Bundle bundle = new Bundle();
+        bundle.putString("Username", username);
+        bundle.putString("Password", password);
+        intent.putExtras(bundle);
+        startActivity(intent);
     }
 
     //Loads the information on a separate thread
-    private class LoadingData extends AsyncTask<Void, Void, Double[]> {
+    private class LoadingData extends AsyncTask<Void, Void, double[]> {
         ProgressDialog dialog = new ProgressDialog(ShowPortfolioActivity.this);
         boolean status;
-        Double investedAssets;
-        Double bankAssets;
-        Double totalAssets;
+        double investedAssets;
+        double bankAssets;
+        double totalAssets;
+        double percentChange;
         List<String> stocks;
 
         //Loading circle bar... thing
+        @Override
         protected void onPreExecute() {
             status = false;
-            stocks = new ArrayList<String>();
-            stocks = ownedStocks.getAsset();
+            stocks = new ArrayList<>();
+            stocks = ownedStocks.getAssetRaw();
             System.out.println(stocks.toString());
 
             dialog.setCancelable(false);
@@ -101,41 +99,53 @@ public class ShowPortfolioActivity extends AppCompatActivity {
             super.onPreExecute();
         }
 
-        //Collect and analyze data
-        protected Double[] doInBackground(Void... arg0 ) {
-            bankAssets = Math.round(
-                    ownedStocks.getBankAssets() * 100.0) / 100.0;
-            investedAssets = ownedStocks.getAssetValue();
-            totalAssets = investedAssets + bankAssets;
-            return new Double[] {bankAssets, investedAssets, totalAssets}; //result
+        //Collect data from OwnedStocks
+        @Override
+        protected double[] doInBackground(Void... params) {
+            bankAssets = ownedStocks.getBankAssets();
+            investedAssets = calcChange.getAssetValue();
+            totalAssets = calcChange.getTotalAssetValue();
+            percentChange = calcChange.getPercentValueChange();
+            System.out.println
+                    (bankAssets + " " + investedAssets + " " + totalAssets + " " + percentChange);
+            return new double[] {bankAssets, investedAssets, totalAssets, percentChange};
         }
 
 
         //Display the information onto the screen
-        protected void onPostExecute(Double[] result) {
+        @Override
+        protected void onPostExecute(double[] result) {
             //{bankAssets, investedAssets, totalAssets}
-
             setContentView(R.layout.activity_show_portfolio);
             ListView list = (ListView) findViewById(R.id.userAssetsList);
             TextView teamName = (TextView) findViewById(R.id.userTeamName);
             TextView totalValue = (TextView) findViewById(R.id.TotalAssetValue);
             TextView bankValue = (TextView) findViewById(R.id.BankAccountValue);
             TextView investedValue = (TextView) findViewById(R.id.InvestedAssetsValue);
+            TextView percentValue = (TextView) findViewById(R.id.PercentChangeValue);
 
             teamName.setText(user.getUserName().toUpperCase());
             bankValue.setText("$" + result[0]);
             investedValue.setText("$" + result[1]);
             totalValue.setText("$" + result[2]);
+            percentValue.setText(result[3] + "%");
 
-            ShowPortfolioActivity.bankAssets = result[0];
-            ShowPortfolioActivity.investedAssets = result[1];
-            ShowPortfolioActivity.totalAssets = result[2];
-
+            //Organizes stocks into a clickable list
             ArrayAdapter<String> adapter = new ArrayAdapter<String>
                     (ShowPortfolioActivity.this, android.R.layout.simple_list_item_1, stocks);
             list.setAdapter(adapter);
 
+            list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view,
+                                        int position, long id) {
+                    goToStock(view, position);
+                }
+            });
+
             dialog.dismiss();
+
+            super.onPostExecute(result);
         }
     }
 }
