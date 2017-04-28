@@ -8,36 +8,34 @@ import java.util.concurrent.ExecutionException;
 
 public class CalcChange {
 
+    private boolean calcStatus;
     private static double assetValue;
     private static double rawAssetChange;
     private static double initialAssetValue;
     private static double percentValueChange;
     private static double bankAssets;
 
-    private Context context;
     private OwnedStocks ownedStocks;
     private MultiStockInfo multi;
 
     //Handles all the stocks of a user
-    public CalcChange(MultiStockInfo multi, Context context) {
+    public CalcChange(MultiStockInfo multi, OwnedStocks ownedStocks) {
         this.multi = multi;
-        this.context = context;
+        this.ownedStocks = ownedStocks;
+        calcStatus = false;
         assetValue = 0.0;
         rawAssetChange = 0.0;
         initialAssetValue = 0.0;
         percentValueChange = 0.0;
     }
 
-    public void execute(int id) {
-        System.out.println("pre stock");
-        ownedStocks = new OwnedStocks(id, context);
-        System.out.println("post stock");
-
+    public void execute() {
         try {
             new StockValueData().execute().get();
         } catch (InterruptedException|ExecutionException e) {
             e.printStackTrace();
         }
+        calcStatus = true;
     }
 
     //Add formatting later to accessor methods
@@ -62,10 +60,20 @@ public class CalcChange {
         return assetValue + bankAssets;
     }
 
+    public boolean getStatus() {
+        return calcStatus;
+    }
+
     //Calculates user's asset values
-    private class StockValueData extends AsyncTask<String[], Void, Void> {
+    private class StockValueData extends AsyncTask<Void, Void, Void> {
+        boolean status;
+
         @Override
-        protected Void doInBackground(String[]... params) {
+        protected Void doInBackground(Void... params) {
+            boolean status = false;
+            while (!status) {
+                status = multi.getStatus();
+            }
             return null;
         }
 
@@ -84,10 +92,10 @@ public class CalcChange {
                 assetValue+= currentPrice * quantity.get(i);
                 initialAssetValue+= price.get(i) * quantity.get(i);
             }
+            System.out.println(rawAssetChange + " " + assetValue + " " + initialAssetValue);
             System.out.println("post calc");
 
             percentValueChange = initialAssetValue / assetValue * 100;
-            System.out.println("fin");
         }
     }
 }
