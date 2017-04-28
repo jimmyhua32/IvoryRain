@@ -131,7 +131,7 @@ public class LeaderboardActivity extends AppCompatActivity {
 
             //adapts arraylist into listview
             ArrayAdapter<String> adapter = new ArrayAdapter<String>
-                    (LeaderboardActivity.this, android.R.layout.simple_list_item_1, usersRanked);
+                    (LeaderboardActivity.this, android.R.layout.custom_layout, usersRanked);
             list.setAdapter(adapter);
         }
 
