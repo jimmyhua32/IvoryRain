@@ -54,7 +54,6 @@ public class ShowPortfolioActivity extends AppCompatActivity {
     //Based on position in the List
     public void goToStock (View view, int position) {
         String stockName = ownedStocks.getAssetName(position);
-        System.out.println(stockName + 2);
         Intent intent = new Intent(this, DisplayStockActivity.class);
         Bundle bundle = new Bundle();
         bundle.putString("Username", username);
@@ -99,7 +98,7 @@ public class ShowPortfolioActivity extends AppCompatActivity {
             super.onPreExecute();
         }
 
-        //Collect data from OwnedStocks
+        //Collect data from OwnedStocks and CalcChange
         @Override
         protected double[] doInBackground(Void... params) {
             bankAssets = ownedStocks.getBankAssets();
