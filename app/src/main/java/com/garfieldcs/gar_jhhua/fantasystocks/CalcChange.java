@@ -12,6 +12,7 @@ public class CalcChange {
     private static double rawAssetChange;
     private static double initialAssetValue;
     private static double percentValueChange;
+    private static double bankAssets;
 
     private Context context;
     private OwnedStocks ownedStocks;
@@ -33,7 +34,7 @@ public class CalcChange {
         System.out.println("post stock");
 
         try {
-            new StockPriceData().execute().get();
+            new StockValueData().execute().get();
         } catch (InterruptedException|ExecutionException e) {
             e.printStackTrace();
         }
@@ -58,11 +59,11 @@ public class CalcChange {
     }
 
     public double getTotalAssetValue() {
-        return assetValue + ownedStocks.getBankAssets();
+        return assetValue + bankAssets;
     }
 
-    private class StockPriceData extends AsyncTask<String[], Void, Void> {
-
+    //Calculates user's asset values
+    private class StockValueData extends AsyncTask<String[], Void, Void> {
         @Override
         protected Void doInBackground(String[]... params) {
             return null;
@@ -73,6 +74,7 @@ public class CalcChange {
             ArrayList<Double> price = ownedStocks.getAssetPrice();
             ArrayList<Double> allPrices = multi.getAllPrices();
             ArrayList<Integer> quantity = ownedStocks.getAssetQuantity();
+            bankAssets = ownedStocks.getBankAssets();
 
             System.out.println("pre calc");
             for (int i = 0; i < allPrices.size(); i++) {
