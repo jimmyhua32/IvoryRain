@@ -1,6 +1,7 @@
 package com.garfieldcs.gar_jhhua.fantasystocks;
 
 import android.content.Context;
+import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.ArrayAdapter;
@@ -28,6 +29,7 @@ public class LeaderboardActivity extends AppCompatActivity {
     private List<String> usersRanked;
     private Context context;
 
+    private ArrayList<String> namesTemp;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,7 +43,7 @@ public class LeaderboardActivity extends AppCompatActivity {
 
         //gets ownedstocks for user and gets assets and change
         ownedStocks = new OwnedStocks(user.getID(), getApplicationContext());
-        ArrayList<String> namesTemp = ownedStocks.getAssetName();
+        namesTemp = ownedStocks.getAssetName();
         MultiStockInfo multi = new MultiStockInfo
                 (namesTemp.toArray(new String[namesTemp.size()]), getApplicationContext());
         CalcChange calcChange = new CalcChange(multi, ownedStocks);
@@ -49,13 +51,12 @@ public class LeaderboardActivity extends AppCompatActivity {
         totalAssets = calcChange.getTotalAssetValue();
         percentChange = calcChange.getPercentValueChange();
 
-        //displays information
-        ListView list = (ListView) findViewById(R.id.leaderboardList);
-        TextView userAssets = (TextView) findViewById(R.id.UserAssetValue);
-        TextView userPC = (TextView) findViewById(R.id.UserPCValue);
-        userAssets.setText("" + totalAssets);
-        userPC.setText("" + percentChange + "%");
+        fillArrays();
+        sortUsers();
+        new LoadingData().execute();
+    }
 
+    private void fillArrays() {
         //while loop filled with all user asset values
         allUserIDs = new ArrayList<>();
         allUsernames = new ArrayList<>();
@@ -88,10 +89,15 @@ public class LeaderboardActivity extends AppCompatActivity {
             CalcChange calcChangeTemp = new CalcChange(multiTemp, ownedStocksTemp);
             allUserAssets.add(calcChangeTemp.getTotalAssetValue());
         }
+    }
 
-        //orders top 25 users
+    private void sortUsers() {
         usersRanked = new ArrayList<>();
-        for (int i = 0; i < 10; i++) {
+        int maxIndex = 10;
+        if (allUserAssets.size() < 10) {
+            maxIndex = allUserAssets.size();
+        }
+        for (int i = 0; i < maxIndex; i++) {
             double tempHighest = 0;
             int highestSpot = 0;
             for (int j = 0; j < allUserAssets.size(); j++) {
@@ -100,16 +106,33 @@ public class LeaderboardActivity extends AppCompatActivity {
                     highestSpot = j;
                 }
             }
-            usersRanked.add(i + ". " + allUsernames.get(highestSpot) + " " +
+            usersRanked.add((i + 1) + ". " + allUsernames.get(highestSpot) + " $" +
                     allUserAssets.get(highestSpot));
             allUsernames.remove(highestSpot);
             allUserAssets.remove(highestSpot);
         }
+    }
 
-        //adapts arraylist into listview
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>
-                (LeaderboardActivity.this, android.R.layout.simple_list_item_1, usersRanked);
-        list.setAdapter(adapter);
+    private class LoadingData extends AsyncTask<Void, Void, Void> {
+        @Override
+        protected Void doInBackground(Void... params) {
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void result) {
+            //displays information
+            ListView list = (ListView) findViewById(R.id.leaderboardList);
+            TextView userAssets = (TextView) findViewById(R.id.UserAssetValue);
+            TextView userPC = (TextView) findViewById(R.id.UserPCValue);
+            userAssets.setText("" + totalAssets);
+            userPC.setText("" + percentChange + "%");
+
+            //adapts arraylist into listview
+            ArrayAdapter<String> adapter = new ArrayAdapter<String>
+                    (LeaderboardActivity.this, android.R.layout.simple_list_item_1, usersRanked);
+            list.setAdapter(adapter);
+        }
 
     }
 }
