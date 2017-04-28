@@ -37,6 +37,7 @@ public class LeaderboardActivity extends AppCompatActivity {
         username = bundle.getString("Username");
         password = bundle.getString("Password");
         user = new User(username, password, false, getApplicationContext());
+        context = getApplicationContext();
 
         //gets ownedstocks for user and gets assets and change
         ownedStocks = new OwnedStocks(user.getID(), getApplicationContext());
