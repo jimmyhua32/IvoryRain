@@ -1,9 +1,13 @@
 package com.garfieldcs.gar_jhhua.fantasystocks;
 
+import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -91,6 +95,16 @@ public class LeaderboardActivity extends AppCompatActivity {
         }
     }
 
+    //sends user to view of another user's portfolio
+    public void goToUser (View view, int position) {
+        String userViewName = usersRanked.get(position);
+        Intent intent = new Intent(this, ShowOtherPortfolioActivity.class);
+        Bundle bundle = new Bundle();
+        bundle.putString("Username", userViewName);
+        intent.putExtras(bundle);
+        startActivity(intent);
+    }
+
     private void sortUsers() {
         usersRanked = new ArrayList<>();
         int maxIndex = 10;
@@ -130,8 +144,17 @@ public class LeaderboardActivity extends AppCompatActivity {
 
             //adapts arraylist into listview
             ArrayAdapter<String> adapter = new ArrayAdapter<String>
-                    (LeaderboardActivity.this, android.R.layout.simple_list_item_1, usersRanked);
+                    (LeaderboardActivity.this, R.layout.custom_layout, usersRanked);
             list.setAdapter(adapter);
+
+            //clickable list to redirect to user's portfolio for inspection
+            list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view,
+                                        int position, long id) {
+                    goToUser(view, position);
+                }
+            });
         }
 
     }

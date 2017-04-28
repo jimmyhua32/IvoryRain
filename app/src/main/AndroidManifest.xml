@@ -26,7 +26,8 @@
         <activity android:name=".SellStockActivity" />
         <activity android:name=".SearchActivity" />
         <activity android:name=".CreateUserActivity" />
-        <activity android:name=".LeaderboardActivity"></activity>
+        <activity android:name=".LeaderboardActivity" />
+        <activity android:name=".ShowOtherPortfolioActivity"></activity>
     </application>
 
 </manifest>
