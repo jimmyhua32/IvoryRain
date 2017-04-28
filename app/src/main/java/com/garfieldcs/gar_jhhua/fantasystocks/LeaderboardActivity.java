@@ -80,10 +80,12 @@ public class LeaderboardActivity extends AppCompatActivity {
         allUserAssets = new ArrayList<>();
         for (int i = 0; i < allUserIDs.size(); i++) {
             OwnedStocks ownedStocksTemp = new OwnedStocks(allUserIDs.get(i), context);
-            CalcChange calcChangeTemp = new CalcChange(ownedStocksTemp.getAssetName(), context);
+            MultiStockInfo multiTemp = new MultiStockInfo
+                    (ownedStocksTemp.getAssetName().toArray
+                            (new String[namesTemp.size()]), getApplicationContext());
+            CalcChange calcChangeTemp = new CalcChange(multiTemp, context);
             allUserAssets.add(calcChangeTemp.getTotalAssetValue());
         }
-
 
         //orders top 25 users
         usersRanked = new ArrayList<>();
@@ -96,15 +98,10 @@ public class LeaderboardActivity extends AppCompatActivity {
                     highestSpot = j;
                 }
             }
-            usersRanked.add(allUsernames.get(highestSpot) + " " + allUserAssets.get(highestSpot));
+            usersRanked.add(i + ". " + allUsernames.get(highestSpot) + " " +
+                    allUserAssets.get(highestSpot));
             allUsernames.remove(highestSpot);
             allUserAssets.remove(highestSpot);
-        }
-
-        //fills arraylist of users
-        usersListNumbered = new ArrayList<>();
-        for (int i = 0; i < 10; i++) {
-            usersListNumbered.add(i + ". " + usersRanked.get(i));
         }
 
         //adapts arraylist into listview
