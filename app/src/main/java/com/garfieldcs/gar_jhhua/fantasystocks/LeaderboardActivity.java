@@ -46,7 +46,8 @@ public class LeaderboardActivity extends AppCompatActivity {
         ArrayList<String> namesTemp = ownedStocks.getAssetName();
         MultiStockInfo multi = new MultiStockInfo
                 (namesTemp.toArray(new String[namesTemp.size()]), getApplicationContext());
-        CalcChange calcChange = new CalcChange(multi, getApplicationContext());
+        CalcChange calcChange = new CalcChange(multi, ownedStocks);
+        calcChange.execute();
         totalAssets = calcChange.getTotalAssetValue();
         percentChange = calcChange.getPercentValueChange();
 
@@ -86,7 +87,7 @@ public class LeaderboardActivity extends AppCompatActivity {
             MultiStockInfo multiTemp = new MultiStockInfo
                     (ownedStocksTemp.getAssetName().toArray
                             (new String[namesTemp.size()]), getApplicationContext());
-            CalcChange calcChangeTemp = new CalcChange(multiTemp, context);
+            CalcChange calcChangeTemp = new CalcChange(multiTemp, ownedStocksTemp);
             allUserAssets.add(calcChangeTemp.getTotalAssetValue());
         }
 
