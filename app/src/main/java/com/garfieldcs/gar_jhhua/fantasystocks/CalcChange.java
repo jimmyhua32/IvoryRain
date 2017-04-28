@@ -1,6 +1,5 @@
 package com.garfieldcs.gar_jhhua.fantasystocks;
 
-import android.content.Context;
 import android.os.AsyncTask;
 
 import java.util.ArrayList;
@@ -34,8 +33,9 @@ public class CalcChange {
             new StockValueData().execute().get();
         } catch (InterruptedException|ExecutionException e) {
             e.printStackTrace();
+        } finally {
+            calcStatus = true;
         }
-        calcStatus = true;
     }
 
     //Add formatting later to accessor methods
@@ -66,14 +66,9 @@ public class CalcChange {
 
     //Calculates user's asset values
     private class StockValueData extends AsyncTask<Void, Void, Void> {
-        boolean status;
 
         @Override
         protected Void doInBackground(Void... params) {
-            boolean status = false;
-            while (!status) {
-                status = multi.getStatus();
-            }
             return null;
         }
 

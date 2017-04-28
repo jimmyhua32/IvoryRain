@@ -37,7 +37,8 @@ public class ShowPortfolioActivity extends AppCompatActivity {
         MultiStockInfo multi = new MultiStockInfo
                 (namesTemp.toArray(new String[namesTemp.size()]), getApplicationContext());
         calcChange = new CalcChange(multi, ownedStocks);
-        calcChange.execute();
+
+        calcChange.execute(); //Not an async!
 
         new LoadingData().execute();
     }
@@ -75,7 +76,6 @@ public class ShowPortfolioActivity extends AppCompatActivity {
     //Loads the information on a separate thread
     private class LoadingData extends AsyncTask<Void, Void, double[]> {
         ProgressDialog dialog = new ProgressDialog(ShowPortfolioActivity.this);
-        boolean status;
         double investedAssets;
         double bankAssets;
         double totalAssets;
@@ -85,16 +85,13 @@ public class ShowPortfolioActivity extends AppCompatActivity {
         //Loading circle bar... thing
         @Override
         protected void onPreExecute() {
-            status = false;
             stocks = new ArrayList<>();
             stocks = ownedStocks.getAssetRaw();
-            System.out.println(stocks.toString());
 
             dialog.setCancelable(false);
             dialog.setInverseBackgroundForced(false);
             dialog = dialog.show(ShowPortfolioActivity.this,
                     "Please wait", "Retrieving data...", true);
-
             super.onPreExecute();
         }
 
