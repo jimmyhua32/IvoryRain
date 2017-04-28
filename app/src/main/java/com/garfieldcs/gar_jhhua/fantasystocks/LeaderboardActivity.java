@@ -26,7 +26,6 @@ public class LeaderboardActivity extends AppCompatActivity {
     private List<String> allUsernames;
     private List<Double> allUserAssets;
     private List<String> usersRanked;
-    private List<String> usersListNumbered;
     private Context context;
 
 
@@ -106,7 +105,7 @@ public class LeaderboardActivity extends AppCompatActivity {
 
         //adapts arraylist into listview
         ArrayAdapter<String> adapter = new ArrayAdapter<String>
-                (LeaderboardActivity.this, android.R.layout.simple_list_item_1, usersListNumbered);
+                (LeaderboardActivity.this, android.R.layout.simple_list_item_1, usersRanked);
         list.setAdapter(adapter);
 
     }

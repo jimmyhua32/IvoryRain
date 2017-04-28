@@ -73,8 +73,6 @@ public class MultiStockInfo {
                 e.printStackTrace();
             }
             System.out.println("fin data");
-
-            
             return prices;
         }
 
