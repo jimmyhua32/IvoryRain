@@ -1,8 +1,13 @@
 package com.garfieldcs.gar_jhhua.fantasystocks;
 
+import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.Intent;
+import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -26,9 +31,9 @@ public class LeaderboardActivity extends AppCompatActivity {
     private List<String> allUsernames;
     private List<Double> allUserAssets;
     private List<String> usersRanked;
-    private List<String> usersListNumbered;
     private Context context;
 
+    private ArrayList<String> namesTemp;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,25 +43,27 @@ public class LeaderboardActivity extends AppCompatActivity {
         username = bundle.getString("Username");
         password = bundle.getString("Password");
         user = new User(username, password, false, getApplicationContext());
+        context = getApplicationContext();
 
         //gets ownedstocks for user and gets assets and change
         ownedStocks = new OwnedStocks(user.getID(), getApplicationContext());
-        ArrayList<String> namesTemp = ownedStocks.getAssetName();
+        namesTemp = ownedStocks.getAssetName();
         MultiStockInfo multi = new MultiStockInfo
                 (namesTemp.toArray(new String[namesTemp.size()]), getApplicationContext());
-        CalcChange calcChange = new CalcChange(multi, getApplicationContext());
+        CalcChange calcChange = new CalcChange(multi, ownedStocks);
+        calcChange.execute();
         totalAssets = calcChange.getTotalAssetValue();
         percentChange = calcChange.getPercentValueChange();
 
-        //displays information
-        ListView list = (ListView) findViewById(R.id.leaderboardList);
-        TextView userAssets = (TextView) findViewById(R.id.UserAssetValue);
-        TextView userPC = (TextView) findViewById(R.id.UserPCValue);
-        userAssets.setText("" + totalAssets);
-        userPC.setText("" + percentChange + "%");
+        fillArrays();
+        sortUsers();
+        new LoadingData().execute();
+    }
 
+    private void fillArrays() {
         //while loop filled with all user asset values
         allUserIDs = new ArrayList<>();
+        allUsernames = new ArrayList<>();
         File folder = new File(context.getFilesDir().getAbsolutePath());
         File[] allFiles = folder.listFiles();
         try {
@@ -80,14 +87,31 @@ public class LeaderboardActivity extends AppCompatActivity {
         allUserAssets = new ArrayList<>();
         for (int i = 0; i < allUserIDs.size(); i++) {
             OwnedStocks ownedStocksTemp = new OwnedStocks(allUserIDs.get(i), context);
-            CalcChange calcChangeTemp = new CalcChange(ownedStocksTemp.getAssetName(), context);
+            MultiStockInfo multiTemp = new MultiStockInfo
+                    (ownedStocksTemp.getAssetName().toArray
+                            (new String[namesTemp.size()]), getApplicationContext());
+            CalcChange calcChangeTemp = new CalcChange(multiTemp, ownedStocksTemp);
             allUserAssets.add(calcChangeTemp.getTotalAssetValue());
         }
+    }
 
+    //sends user to view of another user's portfolio
+    public void goToUser (View view, int position) {
+        String userViewName = usersRanked.get(position);
+        Intent intent = new Intent(this, ShowOtherPortfolioActivity.class);
+        Bundle bundle = new Bundle();
+        bundle.putString("Username", userViewName);
+        intent.putExtras(bundle);
+        startActivity(intent);
+    }
 
-        //orders top 25 users
+    private void sortUsers() {
         usersRanked = new ArrayList<>();
-        for (int i = 0; i < 10; i++) {
+        int maxIndex = 10;
+        if (allUserAssets.size() < 10) {
+            maxIndex = allUserAssets.size();
+        }
+        for (int i = 0; i < maxIndex; i++) {
             double tempHighest = 0;
             int highestSpot = 0;
             for (int j = 0; j < allUserAssets.size(); j++) {
@@ -96,21 +120,42 @@ public class LeaderboardActivity extends AppCompatActivity {
                     highestSpot = j;
                 }
             }
-            usersRanked.add(allUsernames.get(highestSpot) + " " + allUserAssets.get(highestSpot));
+            usersRanked.add((i + 1) + ". " + allUsernames.get(highestSpot) + " $" +
+                    allUserAssets.get(highestSpot));
             allUsernames.remove(highestSpot);
             allUserAssets.remove(highestSpot);
         }
+    }
 
-        //fills arraylist of users
-        usersListNumbered = new ArrayList<>();
-        for (int i = 0; i < 10; i++) {
-            usersListNumbered.add(i + ". " + usersRanked.get(i));
+    private class LoadingData extends AsyncTask<Void, Void, Void> {
+        @Override
+        protected Void doInBackground(Void... params) {
+            return null;
         }
 
-        //adapts arraylist into listview
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>
-                (LeaderboardActivity.this, android.R.layout.simple_list_item_1, usersListNumbered);
-        list.setAdapter(adapter);
+        @Override
+        protected void onPostExecute(Void result) {
+            //displays information
+            ListView list = (ListView) findViewById(R.id.leaderboardList);
+            TextView userAssets = (TextView) findViewById(R.id.UserAssetValue);
+            TextView userPC = (TextView) findViewById(R.id.UserPCValue);
+            userAssets.setText("" + totalAssets);
+            userPC.setText("" + percentChange + "%");
+
+            //adapts arraylist into listview
+            ArrayAdapter<String> adapter = new ArrayAdapter<String>
+                    (LeaderboardActivity.this, R.layout.custom_layout, usersRanked);
+            list.setAdapter(adapter);
+
+            //clickable list to redirect to user's portfolio for inspection
+            list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view,
+                                        int position, long id) {
+                    goToUser(view, position);
+                }
+            });
+        }
 
     }
 }

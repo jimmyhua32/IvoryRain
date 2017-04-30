@@ -66,6 +66,7 @@
         android:layout_height="match_parent"
         android:layout_gravity="center_horizontal"
         android:id="@+id/leaderboardList"
+        android:clickable="true"
         android:paddingTop="20dp"/>
 
 </LinearLayout>

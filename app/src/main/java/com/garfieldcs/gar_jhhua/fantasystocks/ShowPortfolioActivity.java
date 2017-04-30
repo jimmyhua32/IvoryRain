@@ -36,9 +36,13 @@ public class ShowPortfolioActivity extends AppCompatActivity {
         ArrayList<String> namesTemp = ownedStocks.getAssetName();
         MultiStockInfo multi = new MultiStockInfo
                 (namesTemp.toArray(new String[namesTemp.size()]), getApplicationContext());
-        calcChange = new CalcChange(multi, getApplicationContext());
-        calcChange.execute(user.getID());
+        calcChange = new CalcChange(multi, ownedStocks);
 
+        calcChange.execute();
+
+    }
+
+    public void startLoading() {
         new LoadingData().execute();
     }
 
@@ -54,7 +58,6 @@ public class ShowPortfolioActivity extends AppCompatActivity {
     //Based on position in the List
     public void goToStock (View view, int position) {
         String stockName = ownedStocks.getAssetName(position);
-        System.out.println(stockName + 2);
         Intent intent = new Intent(this, DisplayStockActivity.class);
         Bundle bundle = new Bundle();
         bundle.putString("Username", username);
@@ -76,7 +79,6 @@ public class ShowPortfolioActivity extends AppCompatActivity {
     //Loads the information on a separate thread
     private class LoadingData extends AsyncTask<Void, Void, double[]> {
         ProgressDialog dialog = new ProgressDialog(ShowPortfolioActivity.this);
-        boolean status;
         double investedAssets;
         double bankAssets;
         double totalAssets;
@@ -86,20 +88,17 @@ public class ShowPortfolioActivity extends AppCompatActivity {
         //Loading circle bar... thing
         @Override
         protected void onPreExecute() {
-            status = false;
             stocks = new ArrayList<>();
             stocks = ownedStocks.getAssetRaw();
-            System.out.println(stocks.toString());
 
             dialog.setCancelable(false);
             dialog.setInverseBackgroundForced(false);
             dialog = dialog.show(ShowPortfolioActivity.this,
                     "Please wait", "Retrieving data...", true);
-
             super.onPreExecute();
         }
 
-        //Collect data from OwnedStocks
+        //Collect data from OwnedStocks and CalcChange
         @Override
         protected double[] doInBackground(Void... params) {
             bankAssets = ownedStocks.getBankAssets();
