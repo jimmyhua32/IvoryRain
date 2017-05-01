@@ -39,11 +39,8 @@ public class ShowPortfolioActivity extends AppCompatActivity {
         multi = new MultiStockInfo
                 (namesTemp.toArray(new String[namesTemp.size()]), getApplicationContext());
         calcChange = new CalcChange(multi, ownedStocks);
-
-        calcChange.execute();
-
     }
-    
+
     public void goToSearch (View view) {
         Intent intent = new Intent(this, SearchActivity.class);
         Bundle bundle = new Bundle();
