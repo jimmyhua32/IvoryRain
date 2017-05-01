@@ -28,6 +28,7 @@ public class LeaderboardActivity extends AppCompatActivity {
     private double totalAssets;
     private double percentChange;
     private List<Integer> allUserIDs;
+    private List<Integer> userIDsRanked;
     private List<String> allUsernames;
     private List<Double> allUserAssets;
     private List<String> usersRanked;
@@ -97,16 +98,17 @@ public class LeaderboardActivity extends AppCompatActivity {
 
     //sends user to view of another user's portfolio
     public void goToUser (View view, int position) {
-        String userViewName = usersRanked.get(position);
+        Integer userViewID = userIDsRanked.get(position);
         Intent intent = new Intent(this, ShowOtherPortfolioActivity.class);
         Bundle bundle = new Bundle();
-        bundle.putString("Username", userViewName);
+        bundle.putInt("UserID", userViewID);
         intent.putExtras(bundle);
         startActivity(intent);
     }
 
     private void sortUsers() {
         usersRanked = new ArrayList<>();
+        userIDsRanked = new ArrayList<>();
         int maxIndex = 10;
         if (allUserAssets.size() < 10) {
             maxIndex = allUserAssets.size();
@@ -122,6 +124,8 @@ public class LeaderboardActivity extends AppCompatActivity {
             }
             usersRanked.add((i + 1) + ". " + allUsernames.get(highestSpot) + " $" +
                     allUserAssets.get(highestSpot));
+            userIDsRanked.add(allUserIDs.get(highestSpot));
+            allUserIDs.remove(highestSpot);
             allUsernames.remove(highestSpot);
             allUserAssets.remove(highestSpot);
         }

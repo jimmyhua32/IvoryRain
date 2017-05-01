@@ -5,7 +5,7 @@ import android.os.Bundle;
 
 public class ShowOtherPortfolioActivity extends AppCompatActivity {
     private User user;
-    private String username;
+    private Integer userID;
     private String password;
 
     @Override
@@ -14,6 +14,8 @@ public class ShowOtherPortfolioActivity extends AppCompatActivity {
         setContentView(R.layout.activity_show_other_portfolio);
 
         Bundle bundle = getIntent().getExtras();
-        username = bundle.getString("Username");
+        userID = bundle.getInt("UserID");
+
+
     }
 }
