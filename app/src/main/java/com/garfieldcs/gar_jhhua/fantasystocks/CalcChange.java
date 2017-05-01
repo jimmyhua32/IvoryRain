@@ -66,17 +66,20 @@ public class CalcChange {
 
     //Calculates user's asset values
     private class StockValueData extends AsyncTask<Void, Void, Void> {
+        ArrayList<Double> price;
+        ArrayList<Double> allPrices;
+        ArrayList<Integer> quantity;
 
         @Override
         protected Void doInBackground(Void... params) {
+            price = ownedStocks.getAssetPrice();
+            allPrices = multi.getAllPrices();
+            quantity = ownedStocks.getAssetQuantity();
             return null;
         }
 
         @Override
         protected void onPostExecute(Void result) {
-            ArrayList<Double> price = ownedStocks.getAssetPrice();
-            ArrayList<Double> allPrices = multi.getAllPrices();
-            ArrayList<Integer> quantity = ownedStocks.getAssetQuantity();
             bankAssets = ownedStocks.getBankAssets();
 
             System.out.println("pre calc");
@@ -88,9 +91,9 @@ public class CalcChange {
                 initialAssetValue+= price.get(i) * quantity.get(i);
             }
             System.out.println(rawAssetChange + " " + assetValue + " " + initialAssetValue);
-            System.out.println("post calc");
 
             percentValueChange = initialAssetValue / assetValue * 100;
+            System.out.println("post calc");
         }
     }
 }

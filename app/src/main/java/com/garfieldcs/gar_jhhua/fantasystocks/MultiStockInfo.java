@@ -5,7 +5,6 @@ import android.os.AsyncTask;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.concurrent.ExecutionException;
 
 import yahoofinance.Stock;
@@ -17,6 +16,7 @@ public class MultiStockInfo {
 
     private static boolean collectStatus;
     private static ArrayList<Double> allPrices;
+    private static ArrayList<String> allNames;
 
     public MultiStockInfo(String[] names, Context context) {
         if (names != null) {
@@ -45,7 +45,7 @@ public class MultiStockInfo {
     }
 
     public ArrayList<String> getAllNames() {
-        return new ArrayList<>(Arrays.asList(names));
+        return allNames;
     }
 
     public boolean getStatus() {
@@ -54,13 +54,14 @@ public class MultiStockInfo {
 
     //Collects data in a separate thread
     private class CollectDataTask extends AsyncTask<String[], Void, ArrayList<Double>> {
+        String[] nameArray;
 
+        @Override
         protected ArrayList<Double> doInBackground(String[]... param) {
-            System.out.println("collecting data");
             ArrayList<Double> prices = new ArrayList<>();
             try {
                 if (c.isConnected()) {
-                    String[] nameArray = param[0];
+                    nameArray = param[0];
                     for (String n : nameArray) {
                         Stock stock = YahooFinance.get(n);
                         prices.add(Formatting.toDecimal(stock.getQuote().getPrice()));
@@ -72,17 +73,48 @@ public class MultiStockInfo {
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            System.out.println("fin data");
             return prices;
         }
 
+        @Override
         protected void onPostExecute(ArrayList<Double> result) {
             if (result != null) {
                 allPrices = result;
             }
+            new CollectDataTask2().execute(nameArray);
+        }
+    }
+
+    private class CollectDataTask2 extends AsyncTask<String[], Void, ArrayList<String>> {
+
+        @Override
+        protected ArrayList<String> doInBackground(String[]... param) {
+            ArrayList<String> names = new ArrayList<>();
+            try {
+                if (c.isConnected()) {
+                    String[] nameArray = param[0];
+                    for (String n : nameArray) {
+                        Stock stock = YahooFinance.get(n);
+                        names.add(stock.getName());
+                    }
+                } else {
+                    noConnection();
+                    return null;
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            return names;
+        }
+
+        @Override
+        protected void onPostExecute(ArrayList<String> result) {
+            if (result != null) {
+                allNames = result;
+            }
             collectStatus = true;
-            System.out.println("status is true");
             super.onPostExecute(result);
         }
+
     }
 }

@@ -28,7 +28,6 @@ public class OwnedStocks {
     private ArrayList<Integer> quantity;
     private boolean containStock;
 
-    private static Double currentPrice;
     private static String fullName;
 
     public OwnedStocks(int id, Context context) {
@@ -217,23 +216,7 @@ public class OwnedStocks {
         return null;
     }
 
-    //Makes strings that are easier to read than those in info
     public ArrayList<String> getAsset() {
-        ArrayList<String> readableInfo = new ArrayList<>();
-        for (int i = 0; i < info.size(); i++) {
-            new StockNameData().execute(name.get(i));
-            String tempName = fullName;
-            if (fullName.length() > NAME_MAX_LENGTH) {
-                tempName = fullName.substring(0, NAME_MAX_LENGTH);
-            }
-            String priceUSD = "$" + price.get(i);
-            String singleQuantity = "Quantity: " + quantity.get(i);
-            readableInfo.add(tempName + ", " + priceUSD + ", " + singleQuantity);
-        }
-        return readableInfo;
-    }
-
-    public ArrayList<String> getAssetRaw() {
         return info;
     }
 
@@ -272,32 +255,5 @@ public class OwnedStocks {
 
     public int getID() {
         return id;
-    }
-
-
-    //Retrieves a stock's "full name" from the symbol
-    private class StockNameData extends AsyncTask<String, Void, String> {
-        boolean status;
-
-        @Override
-        protected void onPreExecute() {
-            fullName = "";
-            status = false;
-        }
-
-        @Override
-        protected String doInBackground(String... params) {
-            StockInfo stock = new StockInfo(params[0], context);
-            while (!status) {
-                status = stock.getStatus();
-            }
-            return stock.getName();
-        }
-
-        @Override
-        protected void onPostExecute(String result) {
-            fullName = result;
-            super.onPostExecute(result);
-        }
     }
 }
