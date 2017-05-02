@@ -13,6 +13,7 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
 
 
 public class ShowPortfolioActivity extends AppCompatActivity {
@@ -21,6 +22,7 @@ public class ShowPortfolioActivity extends AppCompatActivity {
     private CalcChange calcChange;
     private String username;
     private String password;
+    private MultiStockInfo multi;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,16 +36,9 @@ public class ShowPortfolioActivity extends AppCompatActivity {
         ownedStocks = new OwnedStocks(user.getID(), getApplicationContext());
 
         ArrayList<String> namesTemp = ownedStocks.getAssetName();
-        MultiStockInfo multi = new MultiStockInfo
+        multi = new MultiStockInfo
                 (namesTemp.toArray(new String[namesTemp.size()]), getApplicationContext());
         calcChange = new CalcChange(multi, ownedStocks);
-
-        calcChange.execute();
-
-    }
-
-    public void startLoading() {
-        new LoadingData().execute();
     }
 
     public void goToSearch (View view) {
@@ -101,12 +96,28 @@ public class ShowPortfolioActivity extends AppCompatActivity {
         //Collect data from OwnedStocks and CalcChange
         @Override
         protected double[] doInBackground(Void... params) {
+            List<String> temp = stocks;
+            ArrayList<String> names = multi.getAllNames();
+            stocks.clear();
+
+            for (int i = 0; i < temp.size(); i++) {
+                String n = names.get(i);
+                double p;
+                int q;
+
+                Scanner scanner = new Scanner(temp.get(i));
+                scanner.next();
+                p = Double.parseDouble(scanner.next());
+                q = Integer.parseInt(scanner.next());
+
+                stocks.add(n + " $" + p + " Quantity: " + q);
+            }
+
             bankAssets = ownedStocks.getBankAssets();
             investedAssets = calcChange.getAssetValue();
             totalAssets = calcChange.getTotalAssetValue();
             percentChange = calcChange.getPercentValueChange();
-            System.out.println
-                    (bankAssets + " " + investedAssets + " " + totalAssets + " " + percentChange);
+
             return new double[] {bankAssets, investedAssets, totalAssets, percentChange};
         }
 
@@ -114,7 +125,6 @@ public class ShowPortfolioActivity extends AppCompatActivity {
         //Display the information onto the screen
         @Override
         protected void onPostExecute(double[] result) {
-            //{bankAssets, investedAssets, totalAssets}
             setContentView(R.layout.activity_show_portfolio);
             ListView list = (ListView) findViewById(R.id.userAssetsList);
             TextView teamName = (TextView) findViewById(R.id.userTeamName);

@@ -7,7 +7,11 @@ public class Formatting {
     public static final double TWO_DECIMAL = 100.0;
 
     //Add more methods later
-    public static Double toDecimal(BigDecimal value) {
-        return Math.round((value.floatValue() * 100)) / 100.0;
+    public static Double toDecimal(BigDecimal value, double placeValue) {
+        return Math.round((value.floatValue() * placeValue)) / placeValue;
+    }
+
+    public static Double toDecimal(Double value, double placeValue) {
+        return Math.round((value.floatValue() * placeValue)) / placeValue;
     }
 }

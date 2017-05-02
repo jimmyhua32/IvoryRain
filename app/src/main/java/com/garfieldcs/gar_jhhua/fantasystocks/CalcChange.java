@@ -16,6 +16,7 @@ public class CalcChange {
 
     private boolean status;
 
+    private Formatting f;
     private OwnedStocks ownedStocks;
     private MultiStockInfo multi;
 
@@ -23,10 +24,12 @@ public class CalcChange {
     public CalcChange(MultiStockInfo multi, OwnedStocks ownedStocks) {
         this.multi = multi;
         this.ownedStocks = ownedStocks;
+        f = new Formatting();
         assetValue = 0.0;
         rawAssetChange = 0.0;
         initialAssetValue = 0.0;
         percentValueChange = 0.0;
+        execute();
     }
 
     public void execute() {
@@ -41,23 +44,23 @@ public class CalcChange {
     //Add formatting later to accessor methods
 
     public double getAssetValue() {
-        return assetValue;
+        return f.toDecimal(assetValue, f.TWO_DECIMAL);
     }
 
     public double getRawAssetChange() {
-        return rawAssetChange;
+        return f.toDecimal(rawAssetChange, f.TWO_DECIMAL);
     }
 
     public double getInitialAssetValue() {
-        return initialAssetValue;
+        return f.toDecimal(initialAssetValue, f.TWO_DECIMAL);
     }
 
     public double getPercentValueChange() {
-        return percentValueChange;
+        return f.toDecimal(percentValueChange, f.ONE_DECIMAL);
     }
 
     public double getTotalAssetValue() {
-        return assetValue + bankAssets;
+        return f.toDecimal(assetValue + bankAssets, f.TWO_DECIMAL);
     }
 
     public boolean getStatus() {
