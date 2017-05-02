@@ -114,6 +114,7 @@ public class MultiStockInfo {
                 allNames = result;
             }
             collectStatus = true;
+            System.out.println("multi done");
             super.onPostExecute(result);
         }
 
