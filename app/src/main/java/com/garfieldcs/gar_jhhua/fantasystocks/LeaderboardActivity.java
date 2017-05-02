@@ -101,7 +101,9 @@ public class LeaderboardActivity extends AppCompatActivity {
         Integer userViewID = userIDsRanked.get(position);
         Intent intent = new Intent(this, ShowOtherPortfolioActivity.class);
         Bundle bundle = new Bundle();
-        bundle.putInt("UserID", userViewID);
+        bundle.putInt("UserToViewID", userViewID);
+        bundle.putString("Username", username);
+        bundle.putString("Password", password);
         intent.putExtras(bundle);
         startActivity(intent);
     }

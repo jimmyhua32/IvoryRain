@@ -89,7 +89,7 @@ public class ShowPortfolioActivity extends AppCompatActivity {
         @Override
         protected void onPreExecute() {
             stocks = new ArrayList<>();
-            stocks = ownedStocks.getAssetRaw();
+            stocks = ownedStocks.getAsset();
 
             dialog.setCancelable(false);
             dialog.setInverseBackgroundForced(false);
