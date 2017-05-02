@@ -78,6 +78,9 @@ public class CalcChange {
             price = ownedStocks.getAssetPrice();
             allPrices = multi.getAllPrices();
             quantity = ownedStocks.getAssetQuantity();
+            System.out.println(price.toString());
+            System.out.println(allPrices.toString());
+            System.out.println(quantity.toString());
             return null;
         }
 
@@ -89,9 +92,10 @@ public class CalcChange {
             for (int i = 0; i < allPrices.size(); i++) {
                 double currentPrice = allPrices.get(i);
                 double priceChange = price.get(i) - currentPrice;
-                rawAssetChange+= priceChange * quantity.get(i);
-                assetValue+= currentPrice * quantity.get(i);
-                initialAssetValue+= price.get(i) * quantity.get(i);
+                rawAssetChange += priceChange * quantity.get(i);
+                assetValue += currentPrice * quantity.get(i);
+                initialAssetValue += price.get(i) * quantity.get(i);
+
             }
             System.out.println(rawAssetChange + " " + assetValue + " " + initialAssetValue);
 

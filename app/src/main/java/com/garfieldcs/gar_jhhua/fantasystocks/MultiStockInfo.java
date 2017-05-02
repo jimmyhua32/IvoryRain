@@ -62,8 +62,8 @@ public class MultiStockInfo {
             try {
                 if (c.isConnected()) {
                     nameArray = param[0];
-                    for (String n : nameArray) {
-                        Stock stock = YahooFinance.get(n);
+                    for (int i = 0; i < nameArray.length; i++) {
+                        Stock stock = YahooFinance.get(nameArray[i]);
                         prices.add(Formatting.toDecimal
                                 (stock.getQuote().getPrice(), Formatting.TWO_DECIMAL));
                     }

@@ -38,6 +38,8 @@ public class ShowPortfolioActivity extends AppCompatActivity {
         ArrayList<String> namesTemp = ownedStocks.getAssetName();
         multi = new MultiStockInfo
                 (namesTemp.toArray(new String[namesTemp.size()]), getApplicationContext());
+
+        calcChange = new CalcChange(multi, ownedStocks);
     }
 
     public void goToSearch (View view) {
@@ -95,7 +97,6 @@ public class ShowPortfolioActivity extends AppCompatActivity {
         //Collect data from OwnedStocks and CalcChange
         @Override
         protected double[] doInBackground(Void... params) {
-            calcChange = new CalcChange(multi, ownedStocks);
 
             List<String> temp = stocks;
             ArrayList<String> names = multi.getAllNames();

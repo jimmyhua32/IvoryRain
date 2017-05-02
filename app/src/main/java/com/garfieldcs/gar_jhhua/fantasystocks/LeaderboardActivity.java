@@ -23,6 +23,7 @@ import java.util.Scanner;
 public class LeaderboardActivity extends AppCompatActivity {
     private User user;
     private OwnedStocks ownedStocks;
+    private CalcChange calcChange;
     private String username;
     private String password;
     private double totalAssets;
@@ -51,10 +52,7 @@ public class LeaderboardActivity extends AppCompatActivity {
         namesTemp = ownedStocks.getAssetName();
         MultiStockInfo multi = new MultiStockInfo
                 (namesTemp.toArray(new String[namesTemp.size()]), getApplicationContext());
-        CalcChange calcChange = new CalcChange(multi, ownedStocks);
-        calcChange.execute();
-        totalAssets = calcChange.getTotalAssetValue();
-        percentChange = calcChange.getPercentValueChange();
+        calcChange = new CalcChange(multi, ownedStocks);
 
         fillArrays();
         sortUsers();
@@ -86,14 +84,17 @@ public class LeaderboardActivity extends AppCompatActivity {
             e.printStackTrace();
         }
         allUserAssets = new ArrayList<>();
+        //ERROR RIGHT HERE
         for (int i = 0; i < allUserIDs.size(); i++) {
             OwnedStocks ownedStocksTemp = new OwnedStocks(allUserIDs.get(i), context);
+            ArrayList<String> specificNamesTemp = ownedStocksTemp.getAssetName();
             MultiStockInfo multiTemp = new MultiStockInfo
-                    (ownedStocksTemp.getAssetName().toArray
-                            (new String[namesTemp.size()]), getApplicationContext());
+                    (specificNamesTemp.toArray
+                            (new String[specificNamesTemp.size()]), getApplicationContext());
             CalcChange calcChangeTemp = new CalcChange(multiTemp, ownedStocksTemp);
             allUserAssets.add(calcChangeTemp.getTotalAssetValue());
         }
+        //END 
     }
 
     //sends user to view of another user's portfolio
@@ -145,8 +146,8 @@ public class LeaderboardActivity extends AppCompatActivity {
             ListView list = (ListView) findViewById(R.id.leaderboardList);
             TextView userAssets = (TextView) findViewById(R.id.UserAssetValue);
             TextView userPC = (TextView) findViewById(R.id.UserPCValue);
-            userAssets.setText("" + totalAssets);
-            userPC.setText("" + percentChange + "%");
+            userAssets.setText("" + calcChange.getTotalAssetValue());
+            userPC.setText("" + calcChange.getPercentValueChange() + "%");
 
             //adapts arraylist into listview
             ArrayAdapter<String> adapter = new ArrayAdapter<String>
