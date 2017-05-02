@@ -154,14 +154,20 @@ public class StockInfo {
                 if (c.isConnected()) {
                     Stock stock = YahooFinance.get(param[0]);
                     String currency = stock.getCurrency() + " ";
-                    String price = Formatting.toDecimal(stock.getQuote().getPrice()).toString();
-                    String change = Formatting.toDecimal(stock.getQuote().getChange()).toString();
-                    String changeP = Formatting.toDecimal
-                            (stock.getQuote().getChangeInPercent()).toString();
-                    String highY = Formatting.toDecimal(stock.getQuote().getYearHigh()).toString();
-                    String lowY = Formatting.toDecimal(stock.getQuote().getYearLow()).toString();
-                    String highD = Formatting.toDecimal(stock.getQuote().getDayHigh()).toString();
-                    String lowD = Formatting.toDecimal(stock.getQuote().getDayLow()).toString();
+                    String price = Formatting.toDecimal(stock.getQuote().getPrice(),
+                            Formatting.TWO_DECIMAL).toString();
+                    String change = Formatting.toDecimal(stock.getQuote().getChange(),
+                            Formatting.TWO_DECIMAL).toString();
+                    String changeP = Formatting.toDecimal(stock.getQuote().getChangeInPercent(),
+                            Formatting.ONE_DECIMAL).toString();
+                    String highY = Formatting.toDecimal(stock.getQuote().getYearHigh(),
+                            Formatting.TWO_DECIMAL).toString();
+                    String lowY = Formatting.toDecimal(stock.getQuote().getYearLow(),
+                            Formatting.TWO_DECIMAL).toString();
+                    String highD = Formatting.toDecimal(stock.getQuote().getDayHigh(),
+                            Formatting.TWO_DECIMAL).toString();
+                    String lowD = Formatting.toDecimal(stock.getQuote().getDayLow(),
+                            Formatting.TWO_DECIMAL).toString();
                     String symbol = stock.getQuote().getSymbol();
                     String name = stock.getName();
 
