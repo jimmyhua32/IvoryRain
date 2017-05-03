@@ -52,12 +52,24 @@ public class User {
             if (allFiles[i].isFile()) {
                 if (allFiles[i].getName().equals(id)) {
                     String currentLine; //Order: id + user + password
-                    reader = new BufferedReader(new FileReader(allFiles[i]));
-                    while ((currentLine = reader.readLine()) != null) {
-                        Scanner s = new Scanner(currentLine);
-                        ids.add(Integer.parseInt(s.next()));
-                        usernames.add(s.next().trim());
-                        passwords.add(s.next().trim());
+                    try {
+                        BufferedReader reader = new BufferedReader(new FileReader(allFiles[i]));
+                        while ((currentLine = reader.readLine()) != null) {
+                            Scanner s = new Scanner(currentLine);
+                            if (id == Integer.parseInt(s.next())) {
+                                username = s.next();
+                                password = s.next();
+                                break;
+                            }
+                        }
+                        if (currentLine == null) {
+                            username = null;
+                            password = null;
+                        }
+                        reader.close();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
                 }
             }
         }

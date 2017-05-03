@@ -16,6 +16,7 @@ public class CalcChange {
 
     private boolean status;
 
+    private Formatting f;
     private OwnedStocks ownedStocks;
     private MultiStockInfo multi;
 
@@ -23,10 +24,12 @@ public class CalcChange {
     public CalcChange(MultiStockInfo multi, OwnedStocks ownedStocks) {
         this.multi = multi;
         this.ownedStocks = ownedStocks;
+        f = new Formatting();
         assetValue = 0.0;
         rawAssetChange = 0.0;
         initialAssetValue = 0.0;
         percentValueChange = 0.0;
+        execute();
     }
 
     public void execute() {
@@ -41,23 +44,23 @@ public class CalcChange {
     //Add formatting later to accessor methods
 
     public double getAssetValue() {
-        return assetValue;
+        return f.toDecimal(assetValue, f.TWO_DECIMAL);
     }
 
     public double getRawAssetChange() {
-        return rawAssetChange;
+        return f.toDecimal(rawAssetChange, f.TWO_DECIMAL);
     }
 
     public double getInitialAssetValue() {
-        return initialAssetValue;
+        return f.toDecimal(initialAssetValue, f.TWO_DECIMAL);
     }
 
     public double getPercentValueChange() {
-        return percentValueChange;
+        return f.toDecimal(percentValueChange, f.ONE_DECIMAL);
     }
 
     public double getTotalAssetValue() {
-        return assetValue + bankAssets;
+        return f.toDecimal(assetValue + bankAssets, f.TWO_DECIMAL);
     }
 
     public boolean getStatus() {
@@ -66,31 +69,38 @@ public class CalcChange {
 
     //Calculates user's asset values
     private class StockValueData extends AsyncTask<Void, Void, Void> {
+        ArrayList<Double> price;
+        ArrayList<Double> allPrices;
+        ArrayList<Integer> quantity;
 
         @Override
         protected Void doInBackground(Void... params) {
+            price = ownedStocks.getAssetPrice();
+            allPrices = multi.getAllPrices();
+            quantity = ownedStocks.getAssetQuantity();
+            System.out.println(price.toString());
+            System.out.println(allPrices.toString());
+            System.out.println(quantity.toString());
             return null;
         }
 
         @Override
         protected void onPostExecute(Void result) {
-            ArrayList<Double> price = ownedStocks.getAssetPrice();
-            ArrayList<Double> allPrices = multi.getAllPrices();
-            ArrayList<Integer> quantity = ownedStocks.getAssetQuantity();
             bankAssets = ownedStocks.getBankAssets();
 
             System.out.println("pre calc");
             for (int i = 0; i < allPrices.size(); i++) {
                 double currentPrice = allPrices.get(i);
                 double priceChange = price.get(i) - currentPrice;
-                rawAssetChange+= priceChange * quantity.get(i);
-                assetValue+= currentPrice * quantity.get(i);
-                initialAssetValue+= price.get(i) * quantity.get(i);
+                rawAssetChange += priceChange * quantity.get(i);
+                assetValue += currentPrice * quantity.get(i);
+                initialAssetValue += price.get(i) * quantity.get(i);
+
             }
             System.out.println(rawAssetChange + " " + assetValue + " " + initialAssetValue);
-            System.out.println("post calc");
 
             percentValueChange = initialAssetValue / assetValue * 100;
+            System.out.println("post calc");
         }
     }
 }
