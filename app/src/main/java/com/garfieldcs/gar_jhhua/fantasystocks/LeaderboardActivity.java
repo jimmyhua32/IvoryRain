@@ -60,7 +60,7 @@ public class LeaderboardActivity extends AppCompatActivity {
     }
 
     private void fillArrays() {
-        //while loop filled with all user asset values
+        //loop to fill all user IDs and names
         allUserIDs = new ArrayList<>();
         allUsernames = new ArrayList<>();
         File folder = new File(context.getFilesDir().getAbsolutePath());
@@ -94,7 +94,7 @@ public class LeaderboardActivity extends AppCompatActivity {
             CalcChange calcChangeTemp = new CalcChange(multiTemp, ownedStocksTemp);
             allUserAssets.add(calcChangeTemp.getTotalAssetValue());
         }
-        //END 
+        //END
     }
 
     //sends user to view of another user's portfolio
