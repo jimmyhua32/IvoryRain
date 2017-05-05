@@ -39,7 +39,17 @@ public class ShowPortfolioActivity extends AppCompatActivity {
         multi = new MultiStockInfo
                 (namesTemp.toArray(new String[namesTemp.size()]), getApplicationContext());
 
+        /*
+        new LoadingData.execute(); goes after the calcChange line.
+        For some reason, LoadingData finishes executing before calcChange does.
+        We need to have calcChange finish executing its stuff before LoadingData executes.
+        Please look into it.
+
+        Also, it is possible that ownedStocks is being passed into calcChange incorrectly.
+         */
         calcChange = new CalcChange(multi, ownedStocks);
+
+        //new LoadingData.execute();
 
     }
 
@@ -100,10 +110,13 @@ public class ShowPortfolioActivity extends AppCompatActivity {
         @Override
         protected double[] doInBackground(Void... params) {
 
+            /*
+            This part simply takes ownedStock.getAsset() and turns it into a usable form.
+            It shouldn't be impacting the order of calcChange and LoadingData
+             */
             List<String> temp = stocks;
             ArrayList<String> names = multi.getAllNames();
             stocks.clear();
-
             for (int i = 0; i < temp.size(); i++) {
                 String n = names.get(i);
                 double p;
@@ -117,6 +130,10 @@ public class ShowPortfolioActivity extends AppCompatActivity {
                 stocks.add(n + " $" + p + " Quantity: " + q);
             }
 
+            /*
+            calcChange should be finished by the time we get to this point. Please look
+            into how to make sure calcChange finishes executing first
+             */
             bankAssets = ownedStocks.getBankAssets();
             investedAssets = calcChange.getAssetValue();
             totalAssets = calcChange.getTotalAssetValue();

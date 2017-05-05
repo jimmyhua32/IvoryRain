@@ -26,15 +26,12 @@ public class LeaderboardActivity extends AppCompatActivity {
     private CalcChange calcChange;
     private String username;
     private String password;
-    private double totalAssets;
-    private double percentChange;
     private List<Integer> allUserIDs;
     private List<Integer> userIDsRanked;
     private List<String> allUsernames;
     private List<Double> allUserAssets;
     private List<String> usersRanked;
     private Context context;
-
     private ArrayList<String> namesTemp;
 
     @Override
@@ -60,7 +57,7 @@ public class LeaderboardActivity extends AppCompatActivity {
     }
 
     private void fillArrays() {
-        //while loop filled with all user asset values
+        //loop to fill all user IDs and names
         allUserIDs = new ArrayList<>();
         allUsernames = new ArrayList<>();
         File folder = new File(context.getFilesDir().getAbsolutePath());
@@ -85,14 +82,20 @@ public class LeaderboardActivity extends AppCompatActivity {
         }
         allUserAssets = new ArrayList<>();
         System.out.println(allUserIDs.toString());
+
+        /*
+        Perhaps somewhere in here, ownedStocks is being passed into calcChange incorrectly
+         */
+
         //ERROR RIGHT HERE
+        ArrayList<OwnedStocks> allUserOS = new ArrayList<>();
         for (int i = 0; i < allUserIDs.size(); i++) {
-            OwnedStocks ownedStocksTemp = new OwnedStocks(allUserIDs.get(i), context);
-            ArrayList<String> specificNamesTemp = ownedStocksTemp.getAssetName();
+            allUserOS.add(new OwnedStocks(allUserIDs.get(i), context));
+            ArrayList<String> specificNamesTemp = allUserOS.get(i).getAssetName();
             MultiStockInfo multiTemp = new MultiStockInfo
                     (specificNamesTemp.toArray
                             (new String[specificNamesTemp.size()]), getApplicationContext());
-            CalcChange calcChangeTemp = new CalcChange(multiTemp, ownedStocksTemp);
+            CalcChange calcChangeTemp = new CalcChange(multiTemp, allUserOS.get(i));
             allUserAssets.add(calcChangeTemp.getTotalAssetValue());
         }
         //END
@@ -110,6 +113,7 @@ public class LeaderboardActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
+    //ranks all users from 1-10 based on highest asset values
     private void sortUsers() {
         usersRanked = new ArrayList<>();
         userIDsRanked = new ArrayList<>();
@@ -126,6 +130,8 @@ public class LeaderboardActivity extends AppCompatActivity {
                     highestSpot = j;
                 }
             }
+            //adds highest user to next rank on ranked list and removes that user from lists
+            //that the next highest is chosen from
             usersRanked.add((i + 1) + ". " + allUsernames.get(highestSpot) + " $" +
                     allUserAssets.get(highestSpot));
             userIDsRanked.add(allUserIDs.get(highestSpot));
