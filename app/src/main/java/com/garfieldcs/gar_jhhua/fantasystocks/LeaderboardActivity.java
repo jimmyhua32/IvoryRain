@@ -84,6 +84,7 @@ public class LeaderboardActivity extends AppCompatActivity {
             e.printStackTrace();
         }
         allUserAssets = new ArrayList<>();
+        System.out.println(allUserIDs.toString());
         //ERROR RIGHT HERE
         for (int i = 0; i < allUserIDs.size(); i++) {
             OwnedStocks ownedStocksTemp = new OwnedStocks(allUserIDs.get(i), context);
@@ -94,7 +95,7 @@ public class LeaderboardActivity extends AppCompatActivity {
             CalcChange calcChangeTemp = new CalcChange(multiTemp, ownedStocksTemp);
             allUserAssets.add(calcChangeTemp.getTotalAssetValue());
         }
-        //END 
+        //END
     }
 
     //sends user to view of another user's portfolio

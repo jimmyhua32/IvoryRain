@@ -40,6 +40,7 @@ public class ShowPortfolioActivity extends AppCompatActivity {
                 (namesTemp.toArray(new String[namesTemp.size()]), getApplicationContext());
 
         calcChange = new CalcChange(multi, ownedStocks);
+
     }
 
     public void goToSearch (View view) {
@@ -84,6 +85,7 @@ public class ShowPortfolioActivity extends AppCompatActivity {
         //Loading circle bar... thing
         @Override
         protected void onPreExecute() {
+
             stocks = new ArrayList<>();
             stocks = ownedStocks.getAsset();
 
