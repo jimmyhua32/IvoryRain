@@ -49,7 +49,7 @@ public class ShowPortfolioActivity extends AppCompatActivity {
          */
         calcChange = new CalcChange(multi, ownedStocks);
 
-        //new LoadingData.execute();
+        new LoadingData().execute();
 
     }
 

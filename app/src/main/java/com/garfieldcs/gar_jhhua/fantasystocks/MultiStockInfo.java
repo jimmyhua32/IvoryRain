@@ -5,6 +5,7 @@ import android.os.AsyncTask;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Map;
 import java.util.concurrent.ExecutionException;
 
 import yahoofinance.Stock;
@@ -12,7 +13,6 @@ import yahoofinance.YahooFinance;
 
 public class MultiStockInfo {
     private CheckConnection c;
-    private String[] names;
 
     private static boolean collectStatus;
     private static ArrayList<Double> allPrices;
@@ -20,7 +20,6 @@ public class MultiStockInfo {
 
     public MultiStockInfo(String[] names, Context context) {
         if (names != null) {
-            this.names = names;
             c = new CheckConnection(context); //Checks for internet connection
             collectStatus = false;
             try {
@@ -59,13 +58,13 @@ public class MultiStockInfo {
         @Override
         protected ArrayList<Double> doInBackground(String[]... param) {
             ArrayList<Double> prices = new ArrayList<>();
+            nameArray = param[0];
             try {
                 if (c.isConnected()) {
-                    nameArray = param[0];
-                    for (int i = 0; i < nameArray.length; i++) {
-                        Stock stock = YahooFinance.get(nameArray[i]);
-                        prices.add(Formatting.toDecimal
-                                (stock.getQuote().getPrice(), Formatting.TWO_DECIMAL));
+                    Map<String, Stock> stockMap = YahooFinance.get(param[0]);
+                    for (Map.Entry<String, Stock> entry : stockMap.entrySet()) {
+                        prices.add(Formatting.toDecimal(entry.getValue().getQuote().getPrice(),
+                                Formatting.TWO_DECIMAL));
                     }
                 } else {
                     noConnection();
@@ -93,10 +92,9 @@ public class MultiStockInfo {
             ArrayList<String> names = new ArrayList<>();
             try {
                 if (c.isConnected()) {
-                    String[] nameArray = param[0];
-                    for (String n : nameArray) {
-                        Stock stock = YahooFinance.get(n);
-                        names.add(stock.getName());
+                    Map<String, Stock> stockMap = YahooFinance.get(param[0]);
+                    for (Map.Entry<String, Stock> entry : stockMap.entrySet()) {
+                        names.add(entry.getValue().getName());
                     }
                 } else {
                     noConnection();
@@ -117,6 +115,5 @@ public class MultiStockInfo {
             System.out.println("multi done");
             super.onPostExecute(result);
         }
-
     }
 }

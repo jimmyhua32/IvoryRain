@@ -150,9 +150,16 @@ public class StockInfo {
     private class CollectDataTask extends AsyncTask<String, Void, String[]> {
 
         protected String[] doInBackground(String... param) {
+            Stock stock;
             try {
                 if (c.isConnected()) {
-                    Stock stock = YahooFinance.get(param[0]);
+                    try {
+                        stock = YahooFinance.get(param[0]);
+                    } catch (StringIndexOutOfBoundsException e) {
+                        e.printStackTrace();
+                        noConnection();
+                        return null;
+                    }
                     String currency = stock.getCurrency() + " ";
                     String price = Formatting.toDecimal(stock.getQuote().getPrice(),
                             Formatting.TWO_DECIMAL).toString();
@@ -170,7 +177,6 @@ public class StockInfo {
                             Formatting.TWO_DECIMAL).toString();
                     String symbol = stock.getQuote().getSymbol();
                     String name = stock.getName();
-
                     return new String[]
                             {currency, currency + price, currency + change, changeP + "%",
                                     currency + highY, currency + lowY, currency + highD,
