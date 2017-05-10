@@ -5,6 +5,7 @@ import android.os.AsyncTask;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Map;
 import java.util.concurrent.ExecutionException;
 
@@ -22,6 +23,7 @@ public class MultiStockInfo {
         if (names != null) {
             c = new CheckConnection(context); //Checks for internet connection
             collectStatus = false;
+            System.out.println(Arrays.toString(names));
             try {
                 new CollectDataTask().execute(names).get();
             } catch (InterruptedException e) {
@@ -58,20 +60,24 @@ public class MultiStockInfo {
         @Override
         protected ArrayList<Double> doInBackground(String[]... param) {
             ArrayList<Double> prices = new ArrayList<>();
-            nameArray = param[0];
-            try {
-                if (c.isConnected()) {
-                    Map<String, Stock> stockMap = YahooFinance.get(param[0]);
-                    for (Map.Entry<String, Stock> entry : stockMap.entrySet()) {
-                        prices.add(Formatting.toDecimal(entry.getValue().getQuote().getPrice(),
-                                Formatting.TWO_DECIMAL));
+            if (param[0].length > 0) {
+                nameArray = param[0];
+                try {
+                    if (c.isConnected()) {
+                        Map<String, Stock> stockMap = YahooFinance.get(param[0]);
+                        for (Map.Entry<String, Stock> entry : stockMap.entrySet()) {
+                            prices.add(Formatting.toDecimal(entry.getValue().getQuote().getPrice(),
+                                    Formatting.TWO_DECIMAL));
+                        }
+                    } else {
+                        noConnection();
+                        return null;
                     }
-                } else {
-                    noConnection();
-                    return null;
+                } catch (IOException e) {
+                    e.printStackTrace();
+                } catch (StringIndexOutOfBoundsException e) {
+                    e.printStackTrace();
                 }
-            } catch (IOException e) {
-                e.printStackTrace();
             }
             return prices;
         }
@@ -90,18 +96,20 @@ public class MultiStockInfo {
         @Override
         protected ArrayList<String> doInBackground(String[]... param) {
             ArrayList<String> names = new ArrayList<>();
-            try {
-                if (c.isConnected()) {
-                    Map<String, Stock> stockMap = YahooFinance.get(param[0]);
-                    for (Map.Entry<String, Stock> entry : stockMap.entrySet()) {
-                        names.add(entry.getValue().getName());
+            if (param[0].length > 0) {
+                try {
+                    if (c.isConnected()) {
+                        Map<String, Stock> stockMap = YahooFinance.get(param[0]);
+                        for (Map.Entry<String, Stock> entry : stockMap.entrySet()) {
+                            names.add(entry.getValue().getName());
+                        }
+                    } else {
+                        noConnection();
+                        return null;
                     }
-                } else {
-                    noConnection();
-                    return null;
+                } catch (IOException e) {
+                    e.printStackTrace();
                 }
-            } catch (IOException e) {
-                e.printStackTrace();
             }
             return names;
         }

@@ -130,10 +130,6 @@ public class ShowPortfolioActivity extends AppCompatActivity {
                 stocks.add(n + " $" + p + " Quantity: " + q);
             }
 
-            /*
-            calcChange should be finished by the time we get to this point. Please look
-            into how to make sure calcChange finishes executing first
-             */
             bankAssets = ownedStocks.getBankAssets();
             investedAssets = calcChange.getAssetValue();
             totalAssets = calcChange.getTotalAssetValue();

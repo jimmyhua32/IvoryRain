@@ -77,8 +77,6 @@ public class CalcChange {
             /*
             Sometimes the ownedStocks methods return empty or null.
             Check if the parameters are being passed correctly into CalcChange.
-            It seems to work for displaying the user's own info when used in
-            LeaderboardActivity but not for other users.
              */
             price = ownedStocks.getAssetPrice();
             allPrices = multi.getAllPrices();
