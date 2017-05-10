@@ -36,6 +36,7 @@ public class ShowPortfolioActivity extends AppCompatActivity {
         ownedStocks = new OwnedStocks(user.getID(), getApplicationContext());
 
         ArrayList<String> namesTemp = ownedStocks.getAssetName();
+        System.out.println(namesTemp.toString() + " namesTemp");
         multi = new MultiStockInfo
                 (namesTemp.toArray(new String[namesTemp.size()]), getApplicationContext());
 

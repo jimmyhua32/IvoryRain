@@ -23,7 +23,6 @@ public class MultiStockInfo {
         if (names != null) {
             c = new CheckConnection(context); //Checks for internet connection
             collectStatus = false;
-            System.out.println(Arrays.toString(names));
             try {
                 new CollectDataTask().execute(names).get();
             } catch (InterruptedException e) {
@@ -60,6 +59,7 @@ public class MultiStockInfo {
         @Override
         protected ArrayList<Double> doInBackground(String[]... param) {
             ArrayList<Double> prices = new ArrayList<>();
+            nameArray = new String[] {};
             if (param[0].length > 0) {
                 nameArray = param[0];
                 try {
@@ -108,6 +108,8 @@ public class MultiStockInfo {
                         return null;
                     }
                 } catch (IOException e) {
+                    e.printStackTrace();
+                } catch (StringIndexOutOfBoundsException e) {
                     e.printStackTrace();
                 }
             }
