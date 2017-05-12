@@ -17,7 +17,6 @@ import yahoofinance.Stock;
 import yahoofinance.YahooFinance;
 
 public class StockInfo {
-    private String name;
     private static String nameR;
     private static boolean collectStatus;
     private static String currency;
@@ -43,7 +42,6 @@ public class StockInfo {
     //"Name" is the name of the stock
     public StockInfo(String name, Context context) {
         if (name != null) {
-            this.name = name;
             c = new CheckConnection(context); //Checks for internet connection
             try {
                 new CollectDataTask().execute(name).get();
@@ -131,7 +129,6 @@ public class StockInfo {
     }
 
     private void noConnection() {
-        name = "Not found";
         nameR = "Not found";
         currency = "Not found";
         price = "Not found";

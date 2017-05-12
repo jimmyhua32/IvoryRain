@@ -81,9 +81,13 @@ public class CalcChange {
             price = ownedStocks.getAssetPrice();
             allPrices = multi.getAllPrices();
             quantity = ownedStocks.getAssetQuantity();
-            System.out.println(price.toString());
-            //System.out.println(allPrices.toString());
-            System.out.println(quantity.toString());
+            try {
+                System.out.println(price.toString());
+                System.out.println(allPrices.toString());
+                System.out.println(quantity.toString());
+            } catch (NullPointerException e) {
+                e.printStackTrace();
+            }
             return null;
         }
 

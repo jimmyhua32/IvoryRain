@@ -34,7 +34,6 @@ public class DisplayStockActivity extends AppCompatActivity {
         c = new CheckConnection(context);
         Bundle bundle = getIntent().getExtras();
         name = bundle.getString("name");
-        System.out.println(name + 1);
         username = bundle.getString("Username");
         password = bundle.getString("Password");
 

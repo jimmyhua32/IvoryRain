@@ -1,0 +1,21 @@
+# Eclipse
+.project
+.classpath
+.settings
+
+# IntelliJ
+.idea
+*.iml
+*.ipr
+*.iws
+classes
+
+*.class
+
+# Package Files
+*.jar
+*.war
+*.ear
+/bin
+
+.DS_Store
