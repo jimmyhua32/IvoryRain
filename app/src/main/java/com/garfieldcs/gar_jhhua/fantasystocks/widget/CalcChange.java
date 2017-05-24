@@ -1,6 +1,10 @@
-package com.garfieldcs.gar_jhhua.fantasystocks;
+package com.garfieldcs.gar_jhhua.fantasystocks.widget;
 
 import android.os.AsyncTask;
+
+import com.garfieldcs.gar_jhhua.fantasystocks.info.MultiStockInfo;
+import com.garfieldcs.gar_jhhua.fantasystocks.info.OwnedStocks;
+import com.garfieldcs.gar_jhhua.fantasystocks.widget.Formatting;
 
 import java.util.ArrayList;
 import java.util.concurrent.ExecutionException;

@@ -13,21 +13,21 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".MainActivity">
+        <activity android:name=".main.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".DisplayStockActivity" />
-        <activity android:name=".ShowPortfolioActivity" />
-        <activity android:name=".BuyStockActivity" />
-        <activity android:name=".SellStockActivity" />
-        <activity android:name=".SearchActivity" />
-        <activity android:name=".CreateUserActivity" />
-        <activity android:name=".LeaderboardActivity" />
-        <activity android:name=".ShowOtherPortfolioActivity"></activity>
+        <activity android:name=".main.DisplayStockActivity" />
+        <activity android:name=".main.ShowPortfolioActivity" />
+        <activity android:name=".main.BuyStockActivity" />
+        <activity android:name=".main.SellStockActivity" />
+        <activity android:name=".main.SearchActivity" />
+        <activity android:name=".main.CreateUserActivity" />
+        <activity android:name=".main.LeaderboardActivity" />
+        <activity android:name=".main.ShowOtherPortfolioActivity"></activity>
     </application>
 
 </manifest>

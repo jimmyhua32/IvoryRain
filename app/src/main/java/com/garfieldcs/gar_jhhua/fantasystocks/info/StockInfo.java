@@ -4,13 +4,15 @@
    Returns the information collected via return methods.
 */
 
-package com.garfieldcs.gar_jhhua.fantasystocks;
+package com.garfieldcs.gar_jhhua.fantasystocks.info;
 
 import android.content.Context;
 import android.os.AsyncTask;
 
+import com.garfieldcs.gar_jhhua.fantasystocks.widget.CheckConnection;
+import com.garfieldcs.gar_jhhua.fantasystocks.widget.Formatting;
+
 import java.io.IOException;
-import java.math.BigDecimal;
 import java.util.concurrent.ExecutionException;
 
 import yahoofinance.Stock;

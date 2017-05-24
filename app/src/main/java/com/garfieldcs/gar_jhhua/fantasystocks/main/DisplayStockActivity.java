@@ -3,7 +3,7 @@
    This activity displays the stock information.
 */
 
-package com.garfieldcs.gar_jhhua.fantasystocks;
+package com.garfieldcs.gar_jhhua.fantasystocks.main;
 
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -14,6 +14,10 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.garfieldcs.gar_jhhua.fantasystocks.widget.CheckConnection;
+import com.garfieldcs.gar_jhhua.fantasystocks.R;
+import com.garfieldcs.gar_jhhua.fantasystocks.info.StockInfo;
 
 public class DisplayStockActivity extends AppCompatActivity {
 
