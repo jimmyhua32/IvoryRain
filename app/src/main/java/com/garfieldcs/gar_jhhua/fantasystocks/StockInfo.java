@@ -17,7 +17,6 @@ import yahoofinance.Stock;
 import yahoofinance.YahooFinance;
 
 public class StockInfo {
-    private String name;
     private static String nameR;
     private static boolean collectStatus;
     private static String currency;
@@ -43,7 +42,6 @@ public class StockInfo {
     //"Name" is the name of the stock
     public StockInfo(String name, Context context) {
         if (name != null) {
-            this.name = name;
             c = new CheckConnection(context); //Checks for internet connection
             try {
                 new CollectDataTask().execute(name).get();
@@ -131,7 +129,6 @@ public class StockInfo {
     }
 
     private void noConnection() {
-        name = "Not found";
         nameR = "Not found";
         currency = "Not found";
         price = "Not found";
@@ -150,9 +147,16 @@ public class StockInfo {
     private class CollectDataTask extends AsyncTask<String, Void, String[]> {
 
         protected String[] doInBackground(String... param) {
+            Stock stock;
             try {
                 if (c.isConnected()) {
-                    Stock stock = YahooFinance.get(param[0]);
+                    try {
+                        stock = YahooFinance.get(param[0]);
+                    } catch (StringIndexOutOfBoundsException e) {
+                        e.printStackTrace();
+                        noConnection();
+                        return null;
+                    }
                     String currency = stock.getCurrency() + " ";
                     String price = Formatting.toDecimal(stock.getQuote().getPrice(),
                             Formatting.TWO_DECIMAL).toString();
@@ -170,7 +174,6 @@ public class StockInfo {
                             Formatting.TWO_DECIMAL).toString();
                     String symbol = stock.getQuote().getSymbol();
                     String name = stock.getName();
-
                     return new String[]
                             {currency, currency + price, currency + change, changeP + "%",
                                     currency + highY, currency + lowY, currency + highD,

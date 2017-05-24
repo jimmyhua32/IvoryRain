@@ -36,6 +36,7 @@ public class ShowPortfolioActivity extends AppCompatActivity {
         ownedStocks = new OwnedStocks(user.getID(), getApplicationContext());
 
         ArrayList<String> namesTemp = ownedStocks.getAssetName();
+        System.out.println(namesTemp.toString() + " namesTemp");
         multi = new MultiStockInfo
                 (namesTemp.toArray(new String[namesTemp.size()]), getApplicationContext());
 
@@ -49,7 +50,8 @@ public class ShowPortfolioActivity extends AppCompatActivity {
          */
         calcChange = new CalcChange(multi, ownedStocks);
 
-        //new LoadingData.execute();
+        new LoadingData().execute();
+
     }
 
     public void goToSearch (View view) {
@@ -94,6 +96,7 @@ public class ShowPortfolioActivity extends AppCompatActivity {
         //Loading circle bar... thing
         @Override
         protected void onPreExecute() {
+
             stocks = new ArrayList<>();
             stocks = ownedStocks.getAsset();
 
@@ -128,10 +131,6 @@ public class ShowPortfolioActivity extends AppCompatActivity {
                 stocks.add(n + " $" + p + " Quantity: " + q);
             }
 
-            /*
-            calcChange should be finished by the time we get to this point. Please look
-            into how to make sure calcChange finishes executing first
-             */
             bankAssets = ownedStocks.getBankAssets();
             investedAssets = calcChange.getAssetValue();
             totalAssets = calcChange.getTotalAssetValue();

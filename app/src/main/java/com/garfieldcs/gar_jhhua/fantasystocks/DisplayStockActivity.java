@@ -12,13 +12,8 @@ import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.TabHost;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import org.w3c.dom.Text;
-
-import java.util.concurrent.ExecutionException;
 
 public class DisplayStockActivity extends AppCompatActivity {
 
@@ -39,7 +34,6 @@ public class DisplayStockActivity extends AppCompatActivity {
         c = new CheckConnection(context);
         Bundle bundle = getIntent().getExtras();
         name = bundle.getString("name");
-        System.out.println(name + 1);
         username = bundle.getString("Username");
         password = bundle.getString("Password");
 

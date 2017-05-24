@@ -81,9 +81,12 @@ public class LeaderboardActivity extends AppCompatActivity {
             e.printStackTrace();
         }
         allUserAssets = new ArrayList<>();
+        System.out.println(allUserIDs.toString());
+
         /*
         Perhaps somewhere in here, ownedStocks is being passed into calcChange incorrectly
          */
+
         //ERROR RIGHT HERE
         ArrayList<OwnedStocks> allUserOS = new ArrayList<>();
         for (int i = 0; i < allUserIDs.size(); i++) {
