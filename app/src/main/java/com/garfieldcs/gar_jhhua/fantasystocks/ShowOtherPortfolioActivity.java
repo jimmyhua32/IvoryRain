@@ -91,7 +91,7 @@ public class ShowOtherPortfolioActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(double[] result) {
             //{bankAssets, investedAssets, totalAssets}
-            setContentView(R.layout.activity_show_portfolio);
+            setContentView(R.layout.activity_show_other_portfolio);
             ListView list = (ListView) findViewById(R.id.userAssetsList);
             TextView teamName = (TextView) findViewById(R.id.userTeamName);
             TextView totalValue = (TextView) findViewById(R.id.TotalAssetValue);
