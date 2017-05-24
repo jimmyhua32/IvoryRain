@@ -167,7 +167,7 @@ public class User {
     }
 
     //For testing only, will delete later
-    protected String getPassword() {
+    public String getPassword() {
         return password;
     }
 

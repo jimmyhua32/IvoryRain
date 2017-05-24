@@ -97,6 +97,7 @@ public class MultiStockInfo {
 
         @Override
         protected ArrayList<String> doInBackground(String[]... param) {
+            System.out.println("multi start");
             ArrayList<String> names = new ArrayList<>();
             if (param[0].length > 0) {
                 try {

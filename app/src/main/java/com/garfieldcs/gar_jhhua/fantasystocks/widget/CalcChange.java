@@ -32,6 +32,7 @@ public class CalcChange {
         rawAssetChange = 0.0;
         initialAssetValue = 0.0;
         percentValueChange = 0.0;
+        System.out.println("calc start");
         execute();
     }
 
@@ -47,6 +48,7 @@ public class CalcChange {
     //Add formatting later to accessor methods
 
     public double getAssetValue() {
+        System.out.println(assetValue);
         return f.toDecimal(assetValue, f.TWO_DECIMAL);
     }
 
@@ -100,7 +102,7 @@ public class CalcChange {
             bankAssets = ownedStocks.getBankAssets();
 
             System.out.println("pre calc");
-            if (allPrices != null) {
+            try {
                 for (int i = 0; i < allPrices.size(); i++) {
                     double currentPrice = allPrices.get(i);
                     double priceChange = price.get(i) - currentPrice;
@@ -110,8 +112,11 @@ public class CalcChange {
 
                 }
                 System.out.println(rawAssetChange + " " + assetValue + " " + initialAssetValue);
+
+                percentValueChange = initialAssetValue / assetValue * 100;
+            } catch (IndexOutOfBoundsException e) {
+                e.printStackTrace();
             }
-            percentValueChange = initialAssetValue / assetValue * 100;
             System.out.println("post calc");
         }
     }
