@@ -41,14 +41,6 @@
             android:layout_marginTop="8dp"
             android:text="Value"
             android:id="@+id/TotalAssetValue" />
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="100dp"
-            android:textSize="20sp"
-            android:text="Search"
-            android:onClick="goToSearch"
-            android:background="@android:color/holo_blue_light" />
 
 
     </LinearLayout>
@@ -74,14 +66,6 @@
             android:text="Value"
             android:id="@+id/InvestedAssetsValue"/>
 
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="20sp"
-            android:text="Leaderboard"
-            android:layout_marginStart="75dp"
-            android:onClick="goToLeader"
-            android:background="@android:color/holo_orange_light"/>
 
     </LinearLayout>
 

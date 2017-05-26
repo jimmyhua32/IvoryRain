@@ -27,7 +27,8 @@
         <activity android:name=".main.SearchActivity" />
         <activity android:name=".main.CreateUserActivity" />
         <activity android:name=".main.LeaderboardActivity" />
-        <activity android:name=".main.ShowOtherPortfolioActivity"></activity>
+        <activity android:name=".main.ShowOtherPortfolioActivity" />
+        <activity android:name=".main.HomeActivity"></activity>
     </application>
 
 </manifest>

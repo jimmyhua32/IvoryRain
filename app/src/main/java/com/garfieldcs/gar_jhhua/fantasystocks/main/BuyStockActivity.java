@@ -28,7 +28,6 @@ public class BuyStockActivity extends AppCompatActivity {
     private StockInfo stockInfo;
     private OwnedStocks ownedStocks;
     private User user;
-
     private static String stockName;
     private static double stockPrice;
     private int id;
@@ -39,8 +38,8 @@ public class BuyStockActivity extends AppCompatActivity {
 
         Bundle bundle = getIntent().getExtras();
         id = bundle.getInt("UserID");
-
         user = new User(id, getApplicationContext());
+        name = bundle.getString("name");
         ownedStocks = new OwnedStocks(user.getID(), getApplicationContext());
 
         //sets up tabHost
@@ -115,7 +114,8 @@ public class BuyStockActivity extends AppCompatActivity {
                 complete.show();
                 Intent intent = new Intent(this, ShowPortfolioActivity.class);
                 Bundle bundle = new Bundle();
-                bundle.putInt("UserID", id);
+                bundle.putInt("UserID", id);;
+                bundle.putString("name", name);
                 intent.putExtras(bundle);
                 startActivity(intent);
             }

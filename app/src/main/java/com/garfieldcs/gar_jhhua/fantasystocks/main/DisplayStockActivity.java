@@ -39,6 +39,7 @@ public class DisplayStockActivity extends AppCompatActivity {
         name = bundle.getString("name");
         id = bundle.getInt("UserID");
 
+
         if (c.isConnected()) {
 
             stockInfo = new StockInfo(name, getApplicationContext());

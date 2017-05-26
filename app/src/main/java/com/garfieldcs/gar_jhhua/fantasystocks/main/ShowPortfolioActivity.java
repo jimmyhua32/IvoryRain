@@ -24,8 +24,7 @@ public class ShowPortfolioActivity extends AppCompatActivity {
     private User user;
     private OwnedStocks ownedStocks;
     private CalcChange calcChange;
-    private String username;
-    private String password;
+    private int userID;
     private MultiStockInfo multi;
 
     @Override
@@ -34,9 +33,8 @@ public class ShowPortfolioActivity extends AppCompatActivity {
         setContentView(R.layout.activity_show_portfolio);
 
         Bundle bundle = getIntent().getExtras();
-        username = bundle.getString("Username");
-        password = bundle.getString("Password");
-        user = new User(username, password, false, getApplicationContext());
+        userID = bundle.getInt("ID");
+        user = new User(userID, getApplicationContext());
         ownedStocks = new OwnedStocks(user.getID(), getApplicationContext());
 
         ArrayList<String> namesTemp = ownedStocks.getAssetName();
@@ -57,35 +55,18 @@ public class ShowPortfolioActivity extends AppCompatActivity {
         new LoadingData().execute();
     }
 
-    public void goToSearch (View view) {
-        Intent intent = new Intent(this, SearchActivity.class);
-        Bundle bundle = new Bundle();
-        bundle.putString("Username", username);
-        bundle.putString("Password", password);
-        intent.putExtras(bundle);
-        startActivity(intent);
-    }
 
     //Based on position in the List
     public void goToStock (View view, int position) {
         String stockName = ownedStocks.getAssetName(position);
         Intent intent = new Intent(this, DisplayStockActivity.class);
         Bundle bundle = new Bundle();
-        bundle.putString("Username", username);
-        bundle.putString("Password", password);
+        bundle.putInt("ID", userID);
         bundle.putString("name", stockName);
         intent.putExtras(bundle);
         startActivity(intent);
     }
 
-    public void goToLeader (View view) {
-        Intent intent = new Intent(this, LeaderboardActivity.class);
-        Bundle bundle = new Bundle();
-        bundle.putString("Username", username);
-        bundle.putString("Password", password);
-        intent.putExtras(bundle);
-        startActivity(intent);
-    }
 
     //Loads the information on a separate thread
     private class LoadingData extends AsyncTask<Void, Void, double[]> {
