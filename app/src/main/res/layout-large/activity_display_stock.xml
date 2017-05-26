@@ -15,7 +15,7 @@ android:orientation="vertical">
 <TextView
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:textSize="55sp"
+    android:textSize="45sp"
     android:text="Stock Name"
     android:textStyle="bold"
     android:paddingTop="16dp"

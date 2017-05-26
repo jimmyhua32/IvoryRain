@@ -171,7 +171,7 @@
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="30sp"
+            android:textSize="35sp"
             android:text="Buy"
             android:background="@android:color/holo_green_light"
             android:layout_marginStart="240dp"
@@ -181,7 +181,7 @@
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="30sp"
+            android:textSize="35sp"
             android:text="Sell"
             android:background="@android:color/holo_red_light"
             android:layout_marginStart="36dp"
