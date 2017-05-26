@@ -21,13 +21,12 @@ import java.util.List;
 
 public class ShowOtherPortfolioActivity extends AppCompatActivity {
     private User userToView;
-    private Integer userToViewID;
-    private String username;
+    private int userToViewID;
     private String usernameToView;
-    private String password;
     private OwnedStocks ownedStocks;
     private CalcChange calcChange;
     ArrayList<String> userStocks;
+    private int id;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,8 +35,7 @@ public class ShowOtherPortfolioActivity extends AppCompatActivity {
 
         Bundle bundle = getIntent().getExtras();
         userToViewID = bundle.getInt("UserID");
-        username = bundle.getString("Username");
-        password = bundle.getString("Password");
+        id = bundle.getInt("UserID");
         userToView = new User(userToViewID, getApplicationContext());
         ownedStocks = new OwnedStocks(userToViewID, getApplicationContext());
         userStocks = ownedStocks.getAsset();
@@ -47,13 +45,15 @@ public class ShowOtherPortfolioActivity extends AppCompatActivity {
         MultiStockInfo multi = new MultiStockInfo
                 (namesTemp.toArray(new String[namesTemp.size()]), getApplicationContext());
         calcChange = new CalcChange(multi, ownedStocks);
+
+        new LoadingData().execute();
     }
 
     public void goToHome (View view) {
         Intent intent = new Intent(this, ShowPortfolioActivity.class);
         Bundle bundle = new Bundle();
-        bundle.putString("Username", username);
-        bundle.putString("Password", password);
+        bundle.putInt("UserID", id);
+        bundle.putInt("UserToViewID", userToViewID);
         intent.putExtras(bundle);
         startActivity(intent);
     }

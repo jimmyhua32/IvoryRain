@@ -28,21 +28,19 @@ public class BuyStockActivity extends AppCompatActivity {
     private StockInfo stockInfo;
     private OwnedStocks ownedStocks;
     private User user;
-    private String username;
-    private String password;
+
     private static String stockName;
     private static double stockPrice;
+    private int id;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_buy_stock);
 
         Bundle bundle = getIntent().getExtras();
-        username = bundle.getString("Username");
-        password = bundle.getString("Password");
-        name = bundle.getString("name");
+        id = bundle.getInt("UserID");
 
-        user = new User(username, password, false, getApplicationContext());
+        user = new User(id, getApplicationContext());
         ownedStocks = new OwnedStocks(user.getID(), getApplicationContext());
 
         //sets up tabHost
@@ -117,9 +115,7 @@ public class BuyStockActivity extends AppCompatActivity {
                 complete.show();
                 Intent intent = new Intent(this, ShowPortfolioActivity.class);
                 Bundle bundle = new Bundle();
-                bundle.putString("Username", username);
-                bundle.putString("Password", password);
-                bundle.putString("name", name);
+                bundle.putInt("UserID", id);
                 intent.putExtras(bundle);
                 startActivity(intent);
             }
@@ -130,9 +126,8 @@ public class BuyStockActivity extends AppCompatActivity {
     public void cancelToDisplay (View view) {
         Intent intent = new Intent(this, ShowPortfolioActivity.class);
         Bundle bundle = new Bundle();
-        bundle.putString("Username", username);
-        bundle.putString("Password", password);
         bundle.putString("name", name);
+        bundle.putInt("UserID", id);
         intent.putExtras(bundle);
         startActivity(intent);
     }

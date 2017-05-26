@@ -29,8 +29,6 @@ public class LeaderboardActivity extends AppCompatActivity {
     private User user;
     private OwnedStocks ownedStocks;
     private CalcChange calcChange;
-    private String username;
-    private String password;
     private List<Integer> allUserIDs;
     private List<Integer> userIDsRanked;
     private List<String> allUsernames;
@@ -38,15 +36,15 @@ public class LeaderboardActivity extends AppCompatActivity {
     private List<String> usersRanked;
     private Context context;
     private ArrayList<String> namesTemp;
+    private int id;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_leaderboard);
         Bundle bundle = getIntent().getExtras();
-        username = bundle.getString("Username");
-        password = bundle.getString("Password");
-        user = new User(username, password, false, getApplicationContext());
+        id = bundle.getInt("UserID");
+        user = new User(id, getApplicationContext());
         context = getApplicationContext();
 
         //gets ownedstocks for user and gets assets and change
@@ -112,8 +110,7 @@ public class LeaderboardActivity extends AppCompatActivity {
         Intent intent = new Intent(this, ShowOtherPortfolioActivity.class);
         Bundle bundle = new Bundle();
         bundle.putInt("UserToViewID", userViewID);
-        bundle.putString("Username", username);
-        bundle.putString("Password", password);
+        bundle.putInt("UserID", id);
         intent.putExtras(bundle);
         startActivity(intent);
     }

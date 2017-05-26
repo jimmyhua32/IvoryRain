@@ -47,8 +47,7 @@ public class MainActivity extends AppCompatActivity {
             if (user.doesExist()) {
                 Intent intent = new Intent(this, ShowPortfolioActivity.class);
                 Bundle bundle = new Bundle();
-                bundle.putString("Username", user.getUserName());
-                bundle.putString("Password", user.getPassword());
+                bundle.putInt("UserID", user.getID());
                 intent.putExtras(bundle);
                 startActivity(intent);
             } else if (!user.isPassCorrect()) {

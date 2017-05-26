@@ -25,8 +25,7 @@ public class DisplayStockActivity extends AppCompatActivity {
     private CheckConnection c;
     private String name;
     private StockInfo stockInfo;
-    private String username;
-    private String password;
+    private int id;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,8 +37,7 @@ public class DisplayStockActivity extends AppCompatActivity {
         c = new CheckConnection(context);
         Bundle bundle = getIntent().getExtras();
         name = bundle.getString("name");
-        username = bundle.getString("Username");
-        password = bundle.getString("Password");
+        id = bundle.getInt("UserID");
 
         if (c.isConnected()) {
 
@@ -59,8 +57,7 @@ public class DisplayStockActivity extends AppCompatActivity {
         Intent intent = new Intent(this, BuyStockActivity.class);
         Bundle bundle = new Bundle();
         bundle.putString("name", name);
-        bundle.putString("Username", username);
-        bundle.putString("Password", password);
+        bundle.putInt("UserID", id);
         intent.putExtras(bundle);
         startActivity(intent);
     }
@@ -69,8 +66,7 @@ public class DisplayStockActivity extends AppCompatActivity {
         Intent intent = new Intent(this, SellStockActivity.class);
         Bundle bundle = new Bundle();
         bundle.putString("name", name);
-        bundle.putString("Username", username);
-        bundle.putString("Password", password);
+        bundle.putInt("UserID", id);
         intent.putExtras(bundle);
         startActivity(intent);
     }
