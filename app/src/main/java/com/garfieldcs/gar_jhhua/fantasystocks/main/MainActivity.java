@@ -47,7 +47,7 @@ public class MainActivity extends AppCompatActivity {
             if (user.doesExist()) {
                 Intent intent = new Intent(this, HomeActivity.class);
                 Bundle bundle = new Bundle();
-                bundle.putInt("ID", user.getID());
+                bundle.putInt("UserID", user.getID());
                 intent.putExtras(bundle);
                 startActivity(intent);
             } else if (!user.isPassCorrect()) {

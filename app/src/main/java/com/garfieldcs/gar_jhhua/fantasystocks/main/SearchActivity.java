@@ -16,11 +16,7 @@ public class SearchActivity extends AppCompatActivity {
 
     private ArrayList<String> stockSearch;
     private ArrayList<String> searchFullName;
-    private double investedAssets;
-    private double totalAssets;
-    private double bankAssets;
-    private String username;
-    private String password;
+    private int id;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,11 +24,7 @@ public class SearchActivity extends AppCompatActivity {
         setContentView(R.layout.activity_search);
 
         Bundle bundle = getIntent().getExtras();
-        investedAssets = bundle.getDouble("investedAssets");
-        bankAssets = bundle.getDouble("bankAssets");
-        totalAssets = bundle.getDouble("totalAssets");
-        username = bundle.getString("Username");
-        password = bundle.getString("Password");
+        id = bundle.getInt("UserID");
 
         stockSearch = new ArrayList<String>();
         stockSearch.add(0, "VZ");
@@ -81,11 +73,7 @@ public class SearchActivity extends AppCompatActivity {
         String stockName = stockSearch.get(position);
         Intent intent = new Intent(this, DisplayStockActivity.class);
         Bundle bundle = new Bundle();
-        bundle.putString("Username", username);
-        bundle.putString("Password", password);
-        bundle.putDouble("investedAssets", investedAssets);
-        bundle.putDouble("bankAssets", bankAssets);
-        bundle.putDouble("totalAssets", totalAssets);
+        bundle.putInt("UserID", id);
         bundle.putString("name", stockName);
         intent.putExtras(bundle);
         startActivity(intent);
