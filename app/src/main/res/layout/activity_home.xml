@@ -39,7 +39,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="20sp"
-            android:text="Team Name and Assets"/>
+            android:text="Team Name and Assets"
+            android:id="@+id/TeamNandA"/>
 
     </LinearLayout>
 
@@ -54,6 +55,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Portfolio"
+            android:onClick="goToPortfolio"
             android:background="@android:color/holo_green_dark"
             android:layout_marginEnd="40dp"/>
 
@@ -61,6 +63,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Leaderboard"
+            android:onClick="goToLeader"
             android:background="@android:color/holo_orange_light"/>
 
     </LinearLayout>
@@ -69,6 +72,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Search"
+        android:onClick="goToSearch"
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="20dp"
         android:background="@android:color/holo_blue_light"/>
