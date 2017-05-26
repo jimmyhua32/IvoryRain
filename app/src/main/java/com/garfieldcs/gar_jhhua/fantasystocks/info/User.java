@@ -45,6 +45,7 @@ public class User {
 
     public User(int id, Context context) {
         this.context = context;
+        System.out.println(id + " this is the id");
         File folder = new File(context.getFilesDir().getAbsolutePath());
         File[] allFiles = folder.listFiles();
 
@@ -162,7 +163,6 @@ public class User {
     public boolean isPassCorrect() { return isPassCorrect; }
 
     public String getUserName() {
-        //Add some checks
         return username;
     }
 

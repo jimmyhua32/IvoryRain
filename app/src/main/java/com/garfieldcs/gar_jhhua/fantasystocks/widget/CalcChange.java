@@ -114,7 +114,7 @@ public class CalcChange {
                 System.out.println(rawAssetChange + " " + assetValue + " " + initialAssetValue);
 
                 percentValueChange = initialAssetValue / assetValue * 100;
-            } catch (IndexOutOfBoundsException e) {
+            } catch (IndexOutOfBoundsException | NullPointerException e) {
                 e.printStackTrace();
             }
             System.out.println("post calc");
