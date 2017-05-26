@@ -1,4 +1,4 @@
-package com.garfieldcs.gar_jhhua.fantasystocks;
+package com.garfieldcs.gar_jhhua.fantasystocks.main;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
@@ -11,10 +11,14 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.garfieldcs.gar_jhhua.fantasystocks.R;
+import com.garfieldcs.gar_jhhua.fantasystocks.info.User;
+import com.garfieldcs.gar_jhhua.fantasystocks.widget.CalcChange;
+import com.garfieldcs.gar_jhhua.fantasystocks.info.MultiStockInfo;
+import com.garfieldcs.gar_jhhua.fantasystocks.info.OwnedStocks;
+
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Scanner;
-
 
 public class ShowPortfolioActivity extends AppCompatActivity {
     private User user;
@@ -51,7 +55,6 @@ public class ShowPortfolioActivity extends AppCompatActivity {
         calcChange = new CalcChange(multi, ownedStocks);
 
         new LoadingData().execute();
-
     }
 
     public void goToSearch (View view) {
@@ -96,7 +99,6 @@ public class ShowPortfolioActivity extends AppCompatActivity {
         //Loading circle bar... thing
         @Override
         protected void onPreExecute() {
-
             stocks = new ArrayList<>();
             stocks = ownedStocks.getAsset();
 
@@ -117,7 +119,7 @@ public class ShowPortfolioActivity extends AppCompatActivity {
              */
             List<String> temp = stocks;
             ArrayList<String> names = multi.getAllNames();
-            stocks.clear();
+            /*stocks.clear();
             for (int i = 0; i < temp.size(); i++) {
                 String n = names.get(i);
                 double p;
@@ -129,7 +131,7 @@ public class ShowPortfolioActivity extends AppCompatActivity {
                 q = Integer.parseInt(scanner.next());
 
                 stocks.add(n + " $" + p + " Quantity: " + q);
-            }
+            }*/
 
             bankAssets = ownedStocks.getBankAssets();
             investedAssets = calcChange.getAssetValue();

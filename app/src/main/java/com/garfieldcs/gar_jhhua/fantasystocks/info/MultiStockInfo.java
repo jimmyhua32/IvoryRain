@@ -1,11 +1,13 @@
-package com.garfieldcs.gar_jhhua.fantasystocks;
+package com.garfieldcs.gar_jhhua.fantasystocks.info;
 
 import android.content.Context;
 import android.os.AsyncTask;
 
+import com.garfieldcs.gar_jhhua.fantasystocks.widget.CheckConnection;
+import com.garfieldcs.gar_jhhua.fantasystocks.widget.Formatting;
+
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Map;
 import java.util.concurrent.ExecutionException;
 
@@ -95,6 +97,7 @@ public class MultiStockInfo {
 
         @Override
         protected ArrayList<String> doInBackground(String[]... param) {
+            System.out.println("multi start");
             ArrayList<String> names = new ArrayList<>();
             if (param[0].length > 0) {
                 try {

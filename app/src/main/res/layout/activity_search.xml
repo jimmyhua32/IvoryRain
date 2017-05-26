@@ -9,7 +9,7 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     android:layout_gravity="center_horizontal"
     android:orientation="vertical"
-    tools:context="com.garfieldcs.gar_jhhua.fantasystocks.SearchActivity">
+    tools:context=".main.SearchActivity">
 
     <TextView
         android:layout_width="wrap_content"
