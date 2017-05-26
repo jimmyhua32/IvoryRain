@@ -33,7 +33,8 @@ public class ShowPortfolioActivity extends AppCompatActivity {
         setContentView(R.layout.activity_show_portfolio);
 
         Bundle bundle = getIntent().getExtras();
-        userID = bundle.getInt("ID");
+        userID = bundle.getInt("UserID");
+        System.out.println(userID);
         user = new User(userID, getApplicationContext());
         ownedStocks = new OwnedStocks(user.getID(), getApplicationContext());
 
