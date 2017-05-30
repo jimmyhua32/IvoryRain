@@ -26,7 +26,7 @@ public class HomeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
         Bundle bundle = getIntent().getExtras();
-        userID = bundle.getInt("ID");
+        userID = bundle.getInt("UserID");
         User user = new User(userID, getApplicationContext());
         username = user.getUserName();
         OwnedStocks ownedStocks = new OwnedStocks(userID, getApplicationContext());
@@ -34,6 +34,8 @@ public class HomeActivity extends AppCompatActivity {
         MultiStockInfo multiStockInfo = new MultiStockInfo(
                 namesTemp.toArray(new String[namesTemp.size()]), getApplicationContext());
         calcChange = new CalcChange(multiStockInfo, ownedStocks);
+
+        new LoadingData().execute();
     }
 
     private class LoadingData extends AsyncTask<Void, Void, Double> {
@@ -55,7 +57,7 @@ public class HomeActivity extends AppCompatActivity {
     public void goToSearch (View view) {
         Intent intent = new Intent(this, SearchActivity.class);
         Bundle bundle = new Bundle();
-        bundle.putInt("ID", userID);
+        bundle.putInt("UserID", userID);
         intent.putExtras(bundle);
         startActivity(intent);
     }
@@ -63,7 +65,7 @@ public class HomeActivity extends AppCompatActivity {
     public void goToLeader (View view) {
         Intent intent = new Intent(this, LeaderboardActivity.class);
         Bundle bundle = new Bundle();
-        bundle.putInt("ID", userID);
+        bundle.putInt("UserID", userID);
         intent.putExtras(bundle);
         startActivity(intent);
     }
@@ -71,7 +73,7 @@ public class HomeActivity extends AppCompatActivity {
     public void goToPortfolio (View view) {
         Intent intent = new Intent(this, ShowPortfolioActivity.class);
         Bundle bundle = new Bundle();
-        bundle.putInt("ID", userID);
+        bundle.putInt("UserID", userID);
         intent.putExtras(bundle);
         startActivity(intent);
     }
