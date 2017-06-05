@@ -20,6 +20,7 @@ public class HomeActivity extends AppCompatActivity {
     private CalcChange calcChange;
     private int userID;
     private String username;
+    private OwnedStocks ownedStocks;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,7 +30,8 @@ public class HomeActivity extends AppCompatActivity {
         userID = bundle.getInt("UserID");
         User user = new User(userID, getApplicationContext());
         username = user.getUserName();
-        OwnedStocks ownedStocks = new OwnedStocks(userID, getApplicationContext());
+        System.out.println(username);
+        ownedStocks = new OwnedStocks(userID, getApplicationContext());
         ArrayList<String> namesTemp = ownedStocks.getAssetName();
         MultiStockInfo multiStockInfo = new MultiStockInfo(
                 namesTemp.toArray(new String[namesTemp.size()]), getApplicationContext());
@@ -42,7 +44,8 @@ public class HomeActivity extends AppCompatActivity {
 
         @Override
         protected Double doInBackground(Void... params) {
-            return calcChange.getTotalAssetValue();
+            return ownedStocks.getBankAssets();
+            //return calcChange.getTotalAssetValue();
         }
 
         @Override

@@ -49,9 +49,10 @@ public class User {
         File folder = new File(context.getFilesDir().getAbsolutePath());
         File[] allFiles = folder.listFiles();
 
+        search:
         for (int i = 0; i < allFiles.length; i++) {
             if (allFiles[i].isFile()) {
-                if (allFiles[i].getName().equals(id)) {
+                if (allFiles[i].getName().equals(id + "")) {
                     String currentLine; //Order: id + user + password
                     try {
                         BufferedReader reader = new BufferedReader(new FileReader(allFiles[i]));
@@ -60,12 +61,8 @@ public class User {
                             if (id == Integer.parseInt(s.next())) {
                                 username = s.next();
                                 password = s.next();
-                                break;
+                                break search;
                             }
-                        }
-                        if (currentLine == null) {
-                            username = null;
-                            password = null;
                         }
                         reader.close();
                     } catch (IOException e) {

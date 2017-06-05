@@ -48,6 +48,7 @@ public class MainActivity extends AppCompatActivity {
                 Intent intent = new Intent(this, HomeActivity.class);
                 Bundle bundle = new Bundle();
                 bundle.putInt("UserID", user.getID());
+                System.out.println(user.getID() + " this is in Main");
                 intent.putExtras(bundle);
                 startActivity(intent);
             } else if (!user.isPassCorrect()) {

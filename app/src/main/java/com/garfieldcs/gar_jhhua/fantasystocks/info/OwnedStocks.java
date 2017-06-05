@@ -15,7 +15,6 @@ import java.util.concurrent.ExecutionException;
 
 public class OwnedStocks {
     protected static final double INITIAL_BANK_VALUE = 20000;
-    protected static final int NAME_MAX_LENGTH = 10;
 
     private int id;
     private BufferedReader bankReadFrom;
@@ -27,8 +26,6 @@ public class OwnedStocks {
     private ArrayList<Double> price;
     private ArrayList<Integer> quantity;
     private boolean containStock;
-
-    private static String fullName;
 
     public OwnedStocks(int id, Context context) {
         this.id = id;
@@ -192,7 +189,6 @@ public class OwnedStocks {
                 }
             }
         } catch (IOException e) {
-            e.printStackTrace();
         }
     }
 
@@ -201,7 +197,6 @@ public class OwnedStocks {
     }
 
     public double getBankAssets() {
-        calcBankAssets();
         return bankAssets;
     }
 

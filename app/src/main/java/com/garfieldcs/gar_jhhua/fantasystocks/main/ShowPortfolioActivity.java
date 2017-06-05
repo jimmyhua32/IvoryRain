@@ -34,8 +34,9 @@ public class ShowPortfolioActivity extends AppCompatActivity {
 
         Bundle bundle = getIntent().getExtras();
         userID = bundle.getInt("UserID");
-        System.out.println(userID);
         user = new User(userID, getApplicationContext());
+        System.out.println(user.getID() + " this is in ShowPortfolio");
+        System.out.println(user.getUserName() + " username");
         ownedStocks = new OwnedStocks(user.getID(), getApplicationContext());
 
         ArrayList<String> namesTemp = ownedStocks.getAssetName();
@@ -67,7 +68,6 @@ public class ShowPortfolioActivity extends AppCompatActivity {
         intent.putExtras(bundle);
         startActivity(intent);
     }
-
 
     //Loads the information on a separate thread
     private class LoadingData extends AsyncTask<Void, Void, double[]> {
