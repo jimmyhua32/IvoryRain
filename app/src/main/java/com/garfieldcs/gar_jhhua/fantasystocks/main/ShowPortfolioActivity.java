@@ -19,6 +19,7 @@ import com.garfieldcs.gar_jhhua.fantasystocks.info.OwnedStocks;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
 
 public class ShowPortfolioActivity extends AppCompatActivity {
     private User user;
@@ -79,9 +80,9 @@ public class ShowPortfolioActivity extends AppCompatActivity {
              /*
             This part takes ownedStock.getAsset() and turns it into an easily readable form.
              */
-            List<String> temp = stocks;
+            /*List<String> temp = stocks;
             ArrayList<String> names = multi.getAllNames();
-            /*stocks.clear();
+            stocks.clear();
             for (int i = 0; i < temp.size(); i++) {
                 String n = names.get(i);
                 double p;

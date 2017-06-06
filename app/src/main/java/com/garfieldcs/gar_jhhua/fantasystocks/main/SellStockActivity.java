@@ -117,7 +117,6 @@ public class SellStockActivity extends AppCompatActivity {
                 Intent intent = new Intent(this, ShowPortfolioActivity.class);
                 Bundle bundle = new Bundle();
                 bundle.putInt("UserID", id);
-                bundle.putString("name", name);
                 intent.putExtras(bundle);
                 startActivity(intent);
             }
@@ -126,10 +125,9 @@ public class SellStockActivity extends AppCompatActivity {
 
     //Cancels the transaction and goes back to portfolio
     public void cancelToDisplay (View view) {
-        Intent intent = new Intent(this, ShowPortfolioActivity.class);
+        Intent intent = new Intent(this, HomeActivity.class);
         Bundle bundle = new Bundle();
         bundle.putInt("UserID", id);
-        bundle.putString("name", name);
         intent.putExtras(bundle);
         startActivity(intent);
     }

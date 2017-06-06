@@ -88,9 +88,9 @@ public class CalcChange {
             allPrices = multi.getAllPrices();
             quantity = ownedStocks.getAssetQuantity();
             try {
-//                System.out.println(price.toString());
-//                System.out.println(allPrices.toString());
-//                System.out.println(quantity.toString());
+                System.out.println(price.toString());
+                System.out.println(allPrices.toString());
+                System.out.println(quantity.toString());
             } catch (NullPointerException e) {
                 e.printStackTrace();
             }
@@ -103,7 +103,7 @@ public class CalcChange {
 
             System.out.println("pre calc");
             try {
-                for (int i = 0; i < allPrices.size(); i++) {
+                for (int i = 0; i < quantity.size(); i++) {
                     double currentPrice = allPrices.get(i);
                     double priceChange = price.get(i) - currentPrice;
                     rawAssetChange += priceChange * quantity.get(i);
