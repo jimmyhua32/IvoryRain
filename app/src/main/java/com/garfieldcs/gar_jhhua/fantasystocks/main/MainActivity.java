@@ -48,7 +48,6 @@ public class MainActivity extends AppCompatActivity {
                 Intent intent = new Intent(this, HomeActivity.class);
                 Bundle bundle = new Bundle();
                 bundle.putInt("UserID", user.getID());
-                System.out.println(user.getID() + " this is in Main");
                 intent.putExtras(bundle);
                 startActivity(intent);
             } else if (!user.isPassCorrect()) {
@@ -61,6 +60,7 @@ public class MainActivity extends AppCompatActivity {
         } else {
             Toast toast = Toast.makeText(this, "Connection error", Toast.LENGTH_SHORT);
             toast.show();
+            c = new CheckConnection(getApplicationContext());
         }
     }
 

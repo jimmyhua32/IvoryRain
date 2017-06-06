@@ -76,6 +76,7 @@ public class HomeActivity extends AppCompatActivity {
     public void goToPortfolio (View view) {
         Intent intent = new Intent(this, ShowPortfolioActivity.class);
         Bundle bundle = new Bundle();
+        System.out.println(userID + " userID");
         bundle.putInt("UserID", userID);
         intent.putExtras(bundle);
         startActivity(intent);
