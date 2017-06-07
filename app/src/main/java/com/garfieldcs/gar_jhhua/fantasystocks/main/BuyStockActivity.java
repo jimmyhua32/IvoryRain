@@ -40,27 +40,6 @@ public class BuyStockActivity extends AppCompatActivity {
         name = bundle.getString("name");
         ownedStocks = new OwnedStocks(userID, getApplicationContext());
 
-        //sets up tabHost
-        TabHost host = (TabHost)findViewById(R.id.tabHost);
-        host.setup();
-
-        //Tab 1
-        TabHost.TabSpec spec = host.newTabSpec("Tab One");
-        spec.setContent(R.id.summaryTab);
-        spec.setIndicator("Summary");
-        host.addTab(spec);
-
-        //Tab 2
-        spec = host.newTabSpec("Tab Two");
-        spec.setContent(R.id.statsTab);
-        spec.setIndicator("Stats");
-        host.addTab(spec);
-
-        //Tab 3
-        spec = host.newTabSpec("Tab Three");
-        spec.setContent(R.id.newsTab);
-        spec.setIndicator("News");
-        host.addTab(spec);
 
         Context context = getApplicationContext();
         t = new Toast(context);
