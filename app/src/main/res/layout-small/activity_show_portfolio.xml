@@ -27,11 +27,11 @@
         android:layout_marginBottom="6dp">
 
         <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textSize="30sp"
-        android:layout_marginTop="8dp"
-        android:text="Total Assets: "
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="30sp"
+            android:layout_marginTop="8dp"
+            android:text="Total Assets: "
             android:textStyle="bold"/>
 
         <TextView

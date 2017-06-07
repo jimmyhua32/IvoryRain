@@ -15,7 +15,7 @@
         android:layout_height="wrap_content"
         android:id="@+id/userTeamName"
         android:layout_gravity="center_horizontal"
-        android:textSize="50sp"
+        android:textSize="60sp"
         android:textStyle="bold"
         android:text="Team Name"
         android:paddingTop="12dp"/>
@@ -27,11 +27,11 @@
         android:layout_marginBottom="6dp">
 
         <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textSize="30sp"
-        android:layout_marginTop="8dp"
-        android:text="Total Assets: "
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="36sp"
+            android:layout_marginTop="8dp"
+            android:text="Total Assets: "
             android:textStyle="bold"/>
 
         <TextView
@@ -55,7 +55,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
-            android:textSize="24sp"
+            android:textSize="26sp"
             android:textStyle="bold"
             android:text="Invested Assets: " />
 
@@ -78,7 +78,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
-            android:textSize="24sp"
+            android:textSize="26sp"
             android:textStyle="bold"
             android:text="Bank Account Assets: " />
 
@@ -100,7 +100,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
-            android:textSize="24sp"
+            android:textSize="26sp"
             android:textStyle="bold"
             android:text="Avg. % Change: " />
 

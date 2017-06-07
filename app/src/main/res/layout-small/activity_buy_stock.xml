@@ -24,18 +24,8 @@
         android:text="Stock Name"
         android:layout_gravity="center_horizontal"
         android:paddingTop="8dp"
+        android:paddingBottom="20dp"
         android:id="@+id/buyStockName"/>
-
-    <ImageView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/StockGraph"
-        android:paddingBottom="6dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginBottom="8dp"
-        android:contentDescription="GraphPlaceHolder"
-        android:src="@mipmap/graphplaceholder"/>
-
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -158,52 +148,52 @@
         </LinearLayout>
 
 
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="30dp"
-        android:orientation="horizontal">
-
-        <TextView
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="24sp"
-            android:textStyle="bold"
-            android:text="Shares: "
-            android:paddingStart="12dp"
-            android:paddingEnd="8dp"/>
+            android:layout_marginTop="30dp"
+            android:orientation="horizontal">
 
-        <EditText
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="20sp"
-            android:hint="####"
-            android:inputType="number"
-            android:id="@+id/sharesWanted"
-            android:maxLength="4"
-            android:ems="3"
-            android:paddingStart="0dp"
-            android:paddingEnd="4dp"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="24sp"
+                android:textStyle="bold"
+                android:text="Shares: "
+                android:paddingStart="12dp"
+                android:paddingEnd="8dp"/>
 
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@android:color/holo_red_light"
-            android:layout_marginStart="10dp"
-            android:layout_marginEnd="10dp"
-            android:onClick="cancelToDisplay"
-            android:textSize="12sp"
-            android:text="Cancel"/>
+            <EditText
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="20sp"
+                android:hint="####"
+                android:inputType="number"
+                android:id="@+id/sharesWanted"
+                android:maxLength="4"
+                android:ems="3"
+                android:paddingStart="0dp"
+                android:paddingEnd="4dp"/>
 
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@android:color/holo_green_light"
-            android:textSize="12sp"
-            android:text="Purchase"
-            android:onClick="purchaseStock"/>
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@android:color/holo_red_light"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp"
+                android:onClick="cancelToDisplay"
+                android:textSize="12sp"
+                android:text="Cancel"/>
 
-    </LinearLayout>
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@android:color/holo_green_light"
+                android:textSize="12sp"
+                android:text="Purchase"
+                android:onClick="purchaseStock"/>
+
+        </LinearLayout>
 
     </LinearLayout>
 
