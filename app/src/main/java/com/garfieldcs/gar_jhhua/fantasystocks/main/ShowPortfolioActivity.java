@@ -18,11 +18,11 @@ import com.garfieldcs.gar_jhhua.fantasystocks.info.MultiStockInfo;
 import com.garfieldcs.gar_jhhua.fantasystocks.info.OwnedStocks;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
 
-public class ShowPortfolioActivity extends AppCompatActivity {
-    private User user;
+public class ShowPortfolioActivity extends AppCompatActivity implements Runnable {
     private OwnedStocks ownedStocks;
     private CalcChange calcChange;
     private int userID;
@@ -37,14 +37,17 @@ public class ShowPortfolioActivity extends AppCompatActivity {
         userID = bundle.getInt("UserID");
         ownedStocks = new OwnedStocks(userID, getApplicationContext());
 
-        ArrayList<String> namesTemp = ownedStocks.getAssetName();
-        System.out.println(namesTemp.toString() + " namesTemp");
-        multi = new MultiStockInfo
-                (namesTemp.toArray(new String[namesTemp.size()]), getApplicationContext());
-
-        calcChange = new CalcChange(multi, ownedStocks);
+        run();
 
         new LoadingData().execute();
+    }
+
+    @Override
+    public void run() {
+        ArrayList<String> namesTemp = ownedStocks.getAssetName();
+        multi = new MultiStockInfo
+                (namesTemp.toArray(new String[namesTemp.size()]), getApplicationContext());
+        calcChange = new CalcChange(multi, ownedStocks);
     }
 
 
@@ -123,7 +126,7 @@ public class ShowPortfolioActivity extends AppCompatActivity {
             TextView investedValue = (TextView) findViewById(R.id.InvestedAssetsValue);
             TextView percentValue = (TextView) findViewById(R.id.PercentChangeValue);
 
-            teamName.setText(user.getUserName().toUpperCase());
+            teamName.setText(new User(userID, getApplicationContext()).getUserName().toUpperCase());
             bankValue.setText("$" + result[0]);
             investedValue.setText("$" + result[1]);
             totalValue.setText("$" + result[2]);

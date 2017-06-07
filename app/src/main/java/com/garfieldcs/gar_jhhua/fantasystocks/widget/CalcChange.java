@@ -6,6 +6,7 @@ import com.garfieldcs.gar_jhhua.fantasystocks.info.MultiStockInfo;
 import com.garfieldcs.gar_jhhua.fantasystocks.info.OwnedStocks;
 import com.garfieldcs.gar_jhhua.fantasystocks.widget.Formatting;
 
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.concurrent.ExecutionException;
 
@@ -32,9 +33,6 @@ public class CalcChange {
         rawAssetChange = 0.0;
         initialAssetValue = 0.0;
         percentValueChange = 0.0;
-        if (multi == null) {
-            new CalcChange(multi, ownedStocks);
-        }
         System.out.println("calc start");
         execute();
     }
@@ -51,7 +49,6 @@ public class CalcChange {
     //Add formatting later to accessor methods
 
     public double getAssetValue() {
-        System.out.println(assetValue);
         return f.toDecimal(assetValue, f.TWO_DECIMAL);
     }
 

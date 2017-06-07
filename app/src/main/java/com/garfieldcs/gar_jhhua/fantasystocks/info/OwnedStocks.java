@@ -195,6 +195,7 @@ public class OwnedStocks {
     }
 
     public int getShares (String symbol) {
+        System.out.println(name.indexOf(symbol));
         return quantity.get(name.indexOf(symbol));
     }
 

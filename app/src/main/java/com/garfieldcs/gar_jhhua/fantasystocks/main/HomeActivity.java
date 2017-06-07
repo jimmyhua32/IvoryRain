@@ -15,11 +15,10 @@ import com.garfieldcs.gar_jhhua.fantasystocks.widget.CalcChange;
 
 import java.util.ArrayList;
 
-public class HomeActivity extends AppCompatActivity {
+public class HomeActivity extends AppCompatActivity implements Runnable {
 
     private CalcChange calcChange;
     private int userID;
-    private String username;
     private OwnedStocks ownedStocks;
 
     @Override
@@ -28,32 +27,33 @@ public class HomeActivity extends AppCompatActivity {
         setContentView(R.layout.activity_home);
         Bundle bundle = getIntent().getExtras();
         userID = bundle.getInt("UserID");
-        User user = new User(userID, getApplicationContext());
-        username = user.getUserName();
-        System.out.println(username);
         ownedStocks = new OwnedStocks(userID, getApplicationContext());
+
+        run();
+        new LoadingData().execute();
+    }
+
+    @Override
+    public void run() {
         ArrayList<String> namesTemp = ownedStocks.getAssetName();
         MultiStockInfo multiStockInfo = new MultiStockInfo(
                 namesTemp.toArray(new String[namesTemp.size()]), getApplicationContext());
         calcChange = new CalcChange(multiStockInfo, ownedStocks);
-
-        new LoadingData().execute();
     }
 
     private class LoadingData extends AsyncTask<Void, Void, Double> {
 
         @Override
         protected Double doInBackground(Void... params) {
-            return ownedStocks.getBankAssets();
-            //return calcChange.getTotalAssetValue();
+            return calcChange.getTotalAssetValue();
         }
 
         @Override
         protected void onPostExecute(Double result) {
             setContentView(R.layout.activity_home);
             TextView nameAssets = (TextView) findViewById(R.id.TeamNandA);
-            String finalNA = username + " $" + result;
-            nameAssets.setText(finalNA);
+            String name = new User(userID, getApplicationContext()).getUserName() + " $" + result;
+            nameAssets.setText(name);
         }
     }
 

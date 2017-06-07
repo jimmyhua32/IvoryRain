@@ -41,7 +41,6 @@ public class SellStockActivity extends AppCompatActivity {
         name = bundle.getString("name");
         ownedStocks = new OwnedStocks(userID, getApplicationContext());
 
-
         Context context = getApplicationContext();
         t = new Toast(context);
         c = new CheckConnection(context);
@@ -78,6 +77,7 @@ public class SellStockActivity extends AppCompatActivity {
         else {
             Toast tranProcess = Toast.makeText(context, positiveShares, duration);
             tranProcess.show();
+            System.out.println(name);
             if ((shares > ownedStocks.getShares(name))) {
                 Toast noStocks = Toast.makeText(context, notEnoughStocks, duration);
                 noStocks.show();
@@ -100,7 +100,7 @@ public class SellStockActivity extends AppCompatActivity {
         }
     }
 
-    //Cancels the transaction and goes back to portfolio
+    //Cancels the transaction and goes back to home
     public void cancelToDisplay (View view) {
         Intent intent = new Intent(this, HomeActivity.class);
         Bundle bundle = new Bundle();
