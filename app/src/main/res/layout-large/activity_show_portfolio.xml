@@ -42,6 +42,14 @@
             android:text="Value"
             android:id="@+id/TotalAssetValue" />
 
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Home"
+            android:textSize="24sp"
+            android:layout_marginStart="50dp"
+            android:onClick="goToHome"
+            android:background="@android:color/holo_blue_light"/>
 
     </LinearLayout>
 
@@ -80,7 +88,7 @@
             android:layout_marginStart="16dp"
             android:textSize="26sp"
             android:textStyle="bold"
-            android:text="Bank Account Assets: " />
+            android:text="Bank Assets: " />
 
         <TextView
             android:layout_width="wrap_content"
