@@ -27,10 +27,9 @@ public class SellStockActivity extends AppCompatActivity {
     private String name; //Stock name
     private StockInfo stockInfo;
     private OwnedStocks ownedStocks;
-    private User user;
     private static String stockName;
     private static double stockPrice;
-    private int id;
+    private int userID;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,10 +37,9 @@ public class SellStockActivity extends AppCompatActivity {
         setContentView(R.layout.activity_sell_stock);
 
         Bundle bundle = getIntent().getExtras();
-        id = bundle.getInt("UserID");
+        userID = bundle.getInt("UserID");
         name = bundle.getString("name");
-        user = new User(id, getApplicationContext());
-        ownedStocks = new OwnedStocks(user.getID(), getApplicationContext());
+        ownedStocks = new OwnedStocks(userID, getApplicationContext());
 
         //sets up tabHost
         TabHost host = (TabHost)findViewById(R.id.tabHost);
@@ -116,7 +114,7 @@ public class SellStockActivity extends AppCompatActivity {
                 complete.show();
                 Intent intent = new Intent(this, ShowPortfolioActivity.class);
                 Bundle bundle = new Bundle();
-                bundle.putInt("UserID", id);
+                bundle.putInt("UserID", userID);
                 intent.putExtras(bundle);
                 startActivity(intent);
             }
@@ -127,7 +125,7 @@ public class SellStockActivity extends AppCompatActivity {
     public void cancelToDisplay (View view) {
         Intent intent = new Intent(this, HomeActivity.class);
         Bundle bundle = new Bundle();
-        bundle.putInt("UserID", id);
+        bundle.putInt("UserID", userID);
         intent.putExtras(bundle);
         startActivity(intent);
     }

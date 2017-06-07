@@ -35,10 +35,7 @@ public class ShowPortfolioActivity extends AppCompatActivity {
 
         Bundle bundle = getIntent().getExtras();
         userID = bundle.getInt("UserID");
-        user = new User(userID, getApplicationContext());
-        System.out.println(user.getID() + " this is in ShowPortfolio");
-        System.out.println(user.getUserName() + " this is in ShowPortfolio");
-        ownedStocks = new OwnedStocks(user.getID(), getApplicationContext());
+        ownedStocks = new OwnedStocks(userID, getApplicationContext());
 
         ArrayList<String> namesTemp = ownedStocks.getAssetName();
         System.out.println(namesTemp.toString() + " namesTemp");

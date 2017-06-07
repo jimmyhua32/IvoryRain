@@ -32,6 +32,9 @@ public class CalcChange {
         rawAssetChange = 0.0;
         initialAssetValue = 0.0;
         percentValueChange = 0.0;
+        if (multi == null) {
+            new CalcChange(multi, ownedStocks);
+        }
         System.out.println("calc start");
         execute();
     }
@@ -115,7 +118,7 @@ public class CalcChange {
 
                 percentValueChange = initialAssetValue / assetValue * 100;
             } catch (IndexOutOfBoundsException | NullPointerException e) {
-                e.printStackTrace();
+                //e.printStackTrace();
             }
             System.out.println("post calc");
         }

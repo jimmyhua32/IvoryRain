@@ -4,6 +4,8 @@ import android.content.Context;
 import android.os.AsyncTask;
 import android.widget.Toast;
 
+import com.garfieldcs.gar_jhhua.fantasystocks.widget.Formatting;
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
@@ -197,7 +199,7 @@ public class OwnedStocks {
     }
 
     public double getBankAssets() {
-        return bankAssets;
+        return Formatting.toDecimal(bankAssets, Formatting.TWO_DECIMAL);
     }
 
     public int getSize() {
