@@ -59,6 +59,14 @@ public class ShowPortfolioActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
+    public void goToHome (View view) {
+        Intent intent = new Intent(this, HomeActivity.class);
+        Bundle bundle = new Bundle();
+        bundle.putInt("ID", userID);
+        intent.putExtras(bundle);
+        startActivity(intent);
+    }
+
     //Loads the information on a separate thread
     private class LoadingData extends AsyncTask<Void, Void, double[]> {
         ProgressDialog dialog = new ProgressDialog(ShowPortfolioActivity.this);

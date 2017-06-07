@@ -23,145 +23,150 @@
         android:textStyle="bold"
         android:text="Stock Name"
         android:layout_gravity="center_horizontal"
-        android:paddingTop="8dp"
         android:id="@+id/buyStockName"/>
 
-    <ImageView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/StockGraph"
-        android:paddingBottom="6dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginBottom="8dp"
-        android:contentDescription="GraphPlaceHolder"
-        android:src="@mipmap/graphplaceholder"/>
-
-
     <LinearLayout
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:orientation="horizontal"
+        android:layout_marginStart="10dp"
+        android:layout_marginBottom="12dp">
 
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="16dp"
-            android:layout_marginStart="6dp"
-            android:orientation="horizontal">
-
-            <TextView
+        <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="20sp"
+                android:textSize="30sp"
                 android:textStyle="bold"
                 android:text="Price: "/>
 
-            <TextView
+        <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="18sp"
+                android:textSize="24sp"
                 android:text="Value"
                 android:id="@+id/buyStockPrice"/>
 
-            <TextView
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginStart="10dp"
+        android:layout_marginBottom="12dp">
+
+        <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:paddingStart="36dp"
-                android:paddingEnd="0dp"
-                android:textSize="20sp"
+                android:textSize="30sp"
                 android:textStyle="bold"
                 android:text="Percent Change: "/>
 
-            <TextView
+        <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="18sp"
+                android:textSize="24sp"
                 android:text="Value"
                 android:id="@+id/buyPCValue"/>
 
-        </LinearLayout>
+    </LinearLayout>
 
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="16dp"
-            android:layout_marginStart="6dp"
-            android:orientation="horizontal">
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginStart="10dp"
+        android:layout_marginBottom="12dp">
 
-            <TextView
+        <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="20sp"
+                android:textSize="30sp"
                 android:textStyle="bold"
                 android:text="Daily High: "/>
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="18sp"
+                android:textSize="24sp"
                 android:text="Value"
                 android:id="@+id/buyDHValue"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginStart="10dp"
+        android:layout_marginBottom="12dp">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:paddingStart="24dp"
-                android:paddingEnd="0dp"
-                android:textSize="20sp"
+                android:textSize="30sp"
                 android:textStyle="bold"
                 android:text="Daily Low: "/>
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="18sp"
+                android:textSize="24sp"
                 android:text="Value"
                 android:id="@+id/buyDLValue"/>
 
-        </LinearLayout>
+    </LinearLayout>
 
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="6dp">
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginStart="10dp"
+        android:layout_marginBottom="12dp">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="20sp"
+                android:textSize="30sp"
                 android:textStyle="bold"
-                android:text="52 Wk High: "/>
+                android:text="52 Week High: "/>
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="18sp"
+                android:textSize="24sp"
                 android:text="Value"
                 android:id="@+id/buyYHValue"/>
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:paddingStart="12dp"
-                android:paddingEnd="0dp"
-                android:textSize="20sp"
-                android:textStyle="bold"
-                android:text="52 Wk Low: "/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginStart="10dp"
+        android:layout_marginBottom="12dp">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="18sp"
+                android:textSize="30sp"
+                android:textStyle="bold"
+                android:text="52 Week Low: "/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="24sp"
                 android:text="Value"
                 android:id="@+id/buyYLValue"/>
 
-        </LinearLayout>
+    </LinearLayout>
 
 
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="30dp"
         android:orientation="horizontal">
 
         <TextView
@@ -169,9 +174,9 @@
             android:layout_height="wrap_content"
             android:textSize="24sp"
             android:textStyle="bold"
-            android:text="Shares: "
-            android:paddingStart="12dp"
-            android:paddingEnd="8dp"/>
+            android:text="Shares:"
+            android:paddingStart="6dp"
+            android:paddingEnd="2dp"/>
 
         <EditText
             android:layout_width="wrap_content"
@@ -181,16 +186,14 @@
             android:inputType="number"
             android:id="@+id/sharesWanted"
             android:maxLength="4"
-            android:ems="3"
-            android:paddingStart="0dp"
-            android:paddingEnd="4dp"/>
+            android:ems="3" />
 
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@android:color/holo_red_light"
-            android:layout_marginStart="10dp"
-            android:layout_marginEnd="10dp"
+            android:layout_marginStart="2dp"
+            android:layout_marginEnd="4dp"
             android:onClick="cancelToDisplay"
             android:textSize="12sp"
             android:text="Cancel"/>
@@ -202,8 +205,6 @@
             android:textSize="12sp"
             android:text="Purchase"
             android:onClick="purchaseStock"/>
-
-    </LinearLayout>
 
     </LinearLayout>
 

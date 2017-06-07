@@ -29,7 +29,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="44sp"
+            android:textSize="50sp"
             android:layout_marginTop="8dp"
             android:text="Total Assets: "
             android:textStyle="bold"/>
@@ -37,10 +37,19 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="40sp"
+            android:textSize="42sp"
             android:layout_marginTop="8dp"
             android:text="Value"
             android:id="@+id/TotalAssetValue" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Home"
+            android:textSize="36sp"
+            android:layout_marginStart="70dp"
+            android:onClick="goToHome"
+            android:background="@android:color/holo_blue_light"/>
 
 
     </LinearLayout>
@@ -55,14 +64,14 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
-            android:textSize="36sp"
+            android:textSize="42sp"
             android:textStyle="bold"
             android:text="Invested Assets: " />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="32sp"
+            android:textSize="36sp"
             android:text="Value"
             android:id="@+id/InvestedAssetsValue"/>
 
@@ -78,14 +87,14 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
-            android:textSize="36sp"
+            android:textSize="42sp"
             android:textStyle="bold"
-            android:text="Bank Account Assets: " />
+            android:text="Bank Assets: " />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="32sp"
+            android:textSize="36sp"
             android:text="Value"
             android:id="@+id/BankAccountValue"/>
 
@@ -100,14 +109,14 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
-            android:textSize="36sp"
+            android:textSize="42sp"
             android:textStyle="bold"
             android:text="Avg. % Change: " />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="32sp"
+            android:textSize="36sp"
             android:text="Percentage"
             android:id="@+id/PercentChangeValue" />
 
