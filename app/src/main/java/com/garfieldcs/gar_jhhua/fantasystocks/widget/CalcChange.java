@@ -32,6 +32,9 @@ public class CalcChange {
         rawAssetChange = 0.0;
         initialAssetValue = 0.0;
         percentValueChange = 0.0;
+        if (multi == null) {
+            new CalcChange(multi, ownedStocks);
+        }
         System.out.println("calc start");
         execute();
     }
@@ -88,9 +91,9 @@ public class CalcChange {
             allPrices = multi.getAllPrices();
             quantity = ownedStocks.getAssetQuantity();
             try {
-//                System.out.println(price.toString());
-//                System.out.println(allPrices.toString());
-//                System.out.println(quantity.toString());
+                System.out.println(price.toString());
+                System.out.println(allPrices.toString());
+                System.out.println(quantity.toString());
             } catch (NullPointerException e) {
                 e.printStackTrace();
             }
@@ -103,7 +106,7 @@ public class CalcChange {
 
             System.out.println("pre calc");
             try {
-                for (int i = 0; i < allPrices.size(); i++) {
+                for (int i = 0; i < quantity.size(); i++) {
                     double currentPrice = allPrices.get(i);
                     double priceChange = price.get(i) - currentPrice;
                     rawAssetChange += priceChange * quantity.get(i);
@@ -115,7 +118,7 @@ public class CalcChange {
 
                 percentValueChange = initialAssetValue / assetValue * 100;
             } catch (IndexOutOfBoundsException | NullPointerException e) {
-                e.printStackTrace();
+                //e.printStackTrace();
             }
             System.out.println("post calc");
         }

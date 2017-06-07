@@ -16,6 +16,7 @@ import com.garfieldcs.gar_jhhua.fantasystocks.info.User;
 import com.garfieldcs.gar_jhhua.fantasystocks.widget.CalcChange;
 import com.garfieldcs.gar_jhhua.fantasystocks.info.MultiStockInfo;
 import com.garfieldcs.gar_jhhua.fantasystocks.info.OwnedStocks;
+import com.garfieldcs.gar_jhhua.fantasystocks.widget.Formatting;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -99,7 +100,9 @@ public class LeaderboardActivity extends AppCompatActivity {
                     (specificNamesTemp.toArray
                             (new String[specificNamesTemp.size()]), getApplicationContext());
             CalcChange calcChangeTemp = new CalcChange(multiTemp, allUserOS.get(i));
-            allUserAssets.add(calcChangeTemp.getTotalAssetValue());
+            //Temporary while I get calcChange to work properly
+            //allUserAssets.add(calcChangeTemp.getTotalAssetValue());
+            allUserAssets.add(allUserOS.get(i).getBankAssets());
         }
         //END
     }
