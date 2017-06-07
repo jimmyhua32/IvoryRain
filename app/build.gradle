@@ -19,11 +19,15 @@ android {
     }
 }
 
+configurations {
+    all*.exclude group: 'com.google.firebase', module: 'firebase-common'
+}
+
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
     testCompile 'junit:junit:4.12'
     compile 'com.android.support:appcompat-v7:25.0.1'
-    compile project(':YahooFinanceAPI-3.7.0')
+    compile project(':YahooFinanceAPI-3.8.0')
 }
 
 apply plugin: 'com.google.gms.google-services'

@@ -40,7 +40,6 @@ public class SellStockActivity extends AppCompatActivity {
         Bundle bundle = getIntent().getExtras();
         id = bundle.getInt("UserID");
         name = bundle.getString("name");
-        System.out.println(name + 1);
         user = new User(id, getApplicationContext());
         ownedStocks = new OwnedStocks(user.getID(), getApplicationContext());
 

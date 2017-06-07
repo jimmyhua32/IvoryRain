@@ -1,1 +1,1 @@
-include ':app', ':YahooFinanceAPI-3.7.0'
+include ':app', ':YahooFinanceAPI-3.8.0'

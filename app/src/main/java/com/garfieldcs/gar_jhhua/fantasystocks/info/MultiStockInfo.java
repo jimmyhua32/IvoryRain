@@ -16,12 +16,14 @@ import yahoofinance.YahooFinance;
 
 public class MultiStockInfo {
     private CheckConnection c;
+    private Context context;
 
     private static boolean collectStatus;
     private static ArrayList<Double> allPrices;
     private static ArrayList<String> allNames;
 
     public MultiStockInfo(String[] names, Context context) {
+        this.context = context;
         if (names != null) {
             c = new CheckConnection(context); //Checks for internet connection
             collectStatus = false;
@@ -73,6 +75,7 @@ public class MultiStockInfo {
                         }
                     } else {
                         noConnection();
+                        c = new CheckConnection(context);
                         return null;
                     }
                 } catch (IOException e) {

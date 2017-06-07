@@ -60,6 +60,7 @@ public class MainActivity extends AppCompatActivity {
         } else {
             Toast toast = Toast.makeText(this, "Connection error", Toast.LENGTH_SHORT);
             toast.show();
+            c = new CheckConnection(getApplicationContext());
         }
     }
 

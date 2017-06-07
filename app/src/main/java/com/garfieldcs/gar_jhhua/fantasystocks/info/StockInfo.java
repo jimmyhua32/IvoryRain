@@ -40,9 +40,11 @@ public class StockInfo {
     private static Double rLowD;
 
     private CheckConnection c;
+    private Context context;
 
     //"Name" is the name of the stock
     public StockInfo(String name, Context context) {
+        this.context = context;
         if (name != null) {
             c = new CheckConnection(context); //Checks for internet connection
             try {
@@ -183,6 +185,7 @@ public class StockInfo {
                                     lowY, highD, lowD};
                 } else {
                     noConnection();
+                    c = new CheckConnection(context);
                     return null;
                 }
             } catch (IOException e) {
