@@ -25,8 +25,8 @@ public class HomeActivity extends AppCompatActivity implements Runnable {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
-        Bundle bundle = getIntent().getExtras();
-        userID = bundle.getInt("UserID");
+        userID = getIntent().getIntExtra("UserID", -1);
+        System.out.println(userID);
         ownedStocks = new OwnedStocks(userID, getApplicationContext());
 
         run();
@@ -45,7 +45,7 @@ public class HomeActivity extends AppCompatActivity implements Runnable {
 
         @Override
         protected Double doInBackground(Void... params) {
-            return calcChange.getTotalAssetValue();
+            return ownedStocks.getBankAssets();
         }
 
         @Override
@@ -59,26 +59,19 @@ public class HomeActivity extends AppCompatActivity implements Runnable {
 
     public void goToSearch (View view) {
         Intent intent = new Intent(this, SearchActivity.class);
-        Bundle bundle = new Bundle();
-        bundle.putInt("UserID", userID);
-        intent.putExtras(bundle);
+        intent.putExtra("UserID", userID);
         startActivity(intent);
     }
 
     public void goToLeader (View view) {
         Intent intent = new Intent(this, LeaderboardActivity.class);
-        Bundle bundle = new Bundle();
-        bundle.putInt("UserID", userID);
-        intent.putExtras(bundle);
+        intent.putExtra("UserID", userID);
         startActivity(intent);
     }
 
     public void goToPortfolio (View view) {
         Intent intent = new Intent(this, ShowPortfolioActivity.class);
-        Bundle bundle = new Bundle();
-        System.out.println(userID + " userID");
-        bundle.putInt("UserID", userID);
-        intent.putExtras(bundle);
+        intent.putExtra("UserID", userID);
         startActivity(intent);
     }
 }

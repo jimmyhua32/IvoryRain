@@ -23,8 +23,7 @@ public class SearchActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search);
 
-        Bundle bundle = getIntent().getExtras();
-        id = bundle.getInt("UserID");
+        id = getIntent().getIntExtra("UserID", -1);
 
         stockSearch = new ArrayList<String>();
         stockSearch.add(0, "VZ");
@@ -72,10 +71,8 @@ public class SearchActivity extends AppCompatActivity {
         ListView list = (ListView) findViewById(R.id.stockSearchList);
         String stockName = stockSearch.get(position);
         Intent intent = new Intent(this, DisplayStockActivity.class);
-        Bundle bundle = new Bundle();
-        bundle.putInt("UserID", id);
-        bundle.putString("name", stockName);
-        intent.putExtras(bundle);
+        intent.putExtra("UserID", id);
+        intent.putExtra("name", stockName);
         startActivity(intent);
     }
 }

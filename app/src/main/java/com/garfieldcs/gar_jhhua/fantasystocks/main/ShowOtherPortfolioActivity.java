@@ -34,8 +34,8 @@ public class ShowOtherPortfolioActivity extends AppCompatActivity {
         setContentView(R.layout.activity_show_other_portfolio);
 
         Bundle bundle = getIntent().getExtras();
-        userToViewID = bundle.getInt("UserID");
-        id = bundle.getInt("UserID");
+        userToViewID = getIntent().getIntExtra("UserToViewID", -1);
+        id = getIntent().getIntExtra("UserID", -1);
         userToView = new User(userToViewID, getApplicationContext());
         ownedStocks = new OwnedStocks(userToViewID, getApplicationContext());
         userStocks = ownedStocks.getAsset();
@@ -51,10 +51,7 @@ public class ShowOtherPortfolioActivity extends AppCompatActivity {
 
     public void goToHome (View view) {
         Intent intent = new Intent(this, ShowPortfolioActivity.class);
-        Bundle bundle = new Bundle();
-        bundle.putInt("UserID", id);
-        bundle.putInt("UserToViewID", userToViewID);
-        intent.putExtras(bundle);
+        intent.putExtra("UserID", id);
         startActivity(intent);
     }
 

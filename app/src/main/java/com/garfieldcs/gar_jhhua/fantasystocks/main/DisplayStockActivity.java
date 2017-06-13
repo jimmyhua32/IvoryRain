@@ -36,8 +36,8 @@ public class DisplayStockActivity extends AppCompatActivity {
         t = new Toast(context);
         c = new CheckConnection(context);
         Bundle bundle = getIntent().getExtras();
-        name = bundle.getString("name");
-        id = bundle.getInt("UserID");
+        name = getIntent().getStringExtra("name");
+        id = getIntent().getIntExtra("UserID", -1);
 
 
         if (c.isConnected()) {
@@ -56,19 +56,15 @@ public class DisplayStockActivity extends AppCompatActivity {
 
     public void goToBuyScreen (View view) {
         Intent intent = new Intent(this, BuyStockActivity.class);
-        Bundle bundle = new Bundle();
-        bundle.putString("name", name);
-        bundle.putInt("UserID", id);
-        intent.putExtras(bundle);
+        intent.putExtra("name", name);
+        intent.putExtra("UserID", id);
         startActivity(intent);
     }
 
     public void goToSellScreen (View view) {
         Intent intent = new Intent(this, SellStockActivity.class);
-        Bundle bundle = new Bundle();
-        bundle.putString("name", name);
-        bundle.putInt("UserID", id);
-        intent.putExtras(bundle);
+        intent.putExtra("name", name);
+        intent.putExtra("UserID", id);
         startActivity(intent);
     }
 

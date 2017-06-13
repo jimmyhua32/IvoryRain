@@ -35,9 +35,8 @@ public class BuyStockActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_buy_stock);
 
-        Bundle bundle = getIntent().getExtras();
-        userID = bundle.getInt("UserID");
-        name = bundle.getString("name");
+        userID = getIntent().getIntExtra("UserID", -1);
+        name = getIntent().getStringExtra("name");
         ownedStocks = new OwnedStocks(userID, getApplicationContext());
 
 
@@ -90,10 +89,8 @@ public class BuyStockActivity extends AppCompatActivity {
                 Toast complete = Toast.makeText(context, tranComplete, duration);
                 complete.show();
                 Intent intent = new Intent(this, ShowPortfolioActivity.class);
-                Bundle bundle = new Bundle();
-                bundle.putInt("UserID", userID);;
-                bundle.putString("name", name);
-                intent.putExtras(bundle);
+                intent.putExtra("UserID", userID);
+                intent.putExtra("name", name);
                 startActivity(intent);
             }
         }
@@ -102,9 +99,7 @@ public class BuyStockActivity extends AppCompatActivity {
 
     public void cancelToDisplay (View view) {
         Intent intent = new Intent(this, HomeActivity.class);
-        Bundle bundle = new Bundle();
-        bundle.putInt("UserID", userID);
-        intent.putExtras(bundle);
+        intent.putExtra("UserID", userID);
         startActivity(intent);
     }
 

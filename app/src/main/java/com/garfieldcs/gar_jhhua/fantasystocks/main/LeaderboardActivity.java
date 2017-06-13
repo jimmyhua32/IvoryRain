@@ -43,8 +43,7 @@ public class LeaderboardActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_leaderboard);
-        Bundle bundle = getIntent().getExtras();
-        id = bundle.getInt("UserID");
+        id = getIntent().getIntExtra("UserID", -1);
         user = new User(id, getApplicationContext());
         context = getApplicationContext();
 
@@ -111,10 +110,8 @@ public class LeaderboardActivity extends AppCompatActivity {
     public void goToUser (View view, int position) {
         Integer userViewID = userIDsRanked.get(position);
         Intent intent = new Intent(this, ShowOtherPortfolioActivity.class);
-        Bundle bundle = new Bundle();
-        bundle.putInt("UserToViewID", userViewID);
-        bundle.putInt("UserID", id);
-        intent.putExtras(bundle);
+        intent.putExtra("UserToViewID", userViewID);
+        intent.putExtra("UserID", id);
         startActivity(intent);
     }
 

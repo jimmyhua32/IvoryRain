@@ -37,8 +37,8 @@ public class SellStockActivity extends AppCompatActivity {
         setContentView(R.layout.activity_sell_stock);
 
         Bundle bundle = getIntent().getExtras();
-        userID = bundle.getInt("UserID");
-        name = bundle.getString("name");
+        userID = getIntent().getIntExtra("UserID", -1);
+        name = getIntent().getStringExtra("name");
         ownedStocks = new OwnedStocks(userID, getApplicationContext());
 
         Context context = getApplicationContext();
@@ -92,9 +92,7 @@ public class SellStockActivity extends AppCompatActivity {
                 Toast complete = Toast.makeText(context, tranComplete, duration);
                 complete.show();
                 Intent intent = new Intent(this, ShowPortfolioActivity.class);
-                Bundle bundle = new Bundle();
-                bundle.putInt("UserID", userID);
-                intent.putExtras(bundle);
+                intent.putExtra("UserID", userID);
                 startActivity(intent);
             }
         }
@@ -103,9 +101,7 @@ public class SellStockActivity extends AppCompatActivity {
     //Cancels the transaction and goes back to home
     public void cancelToDisplay (View view) {
         Intent intent = new Intent(this, HomeActivity.class);
-        Bundle bundle = new Bundle();
-        bundle.putInt("UserID", userID);
-        intent.putExtras(bundle);
+        intent.putExtra("UserID", userID);
         startActivity(intent);
     }
 

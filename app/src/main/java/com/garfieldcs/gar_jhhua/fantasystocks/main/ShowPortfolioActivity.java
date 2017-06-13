@@ -32,9 +32,7 @@ public class ShowPortfolioActivity extends AppCompatActivity implements Runnable
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_show_portfolio);
-
-        Bundle bundle = getIntent().getExtras();
-        userID = bundle.getInt("UserID");
+        userID = getIntent().getIntExtra("UserID", -1);
         ownedStocks = new OwnedStocks(userID, getApplicationContext());
 
         run();
@@ -55,18 +53,14 @@ public class ShowPortfolioActivity extends AppCompatActivity implements Runnable
     public void goToStock (View view, int position) {
         String stockName = ownedStocks.getAssetName(position);
         Intent intent = new Intent(this, DisplayStockActivity.class);
-        Bundle bundle = new Bundle();
-        bundle.putInt("ID", userID);
-        bundle.putString("name", stockName);
-        intent.putExtras(bundle);
+        intent.putExtra("UserID", userID);
+        intent.putExtra("name", stockName);
         startActivity(intent);
     }
 
     public void goToHome (View view) {
         Intent intent = new Intent(this, HomeActivity.class);
-        Bundle bundle = new Bundle();
-        bundle.putInt("ID", userID);
-        intent.putExtras(bundle);
+        intent.putExtra("UserID", userID);
         startActivity(intent);
     }
 

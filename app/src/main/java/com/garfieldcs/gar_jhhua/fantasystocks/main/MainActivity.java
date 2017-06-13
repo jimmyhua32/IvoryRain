@@ -27,15 +27,6 @@ public class MainActivity extends AppCompatActivity {
         c = new CheckConnection(getApplicationContext());
     }
 
-    //Goes to a specific screen for testing purposes
-    public void bypassLogin(View view) {
-        Intent intent = new Intent(this, DisplayStockActivity.class);
-        Bundle bundle = new Bundle();
-        bundle.putString("name", "AAPL"); //For testing
-        intent.putExtras(bundle);
-        startActivity(intent);
-    }
-
     //Checks for correct login and goes to the user's portfolio
     public void goToPortfolio(View view) {
         if (c.isConnected()) {
@@ -46,9 +37,7 @@ public class MainActivity extends AppCompatActivity {
             user = new User(un, pw, false, getApplicationContext());
             if (user.doesExist()) {
                 Intent intent = new Intent(this, HomeActivity.class);
-                Bundle bundle = new Bundle();
-                bundle.putInt("UserID", user.getID());
-                intent.putExtras(bundle);
+                intent.putExtra("UserID", user.getID());
                 startActivity(intent);
             } else if (!user.isPassCorrect()) {
                 Toast toast = Toast.makeText(this, "Wrong password!", Toast.LENGTH_SHORT);
