@@ -1,8 +1,12 @@
-package com.garfieldcs.gar_jhhua.fantasystocks;
+package com.garfieldcs.gar_jhhua.fantasystocks.widget;
 
-import android.app.Activity;
 import android.os.AsyncTask;
 
+import com.garfieldcs.gar_jhhua.fantasystocks.info.MultiStockInfo;
+import com.garfieldcs.gar_jhhua.fantasystocks.info.OwnedStocks;
+import com.garfieldcs.gar_jhhua.fantasystocks.widget.Formatting;
+
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.concurrent.ExecutionException;
 
@@ -29,6 +33,7 @@ public class CalcChange {
         rawAssetChange = 0.0;
         initialAssetValue = 0.0;
         percentValueChange = 0.0;
+        System.out.println("calc start");
         execute();
     }
 
@@ -78,15 +83,17 @@ public class CalcChange {
             /*
             Sometimes the ownedStocks methods return empty or null.
             Check if the parameters are being passed correctly into CalcChange.
-            It seems to work for displaying the user's own info when used in
-            LeaderboardActivity but not for other users.
              */
             price = ownedStocks.getAssetPrice();
             allPrices = multi.getAllPrices();
             quantity = ownedStocks.getAssetQuantity();
-            System.out.println(price.toString());
-            System.out.println(allPrices.toString());
-            System.out.println(quantity.toString());
+            try {
+                System.out.println(price.toString());
+                System.out.println(allPrices.toString());
+                System.out.println(quantity.toString());
+            } catch (NullPointerException e) {
+                e.printStackTrace();
+            }
             return null;
         }
 
@@ -95,17 +102,21 @@ public class CalcChange {
             bankAssets = ownedStocks.getBankAssets();
 
             System.out.println("pre calc");
-            for (int i = 0; i < allPrices.size(); i++) {
-                double currentPrice = allPrices.get(i);
-                double priceChange = price.get(i) - currentPrice;
-                rawAssetChange += priceChange * quantity.get(i);
-                assetValue += currentPrice * quantity.get(i);
-                initialAssetValue += price.get(i) * quantity.get(i);
+            try {
+                for (int i = 0; i < quantity.size(); i++) {
+                    double currentPrice = allPrices.get(i);
+                    double priceChange = price.get(i) - currentPrice;
+                    rawAssetChange += priceChange * quantity.get(i);
+                    assetValue += currentPrice * quantity.get(i);
+                    initialAssetValue += price.get(i) * quantity.get(i);
 
+                }
+                System.out.println(rawAssetChange + " " + assetValue + " " + initialAssetValue);
+
+                percentValueChange = initialAssetValue / assetValue * 100;
+            } catch (IndexOutOfBoundsException | NullPointerException e) {
+                //e.printStackTrace();
             }
-            System.out.println(rawAssetChange + " " + assetValue + " " + initialAssetValue);
-
-            percentValueChange = initialAssetValue / assetValue * 100;
             System.out.println("post calc");
         }
     }

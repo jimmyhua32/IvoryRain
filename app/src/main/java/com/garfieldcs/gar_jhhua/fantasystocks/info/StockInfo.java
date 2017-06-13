@@ -4,20 +4,21 @@
    Returns the information collected via return methods.
 */
 
-package com.garfieldcs.gar_jhhua.fantasystocks;
+package com.garfieldcs.gar_jhhua.fantasystocks.info;
 
 import android.content.Context;
 import android.os.AsyncTask;
 
+import com.garfieldcs.gar_jhhua.fantasystocks.widget.CheckConnection;
+import com.garfieldcs.gar_jhhua.fantasystocks.widget.Formatting;
+
 import java.io.IOException;
-import java.math.BigDecimal;
 import java.util.concurrent.ExecutionException;
 
 import yahoofinance.Stock;
 import yahoofinance.YahooFinance;
 
 public class StockInfo {
-    private String name;
     private static String nameR;
     private static boolean collectStatus;
     private static String currency;
@@ -39,11 +40,12 @@ public class StockInfo {
     private static Double rLowD;
 
     private CheckConnection c;
+    private Context context;
 
     //"Name" is the name of the stock
     public StockInfo(String name, Context context) {
+        this.context = context;
         if (name != null) {
-            this.name = name;
             c = new CheckConnection(context); //Checks for internet connection
             try {
                 new CollectDataTask().execute(name).get();
@@ -131,7 +133,6 @@ public class StockInfo {
     }
 
     private void noConnection() {
-        name = "Not found";
         nameR = "Not found";
         currency = "Not found";
         price = "Not found";
@@ -150,9 +151,16 @@ public class StockInfo {
     private class CollectDataTask extends AsyncTask<String, Void, String[]> {
 
         protected String[] doInBackground(String... param) {
+            Stock stock;
             try {
                 if (c.isConnected()) {
-                    Stock stock = YahooFinance.get(param[0]);
+                    try {
+                        stock = YahooFinance.get(param[0]);
+                    } catch (StringIndexOutOfBoundsException e) {
+                        e.printStackTrace();
+                        noConnection();
+                        return null;
+                    }
                     String currency = stock.getCurrency() + " ";
                     String price = Formatting.toDecimal(stock.getQuote().getPrice(),
                             Formatting.TWO_DECIMAL).toString();
@@ -170,7 +178,6 @@ public class StockInfo {
                             Formatting.TWO_DECIMAL).toString();
                     String symbol = stock.getQuote().getSymbol();
                     String name = stock.getName();
-
                     return new String[]
                             {currency, currency + price, currency + change, changeP + "%",
                                     currency + highY, currency + lowY, currency + highD,
@@ -178,6 +185,7 @@ public class StockInfo {
                                     lowY, highD, lowD};
                 } else {
                     noConnection();
+                    c = new CheckConnection(context);
                     return null;
                 }
             } catch (IOException e) {

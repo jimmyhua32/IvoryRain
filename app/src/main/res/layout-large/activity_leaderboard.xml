@@ -10,7 +10,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:textSize="60sp"
+        android:textSize="70sp"
         android:paddingTop="24dp"
         android:textStyle="bold"
         android:text="Leaderboard"/>
@@ -24,7 +24,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="30sp"
+            android:textSize="36sp"
             android:layout_marginStart="24dp"
             android:textStyle="bold"
             android:text="Your Assets: " />
@@ -32,7 +32,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="24sp"
+            android:textSize="28sp"
             android:text="Value"
             android:id="@+id/UserAssetValue"/>
 
@@ -47,7 +47,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="30sp"
+            android:textSize="36sp"
             android:layout_marginStart="24dp"
             android:textStyle="bold"
             android:text="Percent Change: " />
@@ -55,7 +55,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="24sp"
+            android:textSize="28sp"
             android:text="Value"
             android:id="@+id/UserPCValue"/>
 

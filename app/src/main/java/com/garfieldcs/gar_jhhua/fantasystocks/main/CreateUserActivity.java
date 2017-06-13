@@ -1,4 +1,4 @@
-package com.garfieldcs.gar_jhhua.fantasystocks;
+package com.garfieldcs.gar_jhhua.fantasystocks.main;
 
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
@@ -6,6 +6,10 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
+
+import com.garfieldcs.gar_jhhua.fantasystocks.widget.CheckConnection;
+import com.garfieldcs.gar_jhhua.fantasystocks.R;
+import com.garfieldcs.gar_jhhua.fantasystocks.info.User;
 
 public class CreateUserActivity extends AppCompatActivity {
 

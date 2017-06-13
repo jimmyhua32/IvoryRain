@@ -3,19 +3,18 @@
    This is the main menu.
  */
 
-package com.garfieldcs.gar_jhhua.fantasystocks;
+package com.garfieldcs.gar_jhhua.fantasystocks.main;
 
-import android.app.ProgressDialog;
 import android.content.Intent;
-import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
 
-import java.io.IOException;
+import com.garfieldcs.gar_jhhua.fantasystocks.widget.CheckConnection;
+import com.garfieldcs.gar_jhhua.fantasystocks.R;
+import com.garfieldcs.gar_jhhua.fantasystocks.info.User;
 
 public class MainActivity extends AppCompatActivity {
     User user;
@@ -46,10 +45,9 @@ public class MainActivity extends AppCompatActivity {
             String pw = password.getText().toString();
             user = new User(un, pw, false, getApplicationContext());
             if (user.doesExist()) {
-                Intent intent = new Intent(this, ShowPortfolioActivity.class);
+                Intent intent = new Intent(this, HomeActivity.class);
                 Bundle bundle = new Bundle();
-                bundle.putString("Username", user.getUserName());
-                bundle.putString("Password", user.getPassword());
+                bundle.putInt("UserID", user.getID());
                 intent.putExtras(bundle);
                 startActivity(intent);
             } else if (!user.isPassCorrect()) {
@@ -62,6 +60,7 @@ public class MainActivity extends AppCompatActivity {
         } else {
             Toast toast = Toast.makeText(this, "Connection error", Toast.LENGTH_SHORT);
             toast.show();
+            c = new CheckConnection(getApplicationContext());
         }
     }
 

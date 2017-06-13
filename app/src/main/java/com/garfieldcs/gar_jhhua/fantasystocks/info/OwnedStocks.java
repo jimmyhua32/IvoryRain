@@ -1,8 +1,10 @@
-package com.garfieldcs.gar_jhhua.fantasystocks;
+package com.garfieldcs.gar_jhhua.fantasystocks.info;
 
 import android.content.Context;
 import android.os.AsyncTask;
 import android.widget.Toast;
+
+import com.garfieldcs.gar_jhhua.fantasystocks.widget.Formatting;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -15,7 +17,6 @@ import java.util.concurrent.ExecutionException;
 
 public class OwnedStocks {
     protected static final double INITIAL_BANK_VALUE = 20000;
-    protected static final int NAME_MAX_LENGTH = 10;
 
     private int id;
     private BufferedReader bankReadFrom;
@@ -27,8 +28,6 @@ public class OwnedStocks {
     private ArrayList<Double> price;
     private ArrayList<Integer> quantity;
     private boolean containStock;
-
-    private static String fullName;
 
     public OwnedStocks(int id, Context context) {
         this.id = id;
@@ -192,17 +191,16 @@ public class OwnedStocks {
                 }
             }
         } catch (IOException e) {
-            e.printStackTrace();
         }
     }
 
     public int getShares (String symbol) {
+        System.out.println(name.indexOf(symbol));
         return quantity.get(name.indexOf(symbol));
     }
 
     public double getBankAssets() {
-        calcBankAssets();
-        return bankAssets;
+        return Formatting.toDecimal(bankAssets, Formatting.TWO_DECIMAL);
     }
 
     public int getSize() {

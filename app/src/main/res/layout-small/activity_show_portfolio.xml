@@ -27,11 +27,11 @@
         android:layout_marginBottom="6dp">
 
         <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textSize="30sp"
-        android:layout_marginTop="8dp"
-        android:text="Total Assets: "
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="30sp"
+            android:layout_marginTop="8dp"
+            android:text="Total Assets: "
             android:textStyle="bold"/>
 
         <TextView
@@ -39,17 +39,8 @@
             android:layout_height="wrap_content"
             android:textSize="28sp"
             android:layout_marginTop="8dp"
-            android:layout_marginEnd="6dp"
             android:text="Value"
             android:id="@+id/TotalAssetValue" />
-
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Home"
-            android:textSize="16sp"
-            android:onClick="goToHome"
-            android:background="@android:color/holo_blue_light"/>
 
 
     </LinearLayout>
@@ -63,7 +54,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
+            android:layout_marginStart="16dp"
             android:textSize="24sp"
             android:textStyle="bold"
             android:text="Invested Assets: " />
@@ -86,10 +77,10 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
+            android:layout_marginStart="16dp"
             android:textSize="24sp"
             android:textStyle="bold"
-            android:text="Bank Assets: " />
+            android:text="Bank Account Assets: " />
 
         <TextView
             android:layout_width="wrap_content"
@@ -108,7 +99,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
+            android:layout_marginStart="16dp"
             android:textSize="24sp"
             android:textStyle="bold"
             android:text="Avg. % Change: " />

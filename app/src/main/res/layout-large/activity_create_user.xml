@@ -7,46 +7,28 @@
     android:orientation="vertical"
     android:weightSum="1">
 
-
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:textSize="50sp"
-        android:text="Fantasy Stocks"
-        android:textStyle="bold"
-        android:paddingTop="10dp" />
-
-    <ImageView
-        android:layout_width="162dp"
-        android:layout_height="102dp"
-        android:layout_marginTop="10dp"
-        android:layout_gravity="center_horizontal"
-        android:src="@mipmap/logoplaceholder2"
-        android:contentDescription="place holder for the logo"/>
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textSize="30sp"
-        android:paddingTop="8dp"
-        android:paddingStart="16dp"
-        android:paddingEnd="0dp"
+        android:textSize="55sp"
+        android:paddingTop="40dp"
         android:paddingBottom="10dp"
         android:textStyle="bold"
-        android:text="Login: "/>
+        android:layout_gravity="center_horizontal"
+        android:text="Registration: "/>
 
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:inputType="textPersonName"
         android:text=""
-        android:textSize="20sp"
+        android:textSize="28sp"
         android:ems="10"
         android:paddingBottom="10dp"
         android:paddingStart="20dp"
         android:paddingEnd="0dp"
         android:hint="Username"
+        android:layout_marginTop="12dp"
         android:id="@+id/usernameEditText" />
 
     <EditText
@@ -54,12 +36,26 @@
         android:layout_height="wrap_content"
         android:inputType="textPassword"
         android:text=""
-        android:textSize="20sp"
+        android:textSize="28sp"
         android:ems="10"
         android:paddingStart="20dp"
         android:paddingEnd="0dp"
         android:hint="Password"
+        android:layout_marginTop="12dp"
         android:id="@+id/passwordEditText" />
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inputType="textPassword"
+        android:text=""
+        android:textSize="28sp"
+        android:ems="10"
+        android:paddingStart="20dp"
+        android:paddingEnd="0dp"
+        android:hint="Confirm Password"
+        android:layout_marginTop="12dp"
+        android:id="@+id/passwordConfirmEditText" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -70,31 +66,23 @@
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="start"
-            android:layout_marginStart="50dp"
-            android:layout_marginEnd="80dp"
-            android:textSize="16sp"
-            android:text="New User?"
-            android:id="@+id/newUserButton"
-            android:onClick="goToNewUser"/>
+            android:textSize="28sp"
+            android:text="Cancel"
+            android:layout_marginStart="100dp"
+            android:id="@+id/backButton"
+            android:background="@android:color/holo_red_light"
+            android:onClick="goToMain"/>
+
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="16sp"
-            android:text="Login"
-            android:id="@+id/loginButton"
-            android:onClick="goToPortfolio"/>
+            android:textSize="28sp"
+            android:text="Create User"
+            android:layout_marginStart="80dp"
+            android:id="@+id/createUserButton"
+            android:background="@android:color/holo_green_light"
+            android:onClick="newUser"/>
 
     </LinearLayout>
-
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginTop="20dp"
-        android:textSize="16sp"
-        android:text="Forgot Password?"
-        android:id="@+id/forgotPasswordButton"
-        android:onClick="forgotPassword"/>
 
 </LinearLayout>

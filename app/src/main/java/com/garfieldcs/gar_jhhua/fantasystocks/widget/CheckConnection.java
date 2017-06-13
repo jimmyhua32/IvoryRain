@@ -4,7 +4,7 @@
    Use this so we don't have to create new ConnectivityManager every time.
 */
 
-package com.garfieldcs.gar_jhhua.fantasystocks;
+package com.garfieldcs.gar_jhhua.fantasystocks.widget;
 
 import android.content.Context;
 import android.net.ConnectivityManager;

@@ -10,7 +10,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:textSize="60sp"
+        android:textSize="20sp"
         android:paddingTop="24dp"
         android:textStyle="bold"
         android:text="Leaderboard"/>
@@ -19,20 +19,20 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:paddingTop="16dp">
+        android:paddingTop="6dp">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="30sp"
-            android:layout_marginStart="24dp"
+            android:textSize="16sp"
+            android:layout_marginStart="8dp"
             android:textStyle="bold"
             android:text="Your Assets: " />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="24sp"
+            android:textSize="12sp"
             android:text="Value"
             android:id="@+id/UserAssetValue"/>
 
@@ -42,20 +42,20 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:paddingTop="16dp">
+        android:paddingTop="4dp">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="30sp"
-            android:layout_marginStart="24dp"
+            android:textSize="16sp"
+            android:layout_marginStart="8dp"
             android:textStyle="bold"
             android:text="Percent Change: " />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="24sp"
+            android:textSize="12sp"
             android:text="Value"
             android:id="@+id/UserPCValue"/>
 
@@ -67,6 +67,6 @@
         android:layout_gravity="center_horizontal"
         android:id="@+id/leaderboardList"
         android:clickable="true"
-        android:paddingTop="20dp"/>
+        android:paddingTop="5dp"/>
 
 </LinearLayout>

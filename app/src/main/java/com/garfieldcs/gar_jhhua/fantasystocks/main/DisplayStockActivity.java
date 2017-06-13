@@ -3,7 +3,7 @@
    This activity displays the stock information.
 */
 
-package com.garfieldcs.gar_jhhua.fantasystocks;
+package com.garfieldcs.gar_jhhua.fantasystocks.main;
 
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -12,13 +12,12 @@ import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.TabHost;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import org.w3c.dom.Text;
-
-import java.util.concurrent.ExecutionException;
+import com.garfieldcs.gar_jhhua.fantasystocks.widget.CheckConnection;
+import com.garfieldcs.gar_jhhua.fantasystocks.R;
+import com.garfieldcs.gar_jhhua.fantasystocks.info.StockInfo;
 
 public class DisplayStockActivity extends AppCompatActivity {
 
@@ -26,8 +25,7 @@ public class DisplayStockActivity extends AppCompatActivity {
     private CheckConnection c;
     private String name;
     private StockInfo stockInfo;
-    private String username;
-    private String password;
+    private int id;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,9 +37,8 @@ public class DisplayStockActivity extends AppCompatActivity {
         c = new CheckConnection(context);
         Bundle bundle = getIntent().getExtras();
         name = bundle.getString("name");
-        System.out.println(name + 1);
-        username = bundle.getString("Username");
-        password = bundle.getString("Password");
+        id = bundle.getInt("UserID");
+
 
         if (c.isConnected()) {
 
@@ -61,8 +58,7 @@ public class DisplayStockActivity extends AppCompatActivity {
         Intent intent = new Intent(this, BuyStockActivity.class);
         Bundle bundle = new Bundle();
         bundle.putString("name", name);
-        bundle.putString("Username", username);
-        bundle.putString("Password", password);
+        bundle.putInt("UserID", id);
         intent.putExtras(bundle);
         startActivity(intent);
     }
@@ -71,8 +67,7 @@ public class DisplayStockActivity extends AppCompatActivity {
         Intent intent = new Intent(this, SellStockActivity.class);
         Bundle bundle = new Bundle();
         bundle.putString("name", name);
-        bundle.putString("Username", username);
-        bundle.putString("Password", password);
+        bundle.putInt("UserID", id);
         intent.putExtras(bundle);
         startActivity(intent);
     }

@@ -1,4 +1,4 @@
-package com.garfieldcs.gar_jhhua.fantasystocks;
+package com.garfieldcs.gar_jhhua.fantasystocks.main;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
@@ -6,23 +6,27 @@ import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
+
+import com.garfieldcs.gar_jhhua.fantasystocks.R;
+import com.garfieldcs.gar_jhhua.fantasystocks.info.User;
+import com.garfieldcs.gar_jhhua.fantasystocks.widget.CalcChange;
+import com.garfieldcs.gar_jhhua.fantasystocks.info.MultiStockInfo;
+import com.garfieldcs.gar_jhhua.fantasystocks.info.OwnedStocks;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class ShowOtherPortfolioActivity extends AppCompatActivity {
     private User userToView;
-    private Integer userToViewID;
-    private String username;
+    private int userToViewID;
     private String usernameToView;
-    private String password;
     private OwnedStocks ownedStocks;
     private CalcChange calcChange;
     ArrayList<String> userStocks;
+    private int id;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,8 +35,7 @@ public class ShowOtherPortfolioActivity extends AppCompatActivity {
 
         Bundle bundle = getIntent().getExtras();
         userToViewID = bundle.getInt("UserID");
-        username = bundle.getString("Username");
-        password = bundle.getString("Password");
+        id = bundle.getInt("UserID");
         userToView = new User(userToViewID, getApplicationContext());
         ownedStocks = new OwnedStocks(userToViewID, getApplicationContext());
         userStocks = ownedStocks.getAsset();
@@ -42,13 +45,15 @@ public class ShowOtherPortfolioActivity extends AppCompatActivity {
         MultiStockInfo multi = new MultiStockInfo
                 (namesTemp.toArray(new String[namesTemp.size()]), getApplicationContext());
         calcChange = new CalcChange(multi, ownedStocks);
+
+        new LoadingData().execute();
     }
 
     public void goToHome (View view) {
         Intent intent = new Intent(this, ShowPortfolioActivity.class);
         Bundle bundle = new Bundle();
-        bundle.putString("Username", username);
-        bundle.putString("Password", password);
+        bundle.putInt("UserID", id);
+        bundle.putInt("UserToViewID", userToViewID);
         intent.putExtras(bundle);
         startActivity(intent);
     }
@@ -91,7 +96,7 @@ public class ShowOtherPortfolioActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(double[] result) {
             //{bankAssets, investedAssets, totalAssets}
-            setContentView(R.layout.activity_show_portfolio);
+            setContentView(R.layout.activity_show_other_portfolio);
             ListView list = (ListView) findViewById(R.id.userAssetsList);
             TextView teamName = (TextView) findViewById(R.id.userTeamName);
             TextView totalValue = (TextView) findViewById(R.id.TotalAssetValue);

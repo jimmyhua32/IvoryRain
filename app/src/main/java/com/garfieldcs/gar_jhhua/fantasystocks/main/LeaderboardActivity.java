@@ -1,6 +1,5 @@
-package com.garfieldcs.gar_jhhua.fantasystocks;
+package com.garfieldcs.gar_jhhua.fantasystocks.main;
 
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
@@ -11,6 +10,13 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
+
+import com.garfieldcs.gar_jhhua.fantasystocks.R;
+import com.garfieldcs.gar_jhhua.fantasystocks.info.User;
+import com.garfieldcs.gar_jhhua.fantasystocks.widget.CalcChange;
+import com.garfieldcs.gar_jhhua.fantasystocks.info.MultiStockInfo;
+import com.garfieldcs.gar_jhhua.fantasystocks.info.OwnedStocks;
+import com.garfieldcs.gar_jhhua.fantasystocks.widget.Formatting;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -24,8 +30,6 @@ public class LeaderboardActivity extends AppCompatActivity {
     private User user;
     private OwnedStocks ownedStocks;
     private CalcChange calcChange;
-    private String username;
-    private String password;
     private List<Integer> allUserIDs;
     private List<Integer> userIDsRanked;
     private List<String> allUsernames;
@@ -33,15 +37,15 @@ public class LeaderboardActivity extends AppCompatActivity {
     private List<String> usersRanked;
     private Context context;
     private ArrayList<String> namesTemp;
+    private int id;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_leaderboard);
         Bundle bundle = getIntent().getExtras();
-        username = bundle.getString("Username");
-        password = bundle.getString("Password");
-        user = new User(username, password, false, getApplicationContext());
+        id = bundle.getInt("UserID");
+        user = new User(id, getApplicationContext());
         context = getApplicationContext();
 
         //gets ownedstocks for user and gets assets and change
@@ -81,9 +85,12 @@ public class LeaderboardActivity extends AppCompatActivity {
             e.printStackTrace();
         }
         allUserAssets = new ArrayList<>();
+        System.out.println(allUserIDs.toString());
+
         /*
         Perhaps somewhere in here, ownedStocks is being passed into calcChange incorrectly
          */
+
         //ERROR RIGHT HERE
         ArrayList<OwnedStocks> allUserOS = new ArrayList<>();
         for (int i = 0; i < allUserIDs.size(); i++) {
@@ -93,7 +100,9 @@ public class LeaderboardActivity extends AppCompatActivity {
                     (specificNamesTemp.toArray
                             (new String[specificNamesTemp.size()]), getApplicationContext());
             CalcChange calcChangeTemp = new CalcChange(multiTemp, allUserOS.get(i));
-            allUserAssets.add(calcChangeTemp.getTotalAssetValue());
+            //Temporary while I get calcChange to work properly
+            //allUserAssets.add(calcChangeTemp.getTotalAssetValue());
+            allUserAssets.add(allUserOS.get(i).getBankAssets());
         }
         //END
     }
@@ -104,8 +113,7 @@ public class LeaderboardActivity extends AppCompatActivity {
         Intent intent = new Intent(this, ShowOtherPortfolioActivity.class);
         Bundle bundle = new Bundle();
         bundle.putInt("UserToViewID", userViewID);
-        bundle.putString("Username", username);
-        bundle.putString("Password", password);
+        bundle.putInt("UserID", id);
         intent.putExtras(bundle);
         startActivity(intent);
     }

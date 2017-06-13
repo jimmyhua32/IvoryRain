@@ -1,4 +1,4 @@
-package com.garfieldcs.gar_jhhua.fantasystocks;
+package com.garfieldcs.gar_jhhua.fantasystocks.widget;
 
 import java.math.BigDecimal;
 

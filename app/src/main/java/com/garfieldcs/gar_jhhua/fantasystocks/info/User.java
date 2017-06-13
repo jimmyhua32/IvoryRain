@@ -1,4 +1,4 @@
-package com.garfieldcs.gar_jhhua.fantasystocks;
+package com.garfieldcs.gar_jhhua.fantasystocks.info;
 
 import android.content.Context;
 
@@ -14,17 +14,9 @@ public class User {
     public static final int MAX_ID_DIGITS = 10000;
 
     private int id;
-    private String username;
-    private String password;
-    private String tempUser;
-    private String tempPass;
-    private boolean doesExist;
-    private boolean doesNameExist;
-    private boolean created;
-    private boolean isPassCorrect;
-
+    private String username, password, tempUser, tempPass;
+    private boolean doesExist, doesNameExist, created, isPassCorrect;
     private Context context;
-
     private ArrayList<Integer> ids;
 
     public User(String username, String password, boolean createUser, Context context) {
@@ -48,9 +40,12 @@ public class User {
         File folder = new File(context.getFilesDir().getAbsolutePath());
         File[] allFiles = folder.listFiles();
 
+        search:
         for (int i = 0; i < allFiles.length; i++) {
             if (allFiles[i].isFile()) {
-                if (allFiles[i].getName().equals(id)) {
+                System.out.println(allFiles[i].getName());
+                //Get the name of the file without ".extension"
+                if (allFiles[i].getName().substring(0, allFiles[i].getName().indexOf(".")).equals(id + "")) {
                     String currentLine; //Order: id + user + password
                     try {
                         BufferedReader reader = new BufferedReader(new FileReader(allFiles[i]));
@@ -59,12 +54,8 @@ public class User {
                             if (id == Integer.parseInt(s.next())) {
                                 username = s.next();
                                 password = s.next();
-                                break;
+                                break search;
                             }
-                        }
-                        if (currentLine == null) {
-                            username = null;
-                            password = null;
                         }
                         reader.close();
                     } catch (IOException e) {
@@ -162,12 +153,11 @@ public class User {
     public boolean isPassCorrect() { return isPassCorrect; }
 
     public String getUserName() {
-        //Add some checks
         return username;
     }
 
     //For testing only, will delete later
-    protected String getPassword() {
+    public String getPassword() {
         return password;
     }
 
