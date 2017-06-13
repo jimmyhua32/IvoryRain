@@ -84,11 +84,6 @@ public class LeaderboardActivity extends AppCompatActivity {
             e.printStackTrace();
         }
         allUserAssets = new ArrayList<>();
-        System.out.println(allUserIDs.toString());
-
-        /*
-        Perhaps somewhere in here, ownedStocks is being passed into calcChange incorrectly
-         */
 
         //ERROR RIGHT HERE
         ArrayList<OwnedStocks> allUserOS = new ArrayList<>();
@@ -155,8 +150,10 @@ public class LeaderboardActivity extends AppCompatActivity {
             ListView list = (ListView) findViewById(R.id.leaderboardList);
             TextView userAssets = (TextView) findViewById(R.id.UserAssetValue);
             TextView userPC = (TextView) findViewById(R.id.UserPCValue);
-            userAssets.setText("" + calcChange.getTotalAssetValue());
-            userPC.setText("" + calcChange.getPercentValueChange() + "%");
+            //userAssets.setText("" + calcChange.getTotalAssetValue());
+            userAssets.setText("" + ownedStocks.getBankAssets());
+            //userPC.setText("" + calcChange.getPercentValueChange() + "%");
+            userPC.setText("WIP");
 
             //adapts arraylist into listview
             ArrayAdapter<String> adapter = new ArrayAdapter<String>

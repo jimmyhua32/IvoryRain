@@ -130,9 +130,11 @@ public class ShowPortfolioActivity extends AppCompatActivity implements Runnable
 
             teamName.setText(new User(userID, getApplicationContext()).getUserName().toUpperCase());
             bankValue.setText("$" + result[0]);
-            investedValue.setText("$" + result[1]);
+            //investedValue.setText("$" + result[1]);
+            investedValue.setText("WIP");
             totalValue.setText("$" + result[2]);
-            percentValue.setText(result[3] + "%");
+            //percentValue.setText(result[3] + "%");
+            percentValue.setText("WIP");
 
             //Organizes stocks into a clickable list
             ArrayAdapter<String> adapter = new ArrayAdapter<String>
